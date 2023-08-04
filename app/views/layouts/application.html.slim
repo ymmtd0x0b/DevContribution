@@ -18,6 +18,8 @@ html
             = current_user.name
           li
             = button_to 'ログアウト', logout_path, method: :delete, data: { turbo: false }
+          li
+            = button_to 'アカウント削除', retirement_path, method: :post, data: { turbo: false }, class: 'button'
         - else
           li
             = button_to 'GitHubアカウントでログイン', '/auth/github', method: :post, data: { turbo: false }
