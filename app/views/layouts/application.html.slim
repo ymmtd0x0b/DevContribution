@@ -9,4 +9,16 @@ html
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
   body
+    header
+      = link_to 'DevContribution', root_path
+      ul
+        - if logged_in?
+          li
+            = image_tag current_user.image_url, width: 30
+            = current_user.name
+        - else
+          li
+            = button_to 'GitHubアカウントでログイン', '/auth/github', method: :post, data: { turbo: false }
+    - if flash.notice
+      = flash.notice
     = yield
