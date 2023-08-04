@@ -16,6 +16,8 @@ html
           li
             = image_tag current_user.image_url, width: 30
             = current_user.name
+          li
+            = button_to 'ログアウト', logout_path, method: :delete, data: { turbo: false }
         - else
           li
             = button_to 'GitHubアカウントでログイン', '/auth/github', method: :post, data: { turbo: false }
