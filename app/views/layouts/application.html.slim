@@ -26,7 +26,16 @@ html
           - else
             .navbar-item
               = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
+
     - if flash.notice
-      .notification.has-text-center.is-primary.is-light.has-text-centered
+      .notification.has-text-center.is-info.has-text-centered
         = flash.notice
-    = yield
+    - elsif flash.alert
+      .notification.has-text-center.is-warning.has-text-centered
+        = flash.alert
+
+    main
+      = yield
+    footer.footer.has-background-primary.py-3
+      .container.has-text-centered
+        | ymmtd0x0b © 2023

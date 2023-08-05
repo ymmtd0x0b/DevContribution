@@ -2,17 +2,19 @@
   h1.has-text-centered.my-6
     | DevContribution
   p.has-text-centered
-    | GitHubでのあなたの成果物一覧を簡単作成できるサービスです
+    | GitHubにおけるあなたの成果物の一覧を
+    br
+    | 簡単に作成できるサービスです
 
-.columns.pt-5
+.columns.pt-5.mx-2
   .column.is-3
     .card
       .card-image.py-4
         figure.image.is-96x96.mx-auto
           = image_tag '/assets/features/pull_request.svg'
-      .content.has-text-centered.m-1
+      .content.has-text-centered.m-1.pb-3
         | あなたが担当した
-      .content.has-text-centered.pb-3
+        br
         | Issue
 
   .column.is-3
@@ -20,9 +22,9 @@
       .card-image.py-4
         figure.image.is-96x96.mx-auto
           = image_tag '/assets/features/review_issue.svg'
-      .content.has-text-centered.m-1
+      .content.has-text-centered.m-1.pb-3
         | あなたがレビューした
-      .content.has-text-centered.pb-3
+        br
         | Issue
 
   .column.is-3
@@ -30,9 +32,9 @@
       .card-image.py-4
         figure.image.is-96x96.mx-auto
           = image_tag '/assets/features/issue.svg'
-      .content.has-text-centered.m-1
+      .content.has-text-centered.m-1.pb-3
         | あなたが作成した
-      .content.has-text-centered.pb-3
+        br
         | Issue
 
   .column.is-3
@@ -40,15 +42,15 @@
       .card-image.py-4
         figure.image.is-96x96.mx-auto
           = image_tag '/assets/features/wiki_page.svg'
-      .content.has-text-centered.m-1
+      .content.has-text-centered.m-1.pb-3
         | あなたが作成した
-      .content.has-text-centered.pb-3
+        br
         | Wikiページ
 
 .container.pt-6.has-text-centered
   .content.has-text-centered.is-size-5
     | 初めて利用する方は、最初にアカウント登録して
-  .content.has-text-centered.is-size-5
+    br
     | 一覧表示したいリポジトリを選択してください
 
-  = button_to 'GitHubアカントを連携する', '/auth/github', method: :post, data: { turbo: false }, class: 'button mt-2'
+  = button_to 'GitHubアカントを連携する', '/auth/github', method: :post, data: { turbo: false }, class: 'button my-2'
