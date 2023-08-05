@@ -1,6 +1,54 @@
-h1
-  | DevContribution
+.content.is-large
+  h1.has-text-centered.my-6
+    | DevContribution
+  p.has-text-centered
+    | GitHubでのあなたの成果物一覧を簡単作成できるサービスです
 
-p
-  | 便利なサービスです！！
+.columns.pt-5
+  .column.is-3
+    .card
+      .card-image.py-4
+        figure.image.is-96x96.mx-auto
+          = image_tag '/assets/features/pull_request.svg'
+      .content.has-text-centered.m-1
+        | あなたが担当した
+      .content.has-text-centered.pb-3
+        | Issue
 
+  .column.is-3
+    .card
+      .card-image.py-4
+        figure.image.is-96x96.mx-auto
+          = image_tag '/assets/features/review_issue.svg'
+      .content.has-text-centered.m-1
+        | あなたがレビューした
+      .content.has-text-centered.pb-3
+        | Issue
+
+  .column.is-3
+    .card
+      .card-image.py-4
+        figure.image.is-96x96.mx-auto
+          = image_tag '/assets/features/issue.svg'
+      .content.has-text-centered.m-1
+        | あなたが作成した
+      .content.has-text-centered.pb-3
+        | Issue
+
+  .column.is-3
+    .card
+      .card-image.py-4
+        figure.image.is-96x96.mx-auto
+          = image_tag '/assets/features/wiki_page.svg'
+      .content.has-text-centered.m-1
+        | あなたが作成した
+      .content.has-text-centered.pb-3
+        | Wikiページ
+
+.container.pt-6.has-text-centered
+  .content.has-text-centered.is-size-5
+    | 初めて利用する方は、最初にアカウント登録して
+  .content.has-text-centered.is-size-5
+    | 一覧表示したいリポジトリを選択してください
+
+  = button_to 'GitHubアカントを連携する', '/auth/github', method: :post, data: { turbo: false }, class: 'button mt-2'

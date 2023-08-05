@@ -27,5 +27,6 @@ html
             .navbar-item
               = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
     - if flash.notice
-      = flash.notice
+      .notification.has-text-center.is-primary.is-light.has-text-centered
+        = flash.notice
     = yield
