@@ -24,3 +24,7 @@ body {  /* or any parent wrapper */
 main {
   flex: 1;
 }
+
+.field_with_errors {
+  display: contents;
+}
