@@ -1,4 +1,6 @@
 class UserSessionsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def create
     auth = request.env['omniauth.auth']
     user = User.find_by(github_id: auth[:uid])
