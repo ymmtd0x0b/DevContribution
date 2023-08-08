@@ -1,6 +1,7 @@
 class Repository < ApplicationRecord
   belongs_to :user
   has_many :issues, dependent: :destroy
+  has_many :wikis,  dependent: :destroy
 
   validates :user, presence: true
   validates :name, presence: true

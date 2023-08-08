@@ -98,6 +98,9 @@ GEM
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     ffi (1.15.5)
+    git (1.18.0)
+      addressable (~> 2.8)
+      rchardet (~> 1.8)
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashie (3.6.0)
@@ -204,6 +207,7 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    rchardet (1.8.0)
     regexp_parser (2.8.1)
     reline (0.3.7)
       io-console (~> 0.5)
@@ -271,6 +275,7 @@ DEPENDENCIES
   capybara
   debug
   dotenv-rails
+  git
   importmap-rails
   jbuilder
   newspaper

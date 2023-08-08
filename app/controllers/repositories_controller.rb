@@ -12,7 +12,7 @@ class RepositoriesController < ApplicationController
 
     if @repository.save
       Newspaper.publish(:repository_create, { repository: @repository, user: current_user })
-      redirect_to @repository, notice: 'リポジトリを追加しました'
+      redirect_to repository_assigned_issues_path(@repository), notice: 'リポジトリを追加しました'
     else
       @repositories = my_starred_repositories
       render :new, status: :unprocessable_entity

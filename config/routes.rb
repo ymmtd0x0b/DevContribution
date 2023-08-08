@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     resources :assigned_issues, only: %i[index]
     resources :reviewed_issues, only: %i[index]
     resources :created_issues,  only: %i[index]
+    resources :wikis,  only: %i[index]
   end
 end

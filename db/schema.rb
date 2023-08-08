@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_224612) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_08_141906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_224612) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "wikis", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "repository_id", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_wikis_on_repository_id"
+    t.index ["user_id", "repository_id", "title"], name: "index_wikis_on_user_id_and_repository_id_and_title", unique: true
+    t.index ["user_id"], name: "index_wikis_on_user_id"
+  end
+
   add_foreign_key "issues", "repositories"
   add_foreign_key "issues", "users"
   add_foreign_key "repositories", "users"
+  add_foreign_key "wikis", "repositories"
+  add_foreign_key "wikis", "users"
 end

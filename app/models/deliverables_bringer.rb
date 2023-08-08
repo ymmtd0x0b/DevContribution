@@ -3,6 +3,7 @@ class DeliverablesBringer
     bring_assigned_issues_for_github(options[:repository], options[:user])
     bring_reviewed_issues_for_github(options[:repository], options[:user])
     bring_created_issues_for_github(options[:repository], options[:user])
+    bring_created_wikis_for_github(options[:repository], options[:user])
   end
 
   private
@@ -97,6 +98,39 @@ class DeliverablesBringer
         created_at: issue.created_at,
         updated_at: issue.updated_at
       )
+    end
+  end
+
+  ## 作成した Wiki
+  def bring_created_wikis_for_github(repository, user)
+    Dir.mktmpdir do |dir|
+      # 一時ディレクトリのパス ( gitクローンするディレクトリも予め指定しておく )
+      path = "#{dir}/#{repository.name}.wiki.git"
+
+      # gitクローン
+      Git.clone("https://github.com/#{repository.name}.wiki.git", path)
+
+      # ruby による git 起動
+      git = Git.open path
+
+      # 直下の全てのファイルから作成者のユーザーを指定して抽出
+      # ※Wikiページは直下のみで複雑な階層構造にはならないっぽい
+      # (GitHub の Wikiページの UI にそのような機能が見当たらない)
+      my_wikis =
+        git.lib.ls_files.filter do |file_name, _|
+          # そのファイルの最初のコミッター == 作成者
+          git.log.object("#{path}/#{file_name}").last.author.name == user.name
+        end
+
+      my_wikis.each do |file_name, _|
+        Wiki.create!(
+          repository_id: repository.id,
+          user_id:    user.id,
+          title:      file_name.gsub(/\.md$/, ''),
+          created_at: git.log.object("#{path}/#{file_name}").last.author_date,
+          updated_at: git.log.object("#{path}/#{file_name}").first.author_date
+        )
+      end
     end
   end
 end
