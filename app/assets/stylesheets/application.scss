@@ -70,3 +70,33 @@ nav.panel {
 .footer {
   height: 48px;
 }
+
+.pagination-container {
+  position: absolute;
+  bottom: 48px;
+  width: 100%;
+}
+
+.pagination-width {
+  margin: 0 auto;
+  width: 800px;
+
+}
+
+.pagination-link,
+.pagination-next,
+.pagination-previous {
+  background: white;
+}
+
+.pagination-entries {
+  margin: 0 auto;
+  width: 800px;
+  text-align: right;
+}
+
+a.disable {
+  pointer-events: none;
+  color: rgba(100, 100, 100, 1);
+  background: rgba(150, 150, 150, 0.3);
+}

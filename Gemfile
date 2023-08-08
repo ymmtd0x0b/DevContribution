@@ -9,6 +9,7 @@ gem 'dotenv-rails'
 gem 'git'
 gem "importmap-rails"
 gem "jbuilder"
+gem 'kaminari'
 gem "newspaper"
 gem "octokit", "~> 5.0"
 gem 'omniauth-github'
@@ -18,6 +19,7 @@ gem "puma", "~> 5.0"
 gem "rails", "~> 7.0.6"
 gem 'slim'
 gem 'slim-rails'
+gem 'html2slim'
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "turbo-rails"

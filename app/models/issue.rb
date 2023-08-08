@@ -12,4 +12,6 @@ class Issue < ApplicationRecord
     reviewed: 1,
     created:  2
   }
+
+  paginates_per 10
 end

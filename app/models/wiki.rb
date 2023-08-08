@@ -5,4 +5,6 @@ class Wiki < ApplicationRecord
   validates :user_id,       presence: true
   validates :repository_id, presence: true
   validates :title,         presence: true
+
+  paginates_per 10
 end

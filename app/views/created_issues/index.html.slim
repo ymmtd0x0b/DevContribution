@@ -1,13 +1,19 @@
 h3.pl-3.py-2.has-text-left.is-size-4
   = @repository.name
 
-nav.panel.has-background-grey-lighter
+nav.panel.has-background-grey-lighter.mb-0
   p.panel-tabs.has-background-white.is-justify-content-left.pl-3.is-size-6
     = link_to '担当 Issue',     repository_assigned_issues_path(@repository)
     = link_to 'レビュー Issue', repository_reviewed_issues_path(@repository)
     = link_to '作成 Issue',     repository_created_issues_path(@repository), class: 'is-active has-background-grey-lighter'
     = link_to '作成 Wiki',      repository_wikis_path(@repository)
-  .main-panel.px-5.pt-6.pb-3.m-0
+  .main-panel.px-5.pt-5.pb-3.my-0
+    .pagination-entries.mb-1.pr-3
+      p = page_entries_info @created_issues
     - @created_issues.each do |created_issue|
         a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
           = created_issue.title
+
+.pagination-container.has-background-grey-lighter
+  .pagination-width
+    = paginate @created_issues
