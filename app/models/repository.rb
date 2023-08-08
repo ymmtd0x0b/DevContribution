@@ -13,4 +13,8 @@ class Repository < ApplicationRecord
   def reviewed_issues
     issues.where(kind: Issue.kinds[:reviewed])
   end
+
+  def created_issues
+    issues.where(kind: Issue.kinds[:created])
+  end
 end

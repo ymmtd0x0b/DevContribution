@@ -2,6 +2,7 @@ class DeliverablesBringer
   def call(options = {})
     bring_assigned_issues_for_github(options[:repository], options[:user])
     bring_reviewed_issues_for_github(options[:repository], options[:user])
+    bring_created_issues_for_github(options[:repository], options[:user])
   end
 
   private
@@ -74,6 +75,25 @@ class DeliverablesBringer
         url:        issue.html_url,
         point:      extract_point(issue),
         kind:       Issue.kinds[:reviewed],
+        created_at: issue.created_at,
+        updated_at: issue.updated_at
+      )
+    end
+  end
+
+  ## 作成した Issue
+  def bring_created_issues_for_github(repository, user)
+    client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+    created_issues = client.search_issues("repo:#{repository.name} is:issue author:#{user.name}")
+
+    created_issues.items.each do |issue|
+      Issue.create!(
+        repository_id: repository.id,
+        user_id:    user.id,
+        title:      issue.title,
+        url:        issue.html_url,
+        point:      extract_point(issue),
+        kind:       Issue.kinds[:created],
         created_at: issue.created_at,
         updated_at: issue.updated_at
       )

@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   resources :repositories, only: %i[new create destroy] do
     resources :assigned_issues, only: %i[index]
     resources :reviewed_issues, only: %i[index]
+    resources :created_issues,  only: %i[index]
   end
 end
