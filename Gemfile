@@ -8,6 +8,7 @@ gem "bulma-rails", "~> 0.9.4"
 gem 'dotenv-rails'
 gem "importmap-rails"
 gem "jbuilder"
+gem "newspaper"
 gem "octokit", "~> 5.0"
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'

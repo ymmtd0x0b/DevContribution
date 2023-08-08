@@ -9,33 +9,34 @@ html
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
   body
-    header
-      nav.navbar.is-flex-touch.is-primary
-        .navbar-brand
-          .navbar-item
-            = link_to 'DevContribution', root_path, class: 'content is-medium has-text-white has-text-weight-bold'
-        .navbar-end.is-flex-touch.is-justify-content-flex-end.ml-auto
-          - if logged_in?
-            .navbar-item.is-flex.is-align-items-center
-              figure.image.is-32x32
-                = image_tag current_user.image_url, class: 'is-rounded'
+    .wrapper
+      header
+        nav.navbar.is-flex-touch.is-primary
+          .navbar-brand
             .navbar-item
-              = button_to 'ログアウト', logout_path, method: :delete, data: { turbo: false }, class: 'button'
-            .navbar-item
-              = button_to 'アカウント削除', retirement_path, method: :post, data: { turbo: false }, class: 'button'
-          - else
-            .navbar-item
-              = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
+              = link_to 'DevContribution', root_path, class: 'content is-medium has-text-white has-text-weight-bold'
+          .navbar-end.is-flex-touch.is-justify-content-flex-end.ml-auto
+            - if logged_in?
+              .navbar-item.is-flex.is-align-items-center
+                figure.image.is-32x32
+                  = image_tag current_user.image_url, class: 'is-rounded'
+              .navbar-item
+                = button_to 'ログアウト', logout_path, method: :delete, data: { turbo: false }, class: 'button'
+              .navbar-item
+                = button_to 'アカウント削除', retirement_path, method: :post, data: { turbo: false }, class: 'button'
+            - else
+              .navbar-item
+                = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
 
-    - if flash.notice
-      .notification.has-text-center.is-info.has-text-centered
-        = flash.notice
-    - elsif flash.alert
-      .notification.has-text-center.is-warning.has-text-centered
-        = flash.alert
+      - if flash.notice
+        .notification.has-text-center.is-info.has-text-centered
+          = flash.notice
+      - elsif flash.alert
+        .notification.has-text-center.is-warning.has-text-centered
+          = flash.alert
 
-    main
-      = yield
-    footer.footer.has-background-primary.py-3
-      .container.has-text-centered
-        | ymmtd0x0b © 2023
+      main
+        = yield
+      footer.footer.has-background-primary.py-3
+        .container.has-text-centered
+          | ymmtd0x0b © 2023

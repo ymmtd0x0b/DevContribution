@@ -1,6 +1,11 @@
 class RepositoriesController < ApplicationController
   before_action :set_repository, only: %i[destroy]
 
+  def show
+    @repository = current_user.repositories.first
+    @assigned_issues = @repository.assigned_issues.order(:created_at)
+  end
+
   def new
     @repository = Repository.new
     @repositories = my_starred_repositories
@@ -11,7 +16,8 @@ class RepositoriesController < ApplicationController
     @repository.user_id = current_user.id
 
     if @repository.save
-      redirect_to root_path, notice: 'リポジトリを追加しました'
+      Newspaper.publish(:repository_create, { repository: @repository, user: current_user })
+      redirect_to @repository, notice: 'リポジトリを追加しました'
     else
       @repositories = my_starred_repositories
       render :new, status: :unprocessable_entity
