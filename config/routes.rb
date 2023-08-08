@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resource :retirement, only: %i[create], controller: 'retirement'
   resources :repositories, only: %i[new create destroy] do
     resources :assigned_issues, only: %i[index]
+    resources :reviewed_issues, only: %i[index]
   end
 end
