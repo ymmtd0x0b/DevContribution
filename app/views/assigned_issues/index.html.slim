@@ -1,14 +1,13 @@
-h3.ml-3.my-2.has-text-left.is-size-4
+h3.pl-3.py-2.has-text-left.is-size-4
   = @repository.name
 
-nav.panel
-  p.panel-tabs.is-justify-content-left.ml-3.is-size-6
-    = link_to '担当 Issue',     repository_assigned_issues_path(@repository), class: 'is-active'
+nav.panel.has-background-grey-lighter
+  p.panel-tabs.has-background-white.is-justify-content-left.pl-3.is-size-6
+    = link_to '担当 Issue',     repository_assigned_issues_path(@repository), class: 'is-active has-background-grey-lighter'
     = link_to 'レビュー Issue', repository_reviewed_issues_path(@repository)
-    = link_to '作成 Issue',     '#'
+    = link_to '作成 Issue',     repository_created_issues_path(@repository)
     = link_to '作成 Wiki',      '#'
-  .main-panel.has-background-grey-lighter.px-5.pt-5.pb-3.m-0
+  .main-panel.px-5.pt-6.pb-3.m-0
     - @assigned_issues.each do |assigned_issue|
-      .has-background-white.mb-3
-        a.panel-block.has-text-left.is-size-6
+        a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
           = assigned_issue.title
