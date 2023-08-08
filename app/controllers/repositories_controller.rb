@@ -1,11 +1,6 @@
 class RepositoriesController < ApplicationController
   before_action :set_repository, only: %i[destroy]
 
-  def show
-    @repository = current_user.repositories.first
-    @assigned_issues = @repository.assigned_issues.order(:created_at)
-  end
-
   def new
     @repository = Repository.new
     @repositories = my_starred_repositories
