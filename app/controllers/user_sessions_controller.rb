@@ -15,7 +15,7 @@ class UserSessionsController < ApplicationController
       message = 'アカウント連携しました'
     end
     session[:user_id] = user.id
-    redirect_to root_path, notice: message
+    redirect_to repository_assigned_issues_path(current_user.repositories.first), notice: message
   end
 
   def destroy
