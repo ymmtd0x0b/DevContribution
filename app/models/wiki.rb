@@ -6,5 +6,5 @@ class Wiki < ApplicationRecord
   validates :repository_id, presence: true
   validates :title,         presence: true
 
-  paginates_per 10
+  paginates_per 30
 end
