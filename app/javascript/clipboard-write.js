@@ -1,3 +1,5 @@
+import { NodeHtmlMarkdown } from "node-html-markdown";
+
 document.addEventListener('turbo:load', () => {
   const clipboardWriteButton = document.querySelector('#clipboard_write_button')
 
@@ -7,12 +9,14 @@ document.addEventListener('turbo:load', () => {
 
   clipboardWriteButton.addEventListener('click', () => {
     if (!navigator.clipboard) {
-      alert("このブラウザではこの機能を利用できません")
+      alert('このブラウザではこの機能を利用できません')
       return;
     }
 
-    // ここに HTML を Markdown へ変換する処理を実装する
-
-    // navigator.clipboard.writeText('copied!!!')
+    const deliverableContainer = document.querySelector('.deliverable-container')
+    const result = NodeHtmlMarkdown.translate(deliverableContainer.outerHTML)
+    navigator.clipboard.writeText(result)
+    alert('クリップボードにコピーしました')
+    return;
   })
 })
