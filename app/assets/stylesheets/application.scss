@@ -14,6 +14,7 @@
  *= require_self
  */
 @import "bulma";
+@import "font-awesome";
 
 // body {  /* or any parent wrapper */
 //   display: flex;
@@ -172,4 +173,8 @@ a.disable {
 
 .clipboard_write_button-container button {
   border: solid 1px rgba(80, 80, 80, 0.7);
+}
+
+[class^="fa"] {
+  margin-right: 5px;
 }

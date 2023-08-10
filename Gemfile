@@ -6,6 +6,7 @@ ruby "3.1.0"
 gem "bootsnap", require: false
 gem "bulma-rails", "~> 0.9.4"
 gem 'dotenv-rails'
+gem "font-awesome-sass", "~> 6.4.2"
 gem 'git'
 gem "importmap-rails"
 gem "jbuilder"

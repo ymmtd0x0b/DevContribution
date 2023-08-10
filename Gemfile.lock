@@ -98,6 +98,8 @@ GEM
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     ffi (1.15.5)
+    font-awesome-sass (6.4.2)
+      sassc (~> 2.0)
     git (1.18.0)
       addressable (~> 2.8)
       rchardet (~> 1.8)
@@ -291,6 +293,7 @@ DEPENDENCIES
   capybara
   debug
   dotenv-rails
+  font-awesome-sass (~> 6.4.2)
   git
   html2slim
   importmap-rails
