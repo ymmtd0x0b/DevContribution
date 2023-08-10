@@ -223,6 +223,7 @@ GEM
       zeitwerk (~> 2.5)
     rake (13.0.6)
     rchardet (1.8.0)
+    redcarpet (3.6.0)
     regexp_parser (2.8.1)
     reline (0.3.7)
       io-console (~> 0.5)
@@ -302,6 +303,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.6)
+  redcarpet
   selenium-webdriver
   slim
   slim-rails
