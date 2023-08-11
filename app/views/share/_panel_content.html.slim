@@ -1,0 +1,6 @@
+.main-panel.px-5.pt-5.pb-3.my-0
+  .pagination-entries.mb-1.pr-3
+    p = page_entries_info deliverables
+  - deliverables.each do |deliverable|
+      a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
+        = deliverable.title
