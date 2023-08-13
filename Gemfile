@@ -8,6 +8,7 @@ gem "bulma-rails", "~> 0.9.4"
 gem 'dotenv-rails'
 gem "font-awesome-sass", "~> 6.4.2"
 gem 'git'
+gem "github_api"
 gem "importmap-rails"
 gem "jbuilder"
 gem 'kaminari'
@@ -29,6 +30,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'byebug'
 end
 
 group :development do
