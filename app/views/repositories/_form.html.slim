@@ -1,17 +1,22 @@
 = form_with model: repository do |f|
-  - if repository.errors.any?
-    div.has-text-centered.mb-3 style="color: red"
-      h2 = "#{pluralize(repository.errors.count, "error")} prohibited this repository from being saved:"
-      ul
-        - repository.errors.each do |error|
-          li = error.full_message
-
-  .container.py-2.is-flex.is-justify-content-center
-    .control.mx-auto
-      - repositories.each do |repo|
-        .mb-2.has-text-lefted
-          = f.radio_button :name, repo
-          = f.label :name, value: repo, class: 'radio ml-2 is-size-4'
+  / TODO
+  / エラー表示の方法を検討する
+  / - if repository.errors.any?
+  /   div.has-text-centered.mb-3 style="color: red"
+  /     h2 = "#{pluralize(repository.errors.count, "error")} prohibited this repository from being saved:"
+  /     ul
+  /       - repository.errors.each do |error|
+  /         li = error.full_message
+  .control
+    = f.hidden_field :name, value: ''
+    - repositories.each do |repo|
+      = f.label :name, value: repo[:name] do
+        = content_tag :span, class: 'tale' do
+          = f.radio_button :name, repo[:name]
+          = image_tag repo[:avatar]
+          = content_tag :sapn, repo[:name], class: 'name'
+        - if repo[:description]
+          = content_tag :sapn, repo[:description], class: 'description'
 
   .mt-4.has-text-centered
     = f.submit '追加', class: 'button'

@@ -28,16 +28,12 @@ html
             .navbar-item
               = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
 
-    - if flash.notice
-      .notification.has-text-center.is-info.has-text-centered
-        = flash.notice
-    - elsif flash.alert
-      .notification.has-text-center.is-warning.has-text-centered
-        = flash.alert
+    - flash.each do |message_type, message|
+      = content_tag :div, message, class: "notification has-text-center has-text-centered is-#{message_type}"
 
     main
       = yield
 
-    footer.footer.has-background-primary.py-3
+    footer.footer.has-background-primary
       .container.has-text-centered
         | ymmtd0x0b © 2023

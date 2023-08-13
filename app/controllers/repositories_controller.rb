@@ -3,7 +3,7 @@ class RepositoriesController < ApplicationController
 
   def new
     @repository = Repository.new
-    @repositories = my_starred_repositories
+    @repositories = contributed_repositries
   end
 
   def create
@@ -12,9 +12,14 @@ class RepositoriesController < ApplicationController
 
     if @repository.save
       Newspaper.publish(:repository_create, { repository: @repository, user: current_user })
-      redirect_to repository_assigned_issues_path(@repository), notice: 'リポジトリを追加しました'
+      redirect_to repository_assigned_issues_path(@repository), info: 'リポジトリを追加しました'
     else
-      @repositories = my_starred_repositories
+      @repositories = contributed_repositries
+      if @repository.name.empty?
+        flash.now[:danger] = 'リポジトリが選択されていません'
+      else
+        flash.now[:warning] = '選択されたリポジトリは登録済みです'
+      end
       render :new, status: :unprocessable_entity
     end
   end
@@ -22,7 +27,7 @@ class RepositoriesController < ApplicationController
   def destroy
     @repository.destroy
 
-    redirect_to root_path, notice: 'リポジトリを削除しました'
+    redirect_to root_path, info: 'リポジトリを削除しました'
   end
 
   private
@@ -34,9 +39,26 @@ class RepositoriesController < ApplicationController
       params.require(:repository).permit(:name)
     end
 
-    def my_starred_repositories
+    def contributed_repositries
       client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-      starred_repos = client.starred(current_user.name)
-      starred_repos.map { |repo| repo.full_name }
+
+      issues = client.search_issues('is:issue involves:ymmtd0x0b')
+      pull_requests = client.search_issues('is:pr involves:ymmtd0x0b')
+
+      issues_and_prs = issues.items + pull_requests.items
+      repos_url = issues_and_prs.uniq { |issue| issue.repository_url }.map(&:repository_url)
+
+      repos =
+        repos_url.map do |repo_url|
+          repo_name = repo_url.gsub('https://api.github.com/repos/', '')
+          repo = client.repository(repo_name)
+          {
+            name: repo.full_name,
+            description: repo.description,
+            avatar: repo.owner.avatar_url
+          }
+        end
+
+      repos.filter { |repo| current_user.repositories.find_by(name: repo[:name]).nil? }
     end
 end
