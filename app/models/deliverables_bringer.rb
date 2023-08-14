@@ -108,7 +108,14 @@ class DeliverablesBringer
       path = "#{dir}/#{repository.name}.wiki.git"
 
       # gitクローン
-      Git.clone("https://github.com/#{repository.name}.wiki.git", path)
+      result = Git.clone("https://github.com/#{repository.name}.wiki.git", path) rescue nil
+
+      # Wikiページが存在するか事前に確かめる術が見つからなかったので
+      # gitクローンでエラーが発生したら、Wikiページが存在しないと見做す
+      # 例外処理によって nil を返す
+      if result.nil?
+        return
+      end
 
       # ruby による git 起動
       git = Git.open path
