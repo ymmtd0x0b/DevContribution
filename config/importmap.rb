@@ -10,6 +10,7 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin 'clipboard-write', preload: true
 pin 'tab-activator', preload: true
 pin 'repository-delete-button', preload: true
+pin 'repository-selector', preload: true
 
 # node-html-markdown
 pin "node-html-markdown", to: "https://ga.jspm.io/npm:node-html-markdown@1.3.0/dist/index.js"

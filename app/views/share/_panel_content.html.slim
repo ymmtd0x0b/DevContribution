@@ -1,6 +1,14 @@
 .main-panel.px-5.pt-5.pb-3.my-0
-  .pagination-entries.mb-1.pr-3
-    p = page_entries_info deliverables
-  - deliverables.each do |deliverable|
-      a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
-        = deliverable.title
+  - if deliverables.count.zero?
+    .container
+      .sad-mark
+        i.fa-regular.fa-face-sad-tear
+      .not-found
+        | 成果物が見つかりませんでした
+
+  - else
+    .pagination-entries.mb-1.pr-3
+      p = page_entries_info deliverables
+    - deliverables.each do |deliverable|
+        a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
+          = deliverable.title

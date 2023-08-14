@@ -1,18 +1,17 @@
 - content_for :js do
   = javascript_import_module_tag 'clipboard-write'
   = javascript_import_module_tag 'repository-delete-button'
+  = javascript_import_module_tag 'repository-selector'
 
-.repository_list
-  .select-container
-    = form_with model: @repository do |f|
-      .select
-        = f.collection_select :name, repositories, :id, :name
+.repository-container
+  .select
+    = collection_select :repository, :id, repositories, :id, :name
 
-    .button.ml-3.repository-delete-button
-      i.fa-solid.fa-minus
-      | 削除
+  .button.ml-3.repository-delete-button
+    i.fa-solid.fa-minus
+    | 削除
 
-    = link_to new_repository_path, class: 'button ml-auto mr-2' do
-      i.fa-solid.fa-plus
-      | 新しいリポジトリを追加
+  = link_to new_repository_path, class: 'button ml-auto mr-2' do
+    i.fa-solid.fa-plus
+    | 新しいリポジトリを追加
 
