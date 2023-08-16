@@ -179,3 +179,6 @@ build-iPhoneSimulator/
 # .rubocop-https?--*
 
 
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

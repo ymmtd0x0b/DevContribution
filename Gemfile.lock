@@ -115,9 +115,6 @@ GEM
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashie (3.6.0)
-    hpricot (0.8.6)
-    html2slim (0.2.0)
-      hpricot
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.2.1)
@@ -266,6 +263,8 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    tailwindcss-rails (2.0.30-x86_64-linux)
+      railties (>= 6.0.0)
     temple (0.10.2)
     thor (1.2.2)
     thread_safe (0.3.6)
@@ -307,7 +306,6 @@ DEPENDENCIES
   font-awesome-sass (~> 6.4.2)
   git
   github_api
-  html2slim
   importmap-rails
   jbuilder
   kaminari
@@ -324,6 +322,7 @@ DEPENDENCIES
   slim-rails
   sprockets-rails
   stimulus-rails
+  tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
   web-console
