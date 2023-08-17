@@ -17,11 +17,13 @@ class UserSessionsController < ApplicationController
       message = 'アカウント連携しました'
     end
     session[:user_id] = user.id
-    redirect_to path, notice: message
+    flash[:success] = message
+    redirect_to path
   end
 
   def destroy
     reset_session
-    redirect_to root_path, notice: 'ログアウトしました'
+    flash[:success] = 'ログアウトしました'
+    redirect_to root_path
   end
 end

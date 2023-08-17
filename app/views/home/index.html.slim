@@ -1,56 +1,48 @@
-.content.is-large
-  h1.has-text-centered.my-6
+div
+  h1.text-center.text-5xl.font-semibold.pt-16
     | DevContribution
-  p.has-text-centered
+  p.text-center.text-2xl.pt-10
     | GitHubにおけるあなたの成果物の一覧を
     br
     | 簡単に作成できるサービスです
 
-.columns.pt-5.mx-2
-  .column.is-3
-    .card
-      .card-image.py-4
-        figure.image.is-96x96.mx-auto
-          = image_tag '/assets/features/pull_request.svg'
-      .content.has-text-centered.m-1.pb-3
-        | あなたが担当した
-        br
-        | Issue
+div.flex.justify-around.space-x-8.mx-auto.max-w-fit.py-16
+  .card.w-52.h-fit.shadow-lg.text-center.border-4
+    span.text-8xl.pt-5.pb-3.m-0
+      i.fa-solid.fa-code-merge
+    .card-body.p-0.py-3
+      | あなたが担当した
+      br
+      | Issue
 
-  .column.is-3
-    .card
-      .card-image.py-4
-        figure.image.is-96x96.mx-auto
-          = image_tag '/assets/features/review_issue.svg'
-      .content.has-text-centered.m-1.pb-3
-        | あなたがレビューした
-        br
-        | Issue
+  .card.w-52.h-fit.shadow-lg.text-center.border-4
+    span.text-8xl.pt-5.pb-3.m-0
+      i.fa-regular.fa-comments
+    .card-body.p-0.py-3
+      | あなたがレビューした
+      br
+      | Issue
 
-  .column.is-3
-    .card
-      .card-image.py-4
-        figure.image.is-96x96.mx-auto
-          = image_tag '/assets/features/issue.svg'
-      .content.has-text-centered.m-1.pb-3
+  .card.w-52.h-fit.shadow-lg.text-center.border-4
+    span.text-8xl.pt-5.pb-3.m-0
+      i.fa-regular.fa-paste
+    .card-body.p-0.py-3
         | あなたが作成した
         br
         | Issue
 
-  .column.is-3
-    .card
-      .card-image.py-4
-        figure.image.is-96x96.mx-auto
-          = image_tag '/assets/features/wiki_page.svg'
-      .content.has-text-centered.m-1.pb-3
+  .card.w-52.h-fit.shadow-lg.text-center.border-4
+    span.text-8xl.pt-5.pb-3.m-0
+      i.fa-regular.fa-file-lines
+    .card-body.p-0.py-3
         | あなたが作成した
         br
         | Wikiページ
 
-.container.pt-6.has-text-centered
-  .content.has-text-centered.is-size-5
-    | 初めて利用する方は、最初にアカウント登録して
-    br
-    | 一覧表示したいリポジトリを選択してください
+.text-center.pt-5.text-xl
+  | 初めて利用する方は、最初にアカウント登録して
+  br
+  | 一覧表示したいリポジトリを選択してください
 
-  = button_to 'GitHubアカントを連携する', '/auth/github', method: :post, data: { turbo: false }, class: 'button my-2'
+.py-8.text-center
+  = button_to 'GitHubアカントを連携する', '/auth/github', method: :post, data: { turbo: false }, class: 'btn btn-outline'

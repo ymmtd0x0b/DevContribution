@@ -1,39 +1,48 @@
 doctype html
-html
+html(data-theme='emerald')
   head
     title
       | DevContribution
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
+    = stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload', defer: true
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
     = yield :js
   body
     header
-      nav.navbar.is-flex-touch.is-primary
-        .navbar-brand
-          .navbar-item
-            = link_to 'DevContribution', root_path, class: 'content is-medium has-text-white has-text-weight-bold'
-        .navbar-end.is-flex-touch.is-justify-content-flex-end.ml-auto
+      .navbar.p-0.drop-shadow
+        .bg-primary.py-1.w-full
+          .flex-1.items-center
+            = link_to 'DevContribution', root_path, class: 'pl-3 font-semibold normal-case text-xl text-white'
           - if logged_in?
-            .navbar-item.is-flex.is-align-items-center
-              figure.image.is-32x32
-                = image_tag current_user.image_url, class: 'is-rounded'
-            .navbar-item
-              = button_to 'ログアウト', logout_path, method: :delete, data: { turbo: false }, class: 'button'
-            .navbar-item
-              = button_to 'アカウント削除', retirement_path, method: :post, data: { turbo: false }, class: 'button'
+            .flex-none
+              .dropdown.dropdown-end.pr-3
+                label.btn.btn-ghost.btn-circle.avatar(tabindex='0')
+                  .w-10.rounded-full
+                    = image_tag current_user.image_url
+                ul.mt-12.p-2.shadow-lg.menu.dropdown-content.bg-base-100.rounded-box.w-52.border(tabindex='0' class='z-[1]')
+                  li
+                    = form_tag logout_path, method: :delete, data: { turbo: false }, class: 'flex p-0' do
+                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4' do
+                        i.fa-solid.fa-arrow-right-from-bracket.pr-2
+                        | ログアウト
+                  li
+                    = form_tag retirement_path, method: :post, data: { turbo: false }, class: 'flex p-0' do
+                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4 text-error' do
+                        i.fa-solid.fa-trash-can.pr-2
+                        | アカウント削除
           - else
-            .navbar-item
-              = button_to 'ログイン', '/auth/github', method: :post, data: { turbo: false }, class: 'button'
+            .flex-none
+              = form_tag '/auth/github', method: :post, data: { turbo: false } do
+                = button_tag 'ログイン', class: 'btn btn-ghost normal-case text-lg text-white'
 
     - flash.each do |message_type, message|
-      = content_tag :div, message, class: "notification has-text-center has-text-centered is-#{message_type}"
+      = content_tag :div, message, class: "py-3 text-center bg-#{message_type}"
 
     main
       = yield
 
-    footer.footer.has-background-primary
-      .container.has-text-centered
-        | ymmtd0x0b © 2023
+    footer.bg-primary.py-4.mt-4.text-center
+      | ymmtd0x0b © 2023
