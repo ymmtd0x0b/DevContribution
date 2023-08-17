@@ -1,12 +1,12 @@
 - content_for :js do
   = javascript_import_module_tag 'tab-activator'
 
-nav.panel.has-background-link-light.mb-0
-  p.panel-tabs.has-background-white.is-justify-content-left.pl-3.is-size-6
-    = link_to '担当 Issue',     repository_assigned_issues_path(repository)
-    = link_to 'レビュー Issue', repository_reviewed_issues_path(repository)
-    = link_to '作成 Issue',     repository_created_issues_path(repository)
-    = link_to '作成 Wiki',      repository_wikis_path(repository)
-    = link_to '全て表示',       repository_deliverables_path(repository)
+div.border-b.border-gray-400.mb-0
+  .flex.justify-start
+    = link_to '担当 Issue',     repository_assigned_issues_path(repository), class: 'h-10 w-32 text-center leading-10 border-t border-x border-gray-400 ml-3 mr-2'
+    = link_to 'レビュー Issue', repository_reviewed_issues_path(repository), class: 'h-10 w-32 text-center leading-10 border-t border-x border-gray-400 mr-2'
+    = link_to '作成 Issue',     repository_created_issues_path(repository) , class: 'h-10 w-32 text-center leading-10 border-t border-x border-gray-400 mr-2'
+    = link_to '作成 Wiki',      repository_wikis_path(repository)          , class: 'h-10 w-32 text-center leading-10 border-t border-x border-gray-400 mr-2'
+    = link_to '全て表示',       repository_deliverables_path(repository)   , class: 'h-10 w-32 text-center leading-10 border-t border-x border-gray-400'
 
-  = render page_content_path, deliverables:
+= render page_content_path, deliverables:

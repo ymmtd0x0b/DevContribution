@@ -14,7 +14,7 @@ document.addEventListener('turbo:load', () => {
     }
 
     const deliverableContainer = document.querySelector('.deliverable-container')
-    const result = NodeHtmlMarkdown.translate(deliverableContainer.outerHTML)
+    const result = NodeHtmlMarkdown.translate(deliverableContainer.outerHTML, { bulletMarker: '-' })
     navigator.clipboard.writeText(result)
     alert('クリップボードにコピーしました')
     return;

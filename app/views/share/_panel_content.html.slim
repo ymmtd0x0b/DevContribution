@@ -1,14 +1,18 @@
-.main-panel.px-5.pt-5.pb-3.my-0
+/ .main-panel.px-5.pt-5.pb-3.my-0
+div.bg-indigo-50.h-full.pt-5.pb-6
   - if deliverables.count.zero?
-    .container
-      .sad-mark
+    .text-center.mt-8
+      .sad-mark.text-7xl
         i.fa-regular.fa-face-sad-tear
-      .not-found
+      .not-found.font-medium.text-2xl.pt-4
         | 成果物が見つかりませんでした
-
   - else
-    .pagination-entries.mb-1.pr-3
-      p = page_entries_info deliverables
-    - deliverables.each do |deliverable|
-        a.panel-block.has-background-white.py-3.has-text-left.is-size-6.mx-auto
-          = deliverable.title
+    div.max-w-3xl.mx-auto
+      .w-fit.ml-auto.mb-1.pr-3
+        = page_entries_info deliverables
+      .border-b.border-gray-400
+        - deliverables.each do |deliverable|
+          = link_to '#', class: 'block bg-white border-t border-x border-gray-400 m-0' do
+            .link.link-hover.text-black.hover:text-blue-700
+              .py-3.px-4.h-fit
+                = deliverable.title
