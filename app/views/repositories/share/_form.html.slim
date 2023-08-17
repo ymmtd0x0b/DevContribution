@@ -4,7 +4,7 @@
   = javascript_import_module_tag 'repository-selector'
 
 .flex.flex-row.items-center.py-4.px-3
-  = collection_select :repository, :id, repositories, :id, :name, {}, class: 'select select-bordered select-sm text-lg py-0'
+  = collection_select :repository, :id, repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
 
   .btn.bg-white.border-gray-300.ml-3.hover:bg-error
     i.fa-solid.fa-minus

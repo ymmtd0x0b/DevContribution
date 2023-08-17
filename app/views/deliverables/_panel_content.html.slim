@@ -2,64 +2,92 @@
 .bg-indigo-50.h-full.px-10.pt-5.pb-3.my-0
   .max-w-4xl.mx-auto.py-3
     .w-fit.ml-auto
-      .button#clipboard_write_button
+      .btn.bg-white.border.border-black#clipboard_write_button
         i.fa-regular.fa-copy
         | マークダウンでコピーする
 
     .deliverable-container
-      .bg-gray-200.border.border-black.py-3.px-2.mx-auto.my-3
+      .bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
         section.bg-white.pt-3.pb-5.px-4
-          h2.is-size-4 Pull Request
+          h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+            | Pull Request
 
-          table.table.is-bordered.is-striped.is-hoverable.is-fullwidth
+          table.table.table-zebra.border.border-gray-400
             thead
-              tr
-                th Point
-                th Issue
-                th PR
+              tr.bg-base-300.text-gray-600.border.border-gray-400
+                th.border.border-gray-400
+                  | Point
+                th.border.border-gray-400
+                  | Issue
+                th.border.border-gray-400
+                  | PR
             tbody
               - @assigned_issues.each do |assigned_issue|
-                tr
-                  td = assigned_issue.point
-                  td = assigned_issue.title
-                  td #000
+                tr.border.border-gray-400
+                  td.border.border-gray-400
+                    = assigned_issue.point
+                  td.border.border-gray-400
+                    = assigned_issue.title
+                  td.border.border-gray-400
+                    | #000
               tr
-                td = @assigned_issues.sum { |issue| issue.point }
-                td total
-                td
+                td.border.border-gray-400
+                  = @assigned_issues.sum { |issue| issue.point }
+                td.border.border-gray-400
+                  | total
+                td.border.border-gray-400
 
         section.bg-white.pt-3.pb-5.px-4
-          h2.is-size-4 Review
-          table.table.is-bordered.is-striped.is-fullwidth
+          h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+            | Review
+
+          table.table.table-zebra.border.border-gray-400
             thead
-              tr
-                th Point
-                th Issue
-                th PR
+              tr.bg-base-300.text-gray-600.border.border-gray-400
+                th.border.border-gray-400
+                  | Point
+                th.border.border-gray-400
+                  | Issue
+                th.border.border-gray-400
+                  | PR
             tbody
               - @reviewed_issues.each do |reviewed_issue|
-                tr
-                  td = reviewed_issue.point
-                  td = reviewed_issue.title
-                  td #000
+                tr.border.border-gray-400
+                  td.border.border-gray-400
+                    = reviewed_issue.point
+                  td.border.border-gray-400
+                    = reviewed_issue.title
+                  td.border.border-gray-400
+                    | #000
+              tr
+                td.border.border-gray-400
+                  = @reviewed_issues.sum { |issue| issue.point }
+                td.border.border-gray-400
+                  | total
+                td.border.border-gray-400
 
         section.bg-white.pt-3.pb-5.px-4
-          h2.is-size-4 その他
+          h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+            | その他
 
           .sub-section.pt-4
-            h3.font-semibold.is-size-4.pb-2 Issue
-            | バグ発見の報告や改善提案等に関して、私が作成した Issue です。
+            h3.text-2xl.font-bold.mb-4
+              | Issue
+            p
+              | バグ発見の報告や改善提案等に関して、私が作成した Issue です。
 
-            ul.menu-list.pt-2.ml-5
+            ul.menu-list.pt-2.ml-6
               - @created_issues.each do |created_issue|
                   li.list-disc.py-3
                     = created_issue.title
 
           .sub-section.pt-4
-            h3.font-semibold.is-size-4.pb-2 Wiki
-            | 作業効率化・負荷低減を目的として、私が作成した Wikiページです。
+            h3.text-2xl.font-bold.mb-4
+              | Wiki
+            p
+              | 作業効率化・負荷低減を目的として、私が作成した Wikiページです。
 
-            ul.menu-list.pt-2.ml-5
+            ul.menu-list.pt-2.ml-6
               - @wikis.each do |wiki|
                   li.list-disc.py-3
                     = wiki.title
