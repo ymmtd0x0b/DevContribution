@@ -7,5 +7,4 @@ ruby:
   #   per_page     : number of items to fetch per page
   #   remote       : data-remote
 
-li
-  = link_to_unless current_page.first?, t('views.pagination.first').html_safe, url, remote: remote, class: "pagination-link#{' is-current' if current_page.first?}"
+= link_to_unless current_page.first?, t('views.pagination.first').html_safe, url, remote: remote, class: "join-item btn bg-inherit border-0 hover:bg-black hover:text-white #{'btn-disabled' if current_page.first?}"

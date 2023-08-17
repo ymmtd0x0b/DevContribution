@@ -8,4 +8,4 @@ ruby:
   #   remote       : data-remote
 
 / = link_to_unless current_page.first?, t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote, class: 'pagination-previous'
-= link_to t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote, class: "pagination-previous #{'disable' if current_page.first?}"
+= link_to t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote, class: "join-item btn bg-inherit border-0 hover:bg-black hover:text-white #{'btn-disabled' if current_page.first?}"

@@ -1,7 +1,3 @@
 = render 'repositories/share/form', repository: @repository, repositories: @repositories
 
 = render 'share/panel_tab', repository: @repository, page_content_path: 'share/panel_content', deliverables: @reviewed_issues
-
-.pagination-container.has-background-grey-lighter
-  .pagination-width
-    = paginate @reviewed_issues

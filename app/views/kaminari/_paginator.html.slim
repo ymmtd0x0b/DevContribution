@@ -8,16 +8,18 @@ ruby:
   #   paginator    : the paginator that renders the pagination tags inside
 
 = paginator.render do
-  nav.pagination.is-right.mb-2
+  .flex.justify-center
     / = prev_page_tag unless current_page.first?
     / = next_page_tag unless current_page.last?
-    = prev_page_tag
-    = next_page_tag
-    ul.pagination-list
-      / = first_page_tag unless current_page.first?
+    / = first_page_tag unless current_page.first?
+    / = last_page_tag unless current_page.last?
+    .mr-3
+      = prev_page_tag
+    .join.border.border-black
       - each_page do |page|
         - if page.display_tag?
           = page_tag page
         - elsif !page.was_truncated?
           = gap_tag
-      / = last_page_tag unless current_page.last?
+    .ml-3
+      = next_page_tag

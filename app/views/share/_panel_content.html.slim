@@ -1,5 +1,5 @@
 / .main-panel.px-5.pt-5.pb-3.my-0
-div.bg-indigo-50.h-full.pt-5.pb-6
+.bg-indigo-50.h-full.pt-5.pb-6
   - if deliverables.count.zero?
     .text-center.mt-8
       .sad-mark.text-7xl
@@ -7,7 +7,7 @@ div.bg-indigo-50.h-full.pt-5.pb-6
       .not-found.font-medium.text-2xl.pt-4
         | 成果物が見つかりませんでした
   - else
-    div.max-w-3xl.mx-auto
+    .max-w-3xl.mx-auto
       .w-fit.ml-auto.mb-1.pr-3
         = page_entries_info deliverables
       .border-b.border-gray-400
@@ -16,3 +16,7 @@ div.bg-indigo-50.h-full.pt-5.pb-6
             .link.link-hover.text-black.hover:text-blue-700
               .py-3.px-4.h-fit
                 = deliverable.title
+
+.bg-indigo-50.pb-5
+  .w-4/5.mx-auto
+    = paginate deliverables, window: 1, left: 5, outer_window: 1

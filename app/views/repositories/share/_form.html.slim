@@ -3,15 +3,14 @@
   = javascript_import_module_tag 'repository-delete-button'
   = javascript_import_module_tag 'repository-selector'
 
-.repository-container
-  .select
-    = collection_select :repository, :id, repositories, :id, :name
+.flex.flex-row.items-center.py-4.px-3
+  = collection_select :repository, :id, repositories, :id, :name, {}, class: 'select select-bordered select-sm text-lg py-0'
 
-  .button.ml-3.repository-delete-button
+  .btn.bg-white.border-gray-300.ml-3.hover:bg-error
     i.fa-solid.fa-minus
     | 削除
 
-  = link_to new_repository_path, class: 'button ml-auto mr-2' do
+  = link_to new_repository_path, class: 'btn bg-white border border-gray-300 ml-auto' do
     i.fa-solid.fa-plus
     | 新しいリポジトリを追加
 

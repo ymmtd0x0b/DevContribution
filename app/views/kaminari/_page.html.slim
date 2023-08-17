@@ -8,5 +8,4 @@ ruby:
   #   per_page     : number of items to fetch per page
   #   remote       : data-remote
 
-li
-  = link_to page, url, {remote: remote, rel: page.rel, class: "pagination-link#{' is-current' if page.current?}"}
+= link_to page, url, {remote: remote, rel: page.rel, class: "join-item btn bg-inherit border-0 hover:bg-black hover:text-white #{'bg-info text-white' if page.current?}"}
