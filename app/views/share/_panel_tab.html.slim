@@ -1,9 +1,7 @@
 div.border-b.border-gray-400.mb-0
   .flex.justify-start
-    = tab_to '担当 Issue',     repository_assigned_issues_path(repository), 'ml-3 mr-2 '
-    = tab_to 'レビュー Issue', repository_reviewed_issues_path(repository), 'mr-2'
-    = tab_to '作成 Issue',     repository_created_issues_path(repository) , 'mr-2'
-    = tab_to '作成 Wiki',      repository_wikis_path(repository)          , 'mr-2'
+    = tab_to '担当 Issue',     repository_issues_assigned_index_path(repository), 'ml-3 mr-2 '
+    = tab_to 'レビュー Issue', repository_issues_reviewed_index_path(repository), 'mr-2'
+    = tab_to '作成 Issue',     repository_issues_created_index_path(repository) , 'mr-2'
+    = tab_to '作成 Wiki',      repository_wikis_path(repository)                , 'mr-2'
     = tab_to '全て表示',       repository_deliverables_path(repository)
-
-= render page_content_path, deliverables:
