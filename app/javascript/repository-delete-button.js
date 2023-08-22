@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('turbo:load', () => {
   const repositoryDeleteButton = document.querySelector('#repository_delete_button')
   repositoryDeleteButton.addEventListener('click', () => {
     const selectedRepository = document.querySelector('option:checked')
