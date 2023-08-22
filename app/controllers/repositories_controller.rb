@@ -41,24 +41,22 @@ class RepositoriesController < ApplicationController
 
     def contributed_repositries
       client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+      user_involves_issues = client.search_issues('is:issue involves:ymmtd0x0b')
+      list_repository_url = user_involves_issues.items.map(&:repository_url).uniq
 
-      issues = client.search_issues('is:issue involves:ymmtd0x0b')
-      pull_requests = client.search_issues('is:pr involves:ymmtd0x0b')
-
-      issues_and_prs = issues.items + pull_requests.items
-      repos_url = issues_and_prs.uniq { |issue| issue.repository_url }.map(&:repository_url)
-
-      repos =
-        repos_url.map do |repo_url|
-          repo_name = repo_url.gsub('https://api.github.com/repos/', '')
-          repo = client.repository(repo_name)
-          {
-            name: repo.full_name,
-            description: repo.description,
-            avatar: repo.owner.avatar_url
-          }
+      repositories =
+        list_repository_url.map do |repository_url|
+          repository_name = repository_url.gsub('https://api.github.com/repos/', '')
+          if current_user.repositories.find_by(name: repository_name).nil?
+            repository = client.repository(repository_name)
+            {
+              name:        repository.full_name,
+              description: repository.description,
+              avatar:      repository.owner.avatar_url
+            }
+          end
         end
 
-      repos.filter { |repo| current_user.repositories.find_by(name: repo[:name]).nil? }
+      repositories.compact
     end
 end
