@@ -1,4 +1,4 @@
-class DeliverablesController < ApplicationController
+class Repositories::DeliverablesController < ApplicationController
   def index
     @repositories = current_user.repositories
     @repository = @repositories.find(params[:repository_id])

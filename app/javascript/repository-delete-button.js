@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const repositoryDeleteButton = document.querySelector('.repository-delete-button')
+  const repositoryDeleteButton = document.querySelector('#repository_delete_button')
   repositoryDeleteButton.addEventListener('click', () => {
     const selectedRepository = document.querySelector('option:checked')
     fetch(`/repositories/${selectedRepository.getAttribute('value')}`, {

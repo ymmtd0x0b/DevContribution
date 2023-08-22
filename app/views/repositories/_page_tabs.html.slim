@@ -1,0 +1,7 @@
+div.border-b.border-gray-400.mb-0
+  .flex.justify-start
+    = tab_to '担当 Issue',     "#{repository_issues_path(repository)}?target=assigned", 'ml-3 mr-2 '
+    = tab_to 'レビュー Issue', "#{repository_issues_path(repository)}?target=reviewed", 'mr-2'
+    = tab_to '作成 Issue',     "#{repository_issues_path(repository)}?target=created",  'mr-2'
+    = tab_to '作成 Wiki',      repository_wikis_path(repository) , 'mr-2'
+    = tab_to '全て表示',       repository_deliverables_path(repository)

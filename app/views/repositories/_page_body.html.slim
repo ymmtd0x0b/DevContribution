@@ -1,13 +1,13 @@
 / .main-panel.px-5.pt-5.pb-3.my-0
 .bg-indigo-50.h-full.pt-5.pb-6
-  - if deliverables.count.zero?
-    .text-center.mt-8
-      .sad-mark.text-7xl
-        i.fa-regular.fa-face-sad-tear
-      .not-found.font-medium.text-2xl.pt-4
-        | 成果物が見つかりませんでした
-  - else
-    .max-w-3xl.mx-auto
+  .max-w-3xl.mx-auto
+    - if deliverables.count.zero?
+      .text-center.mt-16
+        .sad-mark.text-7xl
+          i.fa-regular.fa-face-sad-tear
+        .not-found.font-medium.text-2xl.pt-4
+          | 成果物が見つかりませんでした
+    - else
       .w-fit.ml-auto.mb-1.pr-3
         = page_entries_info deliverables
       .border-b.border-gray-400

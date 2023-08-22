@@ -7,16 +7,20 @@
   /     ul
   /       - repository.errors.each do |error|
   /         li = error.full_message
-  .control
+  .max-w-3xl.mx-auto.border-2.border-base-600.rounded-md
     = f.hidden_field :name, value: ''
-    - repositories.each do |repo|
-      = f.label :name, value: repo[:name] do
-        = content_tag :span, class: 'tale' do
-          = f.radio_button :name, repo[:name]
-          = image_tag repo[:avatar]
-          = content_tag :sapn, repo[:name], class: 'name'
-        - if repo[:description]
-          = content_tag :sapn, repo[:description], class: 'description'
+    .flex.flex-col.divide-y-2.divide-base-600
+      - repositories.each do |repo|
+        = f.label :name, value: repo[:name] do
+          = content_tag :div, class: 'py-5 hover:bg-base-200' do
+            div.flex
+              .radio-2.radio-primary.mx-4
+                = f.radio_button :name, repo[:name]
+              .avatar.w-8.mr-2
+                = image_tag repo[:avatar]
+              = content_tag :p, repo[:name], class: 'text-lg'
+            - if repo[:description]
+              = content_tag :p, repo[:description], class: 'pt-2 pl-16 text-sm'
 
-  .mt-4.has-text-centered
-    = f.submit '追加', class: 'button'
+  .my-4.text-center
+    = f.submit '追加', class: 'btn btn-outline btn-primary px-10 mt-8'

@@ -7,6 +7,7 @@ document.addEventListener('turbo:load', () => {
 
   repositorySelectors.addEventListener('change', (e) => {
     const current_tab = location.pathname.replace(/^.+\//, '')
-    location.href = `/repositories/${e.target.value}/${current_tab}`
+    const search = location.search
+    location.href = `/repositories/${e.target.value}/${current_tab + search}`
   })
 })

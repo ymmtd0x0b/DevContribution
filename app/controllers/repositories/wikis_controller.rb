@@ -1,4 +1,4 @@
-class WikisController < ApplicationController
+class Repositories::WikisController < ApplicationController
   def index
     @repositories = current_user.repositories
     @repository = @repositories.find(params[:repository_id])
