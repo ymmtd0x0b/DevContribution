@@ -37,7 +37,7 @@ class DeliverablesBringer
     # レビュー依頼されていなくても PR にコメントしたユーザー全てがレビュワーと見做されるので
     # commented_pull_requestes として格納
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-    my_commented_pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.name}")
+    my_commented_pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.name} -assignee:#{user.name}")
 
     # 実際に自分がレビュワーとして携わった PR を抽出
     # 最終的に Approve でなくてもレビューしたと言えるかも...
