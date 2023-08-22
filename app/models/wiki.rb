@@ -7,4 +7,9 @@ class Wiki < ApplicationRecord
   validates :title,         presence: true
 
   paginates_per 30
+
+
+  def url
+    "https://github.com/#{repository.name}/wiki/#{title}"
+  end
 end

@@ -4,6 +4,9 @@ class Issue < ApplicationRecord
 
   validates :user_id,       presence: true
   validates :repository_id, presence: true
+  validates :issue_id,      presence: true
+  validates :title,         presence: true
+  validates :url,           presence: true
   validates :point,         presence: true
   validates :kind,          presence: true
 

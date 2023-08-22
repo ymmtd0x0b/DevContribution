@@ -3,6 +3,7 @@ class CreateIssues < ActiveRecord::Migration[7.0]
     create_table :issues do |t|
       t.references :user,       null: false, foreign_key: true
       t.references :repository, null: false, foreign_key: true
+      t.integer :issue_id,      null: false
       t.string :title,          null: false
       t.string :url,            null: false
       t.integer :point,         null: false, default: 0
@@ -10,6 +11,5 @@ class CreateIssues < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :issues, [:user_id, :repository_id, :title, :kind], unique: true
   end
 end

@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_141906) do
   create_table "issues", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "repository_id", null: false
+    t.integer "issue_id", null: false
     t.string "title", null: false
     t.string "url", null: false
     t.integer "point", default: 0, null: false
@@ -24,7 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_141906) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id"], name: "index_issues_on_repository_id"
-    t.index ["user_id", "repository_id", "title", "kind"], name: "index_issues_on_user_id_and_repository_id_and_title_and_kind", unique: true
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
