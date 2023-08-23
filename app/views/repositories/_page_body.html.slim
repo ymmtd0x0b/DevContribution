@@ -10,18 +10,20 @@
     - else
       .w-fit.ml-auto.mb-1.pr-3
         = page_entries_info deliverables
-      .border-b.border-gray-400
+      .border-t.border-gray-400
         - deliverables.each do |deliverable|
-          = link_to deliverable.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-t border-x border-gray-400 m-0 py-3 px-3 hover:bg-slate-100' } do
+          = link_to deliverable.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-b border-x border-gray-400 m-0 p-3 hover:bg-slate-100' } do
             .link.link-hover.text-black.hover:text-blue-700
               .ml-2.h-fit.text-sm.text-slate-800
                 = deliverable.title
             -if deliverable.class == Issue
               .flex.pt-2
-                p.text-center.text-xs.text-slate-500.ml-2.my-auto
-                  = "##{File.basename deliverable.url}"
-                .badge.bg-amber-200.border-2.border-amber-500.text-amber-600.text-xs.font-medium.my-auto.mx-4
-                  = deliverable.point
+                .text-center.text-xs.text-slate-500.my-auto
+                  p.w-12
+                    = "##{File.basename deliverable.url}"
+                - if deliverable.point > 0
+                  .w-fit.badge.bg-amber-100.border-2.border-amber-500.text-amber-600.text-xs.font-medium.my-auto.mx-2.px-2
+                    = deliverable.point
 
 .bg-indigo-50.pb-5
   .w-4/5.mx-auto
