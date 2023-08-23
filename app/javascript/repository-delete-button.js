@@ -1,5 +1,5 @@
-document.addEventListener('turbo:load', () => {
-  const repositoryDeleteButton = document.querySelector('#repository_delete_button')
+document.addEventListener('DOMContentLoaded', () => {
+  const repositoryDeleteButton = document.querySelector('#repository-delete-button')
   repositoryDeleteButton.addEventListener('click', () => {
     const selectedRepository = document.querySelector('option:checked')
     fetch(`/repositories/${selectedRepository.getAttribute('value')}`, {

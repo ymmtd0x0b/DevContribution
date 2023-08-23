@@ -1,12 +1,11 @@
 - content_for :js do
-  = javascript_import_module_tag 'clipboard-write'
   = javascript_import_module_tag 'repository-delete-button'
   = javascript_import_module_tag 'repository-selector'
 
 .flex.flex-row.items-center.py-4.px-3
   = collection_select :repository, :id, repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
 
-  #repository_delete_button.btn.bg-white.border-gray-300.ml-3.hover:bg-error
+  #repository-delete-button.btn.bg-white.border-gray-300.ml-3.hover:bg-error
     i.fa-solid.fa-minus
     | 削除
 

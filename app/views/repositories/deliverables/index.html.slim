@@ -1,3 +1,6 @@
+- content_for :js do
+  = javascript_import_module_tag 'clipboard-write'
+
 = render 'repositories/index', repositories: @repositories
 
 = render 'repositories/page_tabs', repository: @repository
