@@ -4,8 +4,7 @@ class Repositories::IssuesController < ApplicationController
     if arrow_targets.include?(@target)
       @repositories = current_user.repositories
       @repository = @repositories.find(params[:repository_id])
-      # @assigned_issues = @repository.assigned_issues.order(:created_at).page(params[:page])
-      @issues = @repository.issues.where('kind = ?', Issue.kinds[@target.to_sym]).order(:created_at).page(params[:page])
+      @issues = @repository.issues.where('kind = ? and user_id = ?', Issue.kinds[@target.to_sym], current_user.id).order(:created_at).page(params[:page])
     else
       redirect_to root_path
     end
