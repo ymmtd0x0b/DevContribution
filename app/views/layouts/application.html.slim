@@ -29,8 +29,8 @@ html(data-theme='emerald')
                         i.fa-solid.fa-arrow-right-from-bracket.pr-2
                         | ログアウト
                   li
-                    = form_tag retirement_path, method: :post, data: { turbo: false }, class: 'flex p-0' do
-                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4 text-error' do
+                    = form_tag retirement_path, method: :post, class: 'flex p-0' do
+                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4 text-error', data: { turbo_confirm: '本当に実行してもよろしいですか？' } do
                         i.fa-solid.fa-trash-can.pr-2
                         | アカウント削除
           - else
