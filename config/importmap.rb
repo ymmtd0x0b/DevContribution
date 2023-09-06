@@ -8,6 +8,7 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 
 # not default
 pin 'clipboard-write', preload: true
+pin 'repository-update-button', preload: true
 pin 'repository-delete-button', preload: true
 pin 'repository-selector', preload: true
 

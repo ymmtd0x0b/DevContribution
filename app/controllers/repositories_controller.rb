@@ -24,6 +24,11 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def update
+    flash[:info] = 'リポジトリ情報を更新しました'
+    redirect_to root_path
+  end
+
   def destroy
     @repository.destroy
 
