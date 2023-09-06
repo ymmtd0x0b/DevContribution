@@ -24,7 +24,7 @@ html(data-theme='emerald')
                     = image_tag current_user.image_url
                 ul.mt-1.p-2.shadow-lg.menu.dropdown-content.bg-base-100.rounded-box.w-52.border(tabindex='0' class='z-[1]')
                   li
-                    = form_tag logout_path, method: :delete, data: { turbo: false }, class: 'flex p-0' do
+                    = form_tag logout_path, method: :delete, class: 'flex p-0' do
                       = button_tag class: 'text-left text-lg block w-full py-3 pl-4' do
                         i.fa-solid.fa-arrow-right-from-bracket.pr-2
                         | ログアウト
