@@ -60,9 +60,6 @@ class DeliverablesBringer
       # ここでは主だった２種類を指定
       auto_link_notation = [/http[a-z.\/:]+\/issues\/\d+/, /#\d+/]
 
-      # 後の処理で正規表現を利用する準備
-      regex = Regexp.union(auto_link_notation)
-
       # レビューした PR の関連 Issue のタイトルを取得
       list_ref_issue_links = reviewed_pull_requests.map do |pull_request|
         # １段目：PRの元になったIssueを貼り付けるセクションを切り出す
@@ -124,12 +121,12 @@ class DeliverablesBringer
       path = "#{dir}/#{repository.name}.wiki.git"
 
       # gitクローン
-      result = Git.clone("https://github.com/#{repository.name}.wiki.git", path) rescue nil
+      response = Git.clone("https://github.com/#{repository.name}.wiki.git", path) rescue nil
 
       # Wikiページが存在するか事前に確かめる術が見つからなかったので
       # gitクローンでエラーが発生したら、Wikiページが存在しないと見做す
       # 例外処理によって nil を返す
-      if result.nil?
+      if response.nil?
         return
       end
 
@@ -140,18 +137,24 @@ class DeliverablesBringer
       # ※Wikiページは直下のみで複雑な階層構造にはならないっぽい
       # (GitHub の Wikiページの UI にそのような機能が見当たらない)
       my_wikis =
-        git.lib.ls_files.filter do |file_name, _|
+        git.lib.ls_files.map do |file_name, _|
+          file_log = git.log.object("#{path}/#{file_name}")
+
           # そのファイルの最初のコミッター == 作成者
-          git.log.object("#{path}/#{file_name}").last.author.name == user.name
+          if file_log.last.author.name == user.name
+            { title: file_name.gsub(/\.md$/, ''),
+              created_at: file_log.last.author_date,
+              updated_at: file_log.first.author_date }
+          end
         end
 
-      my_wikis.each do |file_name, _|
+      my_wikis.compact.each do |wiki, _|
         Wiki.create!(
           repository_id: repository.id,
           user_id:    user.id,
-          title:      file_name.gsub(/\.md$/, ''),
-          created_at: git.log.object("#{path}/#{file_name}").last.author_date,
-          updated_at: git.log.object("#{path}/#{file_name}").first.author_date
+          title:      wiki[:title],
+          created_at: wiki[:created_at],
+          updated_at: wiki[:updated_at]
         )
       end
     end
