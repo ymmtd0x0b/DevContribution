@@ -1,5 +1,5 @@
 class RepositoriesController < ApplicationController
-  before_action :set_repository, only: %i[destroy]
+  before_action :set_repository, only: %i[update destroy]
 
   def new
     @repository = Repository.new
@@ -25,6 +25,7 @@ class RepositoriesController < ApplicationController
   end
 
   def update
+    Newspaper.publish(:repository_update, { repository: @repository, user: current_user })
     flash[:info] = 'リポジトリ情報を更新しました'
     redirect_to root_path
   end
