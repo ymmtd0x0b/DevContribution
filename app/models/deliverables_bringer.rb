@@ -58,7 +58,7 @@ class DeliverablesBringer
 
       # Issueをリンクさせる表記法は複数ある
       # ここでは主だった２種類を指定
-      auto_link_notation = [/http[a-z.\/:]+\/issues\/\d+/, /#\d+/]
+      auto_link_notation = [/https.+\/issues\/\d+/, /#\d+/]
 
       # レビューした PR の関連 Issue のタイトルを取得
       list_ref_issue_links = reviewed_pull_requests.map do |pull_request|
