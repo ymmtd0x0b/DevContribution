@@ -46,7 +46,7 @@ class RepositoriesController < ApplicationController
 
     def contributed_repositries
       client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-      user_involves_issues = client.search_issues('is:issue involves:ymmtd0x0b')
+      user_involves_issues = client.search_issues("is:issue is:pr involves:#{current_user.name}")
       list_repository_url = user_involves_issues.items.map(&:repository_url).uniq
 
       repositories =
