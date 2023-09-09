@@ -52,7 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_141906) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id"], name: "index_wikis_on_repository_id"
-    t.index ["user_id", "repository_id", "title"], name: "index_wikis_on_user_id_and_repository_id_and_title", unique: true
     t.index ["user_id"], name: "index_wikis_on_user_id"
   end
 

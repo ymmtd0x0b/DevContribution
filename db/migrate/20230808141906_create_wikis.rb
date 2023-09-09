@@ -7,6 +7,5 @@ class CreateWikis < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :wikis, [:user_id, :repository_id, :title], unique: true
   end
 end
