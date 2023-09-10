@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.0"
 
+gem 'activerecord-import'
 gem "bootsnap", require: false
 gem 'dotenv-rails'
 gem "font-awesome-sass", "~> 6.4.2"

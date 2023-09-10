@@ -13,10 +13,16 @@ class DeliverablesBringer
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
     options = { page: 1, per_page: 100 }
 
+    searched_issues_list = []
     begin
-      assigned_issues = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
-      assigned_issues.items.each do |issue|
-        Issue.create!(
+      searched_issues = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
+      searched_issues_list << searched_issues.items
+      options[:page] += 1
+    end while(searched_issues.items.count == options[:per_page])
+
+    assigned_issues =
+      searched_issues_list.flatten.map do |issue|
+        Issue.new(
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -28,8 +34,8 @@ class DeliverablesBringer
           updated_at: issue.updated_at
         )
       end
-      options[:page] += 1
-    end while(assigned_issues.items.count == options[:per_page])
+
+    Issue.import assigned_issues
   end
 
   def extract_point(issue)
@@ -44,24 +50,29 @@ class DeliverablesBringer
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
     options = { page: 1, per_page: 100 }
 
+    commented_pull_request_list = []
     begin
-      my_commented_pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.name} -assignee:#{user.name}", **options)
+      commented_pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.name} -assignee:#{user.name}", **options)
+      commented_pull_request_list << commented_pull_requests.items
+      options[:page] += 1
+    end while(commented_pull_requests.items.count == options[:per_page])
 
-      # 実際に自分がレビュワーとして携わった PR を抽出
-      # 最終的に Approve でなくてもレビューしたと言えるかも...
-      reviewed_pull_requests =
-        my_commented_pull_requests.items.filter do |pull_request|
-          reviews = client.pull_request_reviews(repository.name, pull_request.number)
-          reviewers = reviews.map { |review| review.user.login if review.state == 'APPROVED' }.compact
-          reviewers.include? user.name
-        end
+    # 実際に自分がレビュワーとして携わった PR を抽出
+    # 最終的に Approve でなくてもレビューしたと言えるかも...
+    reviewed_pull_requests =
+      commented_pull_request_list.flatten.filter do |pull_request|
+        reviews = client.pull_request_reviews(repository.name, pull_request.number)
+        reviewers = reviews.map { |review| review.user.login if review.state == 'APPROVED' }
+        reviewers.include? user.name
+      end
 
-      # Issueをリンクさせる表記法は複数ある
-      # ここでは主だった２種類を指定
-      auto_link_notation = [/https.+\/issues\/\d+/, /#\d+/]
+    # Issueをリンクさせる表記法は複数ある
+    # ここでは主だった２種類を指定
+    auto_link_notation = [/https.+\/issues\/\d+/, /#\d+/]
 
-      # レビューした PR の関連 Issue のタイトルを取得
-      list_ref_issue_links = reviewed_pull_requests.map do |pull_request|
+    # レビューした PR の関連 Issue のタイトルを取得
+    reviewed_issue_list =
+      reviewed_pull_requests.map do |pull_request|
         # １段目：PRの元になったIssueを貼り付けるセクションを切り出す
         # ２段目：リンクorGitHub固有オートリンク表記されたIssueを抽出
         # ３段目：Issue のタイトルを取得
@@ -73,8 +84,9 @@ class DeliverablesBringer
                     .uniq { |issue| issue.id }
       end.flatten
 
-      list_ref_issue_links.each do |issue|
-        Issue.create!(
+    reviewed_issues =
+      reviewed_issue_list.map do |issue|
+        Issue.new(
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -86,8 +98,8 @@ class DeliverablesBringer
           updated_at: issue.updated_at
         )
       end
-      options[:page] += 1
-    end while(my_commented_pull_requests.items.count == options[:per_page])
+
+    Issue.import reviewed_issues
   end
 
   ## 作成した Issue
@@ -95,10 +107,16 @@ class DeliverablesBringer
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
     options = { page: 1, per_page: 100 }
 
+    created_issue_list = []
     begin
       created_issues = client.search_issues("repo:#{repository.name} is:issue author:#{user.name}", **options)
-      created_issues.items.each do |issue|
-        Issue.create!(
+      created_issue_list << created_issues.items
+      options[:page] += 1
+    end while(created_issues.items.count == options[:per_page])
+
+    created_issues =
+      created_issue_list.flatten.map do |issue|
+        Issue.new(
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -110,8 +128,8 @@ class DeliverablesBringer
           updated_at: issue.updated_at
         )
       end
-      options[:page] += 1
-    end while(created_issues.items.count == options[:per_page])
+
+      Issue.import created_issues
   end
 
   ## 作成した Wiki
@@ -148,15 +166,18 @@ class DeliverablesBringer
           end
         end
 
-      my_wikis.compact.each do |wiki, _|
-        Wiki.create!(
-          repository_id: repository.id,
-          user_id:    user.id,
-          title:      wiki[:title],
-          created_at: wiki[:created_at],
-          updated_at: wiki[:updated_at]
-        )
-      end
+      wikis =
+        my_wikis.compact.each do |wiki, _|
+          Wiki.new(
+            repository_id: repository.id,
+            user_id:    user.id,
+            title:      wiki[:title],
+            created_at: wiki[:created_at],
+            updated_at: wiki[:updated_at]
+          )
+        end
+
+      Wiki.import wikis
     end
   end
 end
