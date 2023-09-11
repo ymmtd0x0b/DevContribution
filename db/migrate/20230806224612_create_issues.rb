@@ -6,7 +6,6 @@ class CreateIssues < ActiveRecord::Migration[7.0]
       t.integer :issue_id,      null: false
       t.string :title,          null: false
       t.string :url,            null: false
-      t.integer :point,         null: false, default: 0
       t.integer :kind,          null: false
 
       t.timestamps

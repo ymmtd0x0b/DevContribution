@@ -21,9 +21,9 @@
                 .text-center.text-xs.text-slate-500.my-auto
                   p.w-12
                     = "##{File.basename deliverable.url}"
-                - if deliverable.point > 0
-                  .w-fit.badge.bg-amber-100.border-2.border-amber-500.text-amber-600.text-xs.font-medium.my-auto.mx-2.px-2
-                    = deliverable.point
+                - deliverable.labels.each do |label|
+                  .w-fit.text-xs.font-medium.my-auto.mx-2.px-2(style="background-color: ##{label.color};")
+                    = label.name
 
 .bg-indigo-50.pb-5
   .w-4/5.mx-auto

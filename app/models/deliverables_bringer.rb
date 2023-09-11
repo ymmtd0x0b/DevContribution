@@ -1,5 +1,6 @@
 class DeliverablesBringer
   def call(options = {})
+    bring_repository_labels_for_github(options[:repository])
     bring_assigned_issues_for_github(options[:repository], options[:user])
     bring_reviewed_issues_for_github(options[:repository], options[:user])
     bring_created_issues_for_github(options[:repository], options[:user])
@@ -8,39 +9,59 @@ class DeliverablesBringer
 
   private
 
+  ## リポジトリのラベル
+  def bring_repository_labels_for_github(repository)
+    client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+    options = { page: 1, per_page: 100 }
+
+    labels = []
+    begin
+      labels_per_page = client.labels(repository.name, **options)
+      labels_per_page.each do |label|
+        labels << repository.labels.new(
+          name:      label.name,
+          color:     label.color,
+          github_id: label.id
+        )
+      end
+    end while(labels_per_page.count == options[:perpage])
+
+    Label.import labels
+  end
+
   ## 担当した Issue
   def bring_assigned_issues_for_github(repository, user)
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
     options = { page: 1, per_page: 100 }
 
-    searched_issues_list = []
+    assigned_issues = []
+    labelings = []
     begin
-      searched_issues = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
-      searched_issues_list << searched_issues.items
-      options[:page] += 1
-    end while(searched_issues.items.count == options[:per_page])
-
-    assigned_issues =
-      searched_issues_list.flatten.map do |issue|
-        Issue.new(
+      assigned_issues_per_page = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
+      assigned_issues_per_page.items.each do |issue|
+        assigned_issues << Issue.new(
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
           title:      issue.title,
           url:        issue.html_url,
-          point:      extract_point(issue),
           kind:       Issue.kinds[:assigned],
           created_at: issue.created_at,
           updated_at: issue.updated_at
         )
+
+        issue.labels.each do |issue_label|
+          label = repository.labels.find_by(github_id: issue_label.id)
+          if label
+            labelings << assigned_issues.last.labelings.new(label: label)
+          end
+        end
       end
+      options[:page] += 1
+    end while(assigned_issues_per_page.items.count == options[:per_page])
 
     Issue.import assigned_issues
-  end
-
-  def extract_point(issue)
-    point_label = issue.labels.find { |label| label[:name].to_i > 0 }
-    point_label ? point_label[:name].to_i : 0
+    Labeling.import labelings
   end
 
   ## レビューした Issue
@@ -92,7 +113,6 @@ class DeliverablesBringer
           issue_id:   issue.id,
           title:      issue.title,
           url:        issue.html_url,
-          point:      extract_point(issue),
           kind:       Issue.kinds[:reviewed],
           created_at: issue.created_at,
           updated_at: issue.updated_at
@@ -122,7 +142,6 @@ class DeliverablesBringer
           issue_id:   issue.id,
           title:      issue.title,
           url:        issue.html_url,
-          point:      extract_point(issue),
           kind:       Issue.kinds[:created],
           created_at: issue.created_at,
           updated_at: issue.updated_at
