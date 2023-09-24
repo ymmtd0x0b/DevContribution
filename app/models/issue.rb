@@ -19,4 +19,12 @@ class Issue < ApplicationRecord
   }
 
   paginates_per 30
+
+  def point
+    labels.each do |label|
+      # TODO
+      # ラベルの中からポイントを探して返す
+    end
+    0
+  end
 end
