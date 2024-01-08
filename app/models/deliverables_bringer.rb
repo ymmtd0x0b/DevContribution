@@ -18,15 +18,16 @@ class DeliverablesBringer
     begin
       labels_per_page = client.labels(repository.name, **options)
       labels_per_page.each do |label|
-        labels << repository.labels.new(
+        labels << {
+          repository_id: repository.id,
           name:      label.name,
           color:     label.color,
           github_id: label.id
-        )
+        }
       end
     end while(labels_per_page.count == options[:perpage])
 
-    Label.import labels
+    Label.insert_all! labels if labels.present?
   end
 
   ## 担当した Issue
@@ -39,7 +40,7 @@ class DeliverablesBringer
     begin
       assigned_issues_per_page = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
       assigned_issues_per_page.items.each do |issue|
-        assigned_issues << Issue.new(
+        assigned_issues << {
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -48,20 +49,33 @@ class DeliverablesBringer
           kind:       Issue.kinds[:assigned],
           created_at: issue.created_at,
           updated_at: issue.updated_at
-        )
+        }
 
+        # 補足１
+        # この段階では、Issue を保存していない関係上 Issue の id が未確定なので、
+        # ラベリングを表現する中間テーブルの issue_id には nil を設定している。
+        #
+        # 補足２
+        # また、ラベルの存在しない Issue のラベリングには敢えて nil を挿入している。
+        # これにより Issue をまとめて保存した後に、ラベリングの issue_id を設定する際に
+        # ループ処理する際のインデックスずれを防ぐ( 最終的に Array#compact により nil を除外する )
         issue.labels.each do |issue_label|
           label = repository.labels.find_by(github_id: issue_label.id)
           if label
-            labelings << assigned_issues.last.labelings.new(label: label)
+            labelings << {
+              issue_id: nil,
+              label_id: label.id
+            }
+          else
+            labelings << nil
           end
         end
+
       end
       options[:page] += 1
     end while(assigned_issues_per_page.items.count == options[:per_page])
 
-    Issue.import assigned_issues
-    Labeling.import labelings
+    Issue.insert_all! assigned_issues if assigned_issues.present?
   end
 
   ## レビューした Issue
@@ -107,7 +121,7 @@ class DeliverablesBringer
 
     reviewed_issues =
       reviewed_issue_list.map do |issue|
-        Issue.new(
+        {
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -116,10 +130,10 @@ class DeliverablesBringer
           kind:       Issue.kinds[:reviewed],
           created_at: issue.created_at,
           updated_at: issue.updated_at
-        )
+        }
       end
 
-    Issue.import reviewed_issues
+    Issue.insert_all! reviewed_issues if reviewed_issues.present?
   end
 
   ## 作成した Issue
@@ -136,7 +150,7 @@ class DeliverablesBringer
 
     created_issues =
       created_issue_list.flatten.map do |issue|
-        Issue.new(
+        {
           repository_id: repository.id,
           user_id:    user.id,
           issue_id:   issue.id,
@@ -145,10 +159,10 @@ class DeliverablesBringer
           kind:       Issue.kinds[:created],
           created_at: issue.created_at,
           updated_at: issue.updated_at
-        )
+        }
       end
 
-      Issue.import created_issues
+      Issue.insert_all! created_issues if created_issues.present?
   end
 
   ## 作成した Wiki
@@ -187,16 +201,16 @@ class DeliverablesBringer
 
       wikis =
         my_wikis.compact.each do |wiki, _|
-          Wiki.new(
+          {
             repository_id: repository.id,
             user_id:    user.id,
             title:      wiki[:title],
             created_at: wiki[:created_at],
             updated_at: wiki[:updated_at]
-          )
+          }
         end
 
-      Wiki.import wikis
+      Wiki.insert_all! wikis if wikis.present?
     end
   end
 end
