@@ -35,23 +35,44 @@ class DeliverablesBringer
     client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
     options = { page: 1, per_page: 100 }
 
-    assigned_issues_all_pages = []
+    created_pr_all_pages = []
     begin
-      assigned_issues_per_page = client.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}", **options)
-      assigned_issues_all_pages.concat assigned_issues_per_page.items
+      created_pr_per_page = client.search_issues("repo:#{repository.name} is:pr author:#{user.name}", **options)
+      created_pr_all_pages.concat created_pr_per_page.items
       options[:page] += 1
-    end while(assigned_issues_per_page.items.count == options[:per_page])
+    end while(created_pr_per_page.items.count == options[:per_page])
 
-    assigned_issues = []
+    refs = {}
+    assigned_issue_numbers =
+      created_pr_all_pages.map do |pull_request|
+        issue_section = pull_request.body.scan(/[Ii]ssue.+概要/m)[0]
+        linked_issue_urls = issue_section.scan(/http.+\/issues\/\d+|#\d+/)
+        issue_numbers = linked_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }
+
+        issue_numbers.each do |issue_number|
+          refs[issue_number.to_s] = pull_request.html_url
+        end
+
+        issue_numbers
+      end.flatten.uniq
+
+    assigned_all_issues = []
+    assigned_issue_numbers.each_slice(100) do |issue_numbers| # クエリの文字数制限(1,0000)を超えないように何回かに分けて処理を行う
+      assigned_issues = client.search_issues("repo:#{repository.name} is:issue #{issue_numbers.join(' ')}")
+      assigned_all_issues.concat assigned_issues.items
+    end
+
+    insert_data = []
     labelings = []
     assigns_list = []
-    assigned_issues_all_pages.each do |issue|
-      assigned_issues << {
+    assigned_all_issues.each do |issue|
+      insert_data << {
         id: issue.id,
         repository_id: repository.id,
         user_id:    issue.user.id,
         title:      issue.title,
         url:        issue.html_url,
+        pr_url:     refs[issue.number.to_s],
         created_at: issue.created_at,
         updated_at: issue.updated_at
       }
@@ -69,7 +90,7 @@ class DeliverablesBringer
       }
     end
 
-    Issue.insert_all(assigned_issues) if assigned_issues.present?
+    Issue.insert_all(insert_data) if insert_data.present?
     Labeling.insert_all(labelings) if labelings.present?
     Assign.insert_all(assigns_list, unique_by: %i[user_id issue_id]) if assigns_list.present?
   end
