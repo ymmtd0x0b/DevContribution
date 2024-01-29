@@ -1,22 +1,20 @@
 class Repository < ApplicationRecord
-  belongs_to :user
+  has_many :registrations, dependent: :destroy
   has_many :issues, dependent: :destroy
   has_many :wikis,  dependent: :destroy
   has_many :labels, dependent: :destroy
 
-  validates :user, presence: true
-  validates :name, presence: true
-  validates :name, uniqueness: { scope: :user }
+  def self.find_or_create_by_octokit_data!(id: nil, name: nil)
+    repository =
+      Repository.find_or_create_by!(id:) do |repo|
+        repo.id = id
+        repo.name = name
+      end
 
-  def assigned_issues
-    issues.where(kind: Issue.kinds[:assigned])
-  end
+    if repository.name != name
+      repository.update!(name:)
+    end
 
-  def reviewed_issues
-    issues.where(kind: Issue.kinds[:reviewed])
-  end
-
-  def created_issues
-    issues.where(kind: Issue.kinds[:created])
+    repository
   end
 end

@@ -2,17 +2,11 @@ class UserSessionsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def create
-    auth = request.env['omniauth.auth']
-    user = User.find_by(github_id: auth[:uid])
-    if user.present? && user.repositories.present?
+    user = User.find_or_create_by_github_auth!(request.env['omniauth.auth'])
+    if user.registed_repos.present?
       path = repository_issues_path(user.repositories.first)
       message = 'ログインしました'
     else
-      user = User.create!(
-        github_id: auth[:uid],
-        name:      auth[:info][:nickname],
-        image_url: auth[:info][:image]
-      )
       path = new_repository_path
       message = 'アカウント連携しました'
     end

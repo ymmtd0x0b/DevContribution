@@ -11,7 +11,7 @@
       .w-fit.ml-auto.mb-5
         .btn.bg-base-100.border.border-stone-400#clipboard_write_button
           i.fa-regular.fa-copy
-          | マークダウンでコピーする
+          | クリップボードにコピーする
 
       .deliverable-container
         .bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
@@ -63,9 +63,9 @@
                     td.border.border-gray-400
                       = reviewed_issue.point
                     td.border.border-gray-400
-                      = reviewed_issue.title
+                      = link_to reviewed_issue.title, reviewed_issue.url
                     td.border.border-gray-400
-                      | #000
+                      = link_to "##{reviewed_issue.pr_url.slice(/\d+$/)}", reviewed_issue.pr_url
                 tr
                   td.border.border-gray-400
                     = @reviewed_issues.sum { |issue| issue.point }
@@ -81,7 +81,7 @@
               h3.text-2xl.font-bold.mb-4
                 | Issue
               p
-                | バグ発見の報告や改善提案等に関して、私が作成した Issue です。
+                | バグ発見の報告や改善提案を目的として作成した Issue です。
 
               ul.menu-list.pt-2.ml-6
                 - @created_issues.each do |created_issue|
@@ -92,7 +92,7 @@
               h3.text-2xl.font-bold.mb-4
                 | Wiki
               p
-                | 作業効率化・負荷低減を目的として、私が作成した Wikiページです。
+                | 議事録や作業効率化を目的として作成した Wikiページです。
 
               ul.menu-list.pt-2.ml-6
                 - @wikis.each do |wiki|

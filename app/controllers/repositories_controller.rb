@@ -7,20 +7,26 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = Repository.new(repository_params)
-    @repository.user_id = current_user.id
+    repo_id = params[:repository][:id]
+    if !repo_id.match? /^\d+$/
+      redirect_to new_repository_path, alert: '無効なリポジトリ名です。再度、選択してください'
+      return
+    end
 
-    if @repository.save
-      Newspaper.publish(:repository_create, { repository: @repository, user: current_user })
-      redirect_to "#{repository_issues_path(@repository)}?target=assigned", info: 'リポジトリを追加しました'
+    client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+    repo = client.repo(repo_id.to_i)
+    if repo.nil?
+      redirect_to new_repository_path, alert: 'リポジトリが見つかりませんでした。再度、選択してください'
+      return
+    end
+
+    repository = Repository.find_or_create_by_octokit_data!(id: repo.id, name: repo.full_name)
+    registration = current_user.registrations.new(repository:)
+    if registration.save
+      Newspaper.publish(:repository_create, { repository: repository, user: current_user })
+      redirect_to "#{repository_issues_path(repository)}?target=assigned", info: 'リポジトリを追加しました'
     else
-      @repositories = contributed_repositries
-      if @repository.name.empty?
-        flash.now[:danger] = 'リポジトリが選択されていません'
-      else
-        flash.now[:warning] = '選択されたリポジトリは登録済みです'
-      end
-      render :new, status: :unprocessable_entity
+      redirect_to new_repository_path, alert: '登録に失敗しました。再度、選択してください。'
     end
   end
 
@@ -31,9 +37,27 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository.destroy
+    # @repository.destroy
+    registration = current_user.registration.find_by(repository_id: params[:id])
+    registration.destroy
 
-    redirect_to root_path, info: 'リポジトリを削除しました'
+    assigns = current_user.assigned_issues(params[:id])
+    assigns.destroy_all
+
+    reviews = current_user.reviewed_issues(params[:id])
+    reviews.destroy_all
+
+    # wikis = current_user.created_wikis(params[:id])
+    # wikis.destroy_all
+
+    # TODO
+    # 誰からも参照されていないリポジトリ・Issue を削除する必要がある。
+    # リポジトリは registration_table で参照されていなければ削除して良い。
+    # Issue は 作成したユーザーが users_table にいない ＆ assigns_table で参照されていない ＆ reviews_table で参照されていない を全て満たしていたら削除して良い。
+
+
+
+    redirect_to root_path, info: 'リポジトリの登録情報を削除しました'
   end
 
   private
@@ -41,28 +65,45 @@ class RepositoriesController < ApplicationController
       @repository = Repository.find(params[:id])
     end
 
-    def repository_params
-      params.require(:repository).permit(:name)
+    # def repository_params
+    #   params.require(:repository).permit(:name)
+    # end
+
+    def invalid_repo_name?(repo_name)
+      !repo_name.match? /[a-z]+\/[a-z]+/ #「ユーザー名(Org名)/リポジトリ名」
     end
 
     def contributed_repositries
       client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-      user_involves_issues = client.search_issues("is:issue is:pr involves:#{current_user.name}")
-      list_repository_url = user_involves_issues.items.map(&:repository_url).uniq
+      involves_issues = []
 
-      repositories =
-        list_repository_url.map do |repository_url|
-          repository_name = repository_url.gsub('https://api.github.com/repos/', '')
-          if current_user.repositories.find_by(name: repository_name).nil?
-            repository = client.repository(repository_name)
-            {
-              name:        repository.full_name,
-              description: repository.description,
-              avatar:      repository.owner.avatar_url
-            }
-          end
+      page = 1
+      begin
+        issues = client.search_issues("is:issue involves:#{current_user.name}", { per_page: 100, page: page })
+        involves_issues.concat issues.items
+        page += 1
+      end while(issues.items == 100)
+
+      page = 1
+      begin
+        prs = client.search_issues("is:pr involves:#{current_user.name}", { per_page: 100, page: page })
+        involves_issues.concat prs.items
+        page += 1
+      end while(issues.items == 100)
+
+      repository_urls = involves_issues.map(&:repository_url).uniq
+
+      repository_urls
+        .filter { |repo_url| current_user.registed_repos.find_by(name: repo_url.delete_prefix('https://api.github.com/repos/')).nil? }
+        .map do |repo_url|
+          repo = client.repo(repo_url.delete_prefix('https://api.github.com/repos/'))
+
+          {
+            id: repo.id,
+            name: repo.full_name,
+            description: repo.description,
+            avatar: repo.owner.avatar_url
+          }
         end
-
-      repositories.compact
     end
 end
