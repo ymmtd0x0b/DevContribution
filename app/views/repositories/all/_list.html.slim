@@ -1,0 +1,10 @@
+.sub-section.pt-4
+  h3.text-2xl.font-bold.mb-4
+    = header
+  p
+    = content
+
+  ul.menu-list.pt-2.ml-6
+    - items.each do |item|
+        li.list-disc.py-3
+          = link_to item.title, item.url

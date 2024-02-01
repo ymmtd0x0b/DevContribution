@@ -15,87 +15,12 @@
 
       .deliverable-container
         .bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
-          section.bg-white.pt-3.pb-5.px-4
-            h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
-              | Pull Request
-
-            table.table.table-zebra.border.border-gray-400
-              thead
-                tr.bg-base-300.text-gray-600.border.border-gray-400
-                  th.border.border-gray-400
-                    | Point
-                  th.border.border-gray-400
-                    | Issue
-                  th.border.border-gray-400
-                    | PR
-              tbody
-                - @assigned_issues.each do |assigned_issue|
-                  tr.border.border-gray-400
-                    td.border.border-gray-400
-                      = assigned_issue.point
-                    td.border.border-gray-400
-                      = assigned_issue.title
-                    td.border.border-gray-400
-                      = link_to "##{assigned_issue.pr_url.slice(/\d+$/)}", assigned_issue.pr_url
-                tr
-                  td.border.border-gray-400
-                    = @assigned_issues.sum { |issue| issue.point }
-                  td.border.border-gray-400
-                    | total
-                  td.border.border-gray-400
-
-          section.bg-white.pt-3.pb-5.px-4
-            h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
-              | Review
-
-            table.table.table-zebra.border.border-gray-400
-              thead
-                tr.bg-base-300.text-gray-600.border.border-gray-400
-                  th.border.border-gray-400
-                    | Point
-                  th.border.border-gray-400
-                    | Issue
-                  th.border.border-gray-400
-                    | PR
-              tbody
-                - @reviewed_issues.each do |reviewed_issue|
-                  tr.border.border-gray-400
-                    td.border.border-gray-400
-                      = reviewed_issue.point
-                    td.border.border-gray-400
-                      = link_to reviewed_issue.title, reviewed_issue.url
-                    td.border.border-gray-400
-                      = link_to "##{reviewed_issue.pr_url.slice(/\d+$/)}", reviewed_issue.pr_url
-                tr
-                  td.border.border-gray-400
-                    = @reviewed_issues.sum { |issue| issue.point }
-                  td.border.border-gray-400
-                    | total
-                  td.border.border-gray-400
+          = render 'table', haeder: 'Pull Request', issues: @assigned_issues
+          = render 'table', haeder: 'Review',       issues: @reviewed_issues
 
           section.bg-white.pt-3.pb-5.px-4
             h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
               | その他
-
-            .sub-section.pt-4
-              h3.text-2xl.font-bold.mb-4
-                | Issue
-              p
-                | バグ発見の報告や改善提案を目的として作成した Issue です。
-
-              ul.menu-list.pt-2.ml-6
-                - @created_issues.each do |created_issue|
-                    li.list-disc.py-3
-                      = link_to created_issue.title, created_issue.url
-
-            .sub-section.pt-4
-              h3.text-2xl.font-bold.mb-4
-                | Wiki
-              p
-                | 議事録や作業効率化を目的として作成した Wikiページです。
-
-              ul.menu-list.pt-2.ml-6
-                - @wikis.each do |wiki|
-                    li.list-disc.py-3
-                      = link_to wiki.title, wiki.url
+            = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成した Issue です。', items: @created_issues unless @created_issues.count.zero?
+            = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成した Wikiページです。', items: @wikis unless @wikis.count.zero?
 
