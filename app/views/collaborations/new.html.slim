@@ -1,0 +1,29 @@
+h3.text-center.text-2xl.my-16
+  | リポジトリを追加してください
+
+= form_with model: @collaboration do |f|
+  / TODO
+  / エラー表示の方法を検討する
+  / - if repository.errors.any?
+  /   div.has-text-centered.mb-3 style="color: red"
+  /     h2 = "#{pluralize(repository.errors.count, "error")} prohibited this repository from being saved:"
+  /     ul
+  /       - repository.errors.each do |error|
+  /         li = error.full_message
+  .max-w-3xl.mx-auto.border-2.border-base-600.rounded-md
+    / = f.hidden_field :name, value: ''
+    .flex.flex-col.divide-y-2.divide-base-600
+      - @repositories.each do |repo|
+        = f.label :repository_id, value: repo[:id] do
+          = content_tag :div, class: 'py-5 hover:bg-base-200' do
+            div.flex
+              .radio-2.radio-primary.mx-4
+                = f.radio_button :repository_id, repo[:id]
+              .avatar.w-8.mr-2
+                = image_tag repo[:avatar]
+              = content_tag :p, repo[:name], class: 'text-lg'
+            - if repo[:description]
+              = content_tag :p, repo[:description], class: 'pt-2 pl-16 text-sm'
+
+  .my-4.text-center
+    = f.submit '追加', class: 'btn btn-outline btn-primary px-10 mt-8'

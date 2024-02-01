@@ -4,10 +4,10 @@ class HomeController < ApplicationController
   def index
     if logged_in?
       if current_user.registed_repos.present?
-        redirect_to repository_issues_path(current_user.registed_repos.first) + '?target=assigned' if session[:user_id]
+        redirect_to repository_issues_assign_index_path(current_user.registed_repos.first)
       else
         flash[:error] = 'リポジトリが登録されていません'
-        redirect_to new_repository_path
+        redirect_to new_collaboration_path
       end
     end
   end

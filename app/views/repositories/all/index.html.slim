@@ -86,7 +86,7 @@
               ul.menu-list.pt-2.ml-6
                 - @created_issues.each do |created_issue|
                     li.list-disc.py-3
-                      = created_issue.title
+                      = link_to created_issue.title, created_issue.url
 
             .sub-section.pt-4
               h3.text-2xl.font-bold.mb-4
@@ -97,5 +97,5 @@
               ul.menu-list.pt-2.ml-6
                 - @wikis.each do |wiki|
                     li.list-disc.py-3
-                      = wiki.title
+                      = link_to wiki.title, wiki.url
 

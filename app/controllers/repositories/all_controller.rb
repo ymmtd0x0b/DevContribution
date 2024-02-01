@@ -1,4 +1,4 @@
-class Repositories::DeliverablesController < ApplicationController
+class Repositories::AllController < ApplicationController
   def index
     @repositories = current_user.registed_repos
     @repository = @repositories.find(params[:repository_id])

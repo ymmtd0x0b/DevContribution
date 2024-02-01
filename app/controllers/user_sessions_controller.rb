@@ -4,10 +4,10 @@ class UserSessionsController < ApplicationController
   def create
     user = User.find_or_create_by_github_auth!(request.env['omniauth.auth'])
     if user.registed_repos.present?
-      path = repository_issues_path(user.repositories.first)
+      path = repository_issues_assign_index_path(user.repositories.first)
       message = 'ログインしました'
     else
-      path = new_repository_path
+      path = new_collaboration_path
       message = 'アカウント連携しました'
     end
     session[:user_id] = user.id

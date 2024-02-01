@@ -2,4 +2,25 @@
 
 = render 'repositories/page_tabs', repository: @repository
 
-= render 'repositories/page_body', deliverables: @wikis
+.bg-indigo-50.h-full.pt-5.pb-6
+  .max-w-3xl.mx-auto
+    - if @wikis.count.zero?
+      .text-center.mt-16
+        .sad-mark.text-7xl
+          i.fa-regular.fa-face-sad-tear
+        .not-found.font-medium.text-2xl.pt-4
+          | 成果物が見つかりませんでした
+    - else
+      .w-fit.ml-auto.mb-1.pr-3
+        = page_entries_info @wikis
+      .border-t.border-gray-400
+        - @wikis.each do |wiki|
+          = link_to wiki.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-b border-x border-gray-400 m-0 p-3 hover:bg-slate-100' } do
+            .link.link-hover.text-black.hover:text-blue-700
+              .ml-2.h-fit.text-sm.text-slate-800
+                = wiki.title
+
+.bg-indigo-50.pb-5
+  .w-4/5.mx-auto
+    = paginate @wikis, window: 1, left: 5, outer_window: 1
+
