@@ -45,10 +45,11 @@ class DeliverablesBringer
     refs = {}
     assigned_issue_numbers =
       created_pr_all_pages.map do |pull_request|
-        issue_section = pull_request.body.scan(/[Ii]ssue.+概要/m)[0]
-        linked_issue_urls = issue_section.scan(/http.+\/issues\/\d+|#\d+/)
-        issue_numbers = linked_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }
+        issue_section = pull_request.body&.scan(/[Ii]ssue.+概要/m)&.first
+        linked_issue_urls = issue_section&.scan(/http.+\/issues\/\d+|#\d+/)
+        next if linked_issue_urls.nil?
 
+        issue_numbers = linked_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }
         issue_numbers.each do |issue_number|
           refs[issue_number.to_s] = pull_request.html_url
         end
@@ -110,10 +111,11 @@ class DeliverablesBringer
     refs = {}
     reviewed_issue_numbers =
       reviewed_pull_requests_all_pages.map do |pull_request|
-        issue_section = pull_request.body.scan(/[Ii]ssue.+概要/m)[0]
-        linked_issue_urls = issue_section.scan(/http.+\/issues\/\d+|#\d+/)
-        issue_numbers = linked_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }
+        issue_section = pull_request.body&.scan(/[Ii]ssue.+概要/m)&.first
+        linked_issue_urls = issue_section&.scan(/http.+\/issues\/\d+|#\d+/)
+        nest if linked_issue_urls.nil?
 
+        issue_numbers = linked_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }
         issue_numbers.each do |issue_number|
           refs[issue_number.to_s] = pull_request.html_url
         end
