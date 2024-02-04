@@ -3,7 +3,7 @@ class CollaborationsController < ApplicationController
 
   def new
     @collaboration = Collaboration.new
-    @repositories = contributed_repositries
+    @repositories = Github::Repository.unregisted_list(current_user)
   end
 
   def create
@@ -60,39 +60,5 @@ class CollaborationsController < ApplicationController
   private
     def set_repository
       @repository = Repository.find(params[:id])
-    end
-
-    def contributed_repositries
-      client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-      involves_issues = []
-
-      page = 1
-      begin
-        issues = client.search_issues("is:issue involves:#{current_user.name}", { per_page: 100, page: page })
-        involves_issues.concat issues.items
-        page += 1
-      end while(issues.items == 100)
-
-      page = 1
-      begin
-        prs = client.search_issues("is:pr involves:#{current_user.name}", { per_page: 100, page: page })
-        involves_issues.concat prs.items
-        page += 1
-      end while(issues.items == 100)
-
-      repository_urls = involves_issues.map(&:repository_url).uniq
-
-      repository_urls
-        .filter { |repo_url| current_user.registed_repos.find_by(name: repo_url.delete_prefix('https://api.github.com/repos/')).nil? }
-        .map do |repo_url|
-          repo = client.repo(repo_url.delete_prefix('https://api.github.com/repos/'))
-
-          {
-            id: repo.id,
-            name: repo.full_name,
-            description: repo.description,
-            avatar: repo.owner.avatar_url
-          }
-        end
     end
 end
