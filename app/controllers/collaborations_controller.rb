@@ -8,19 +8,13 @@ class CollaborationsController < ApplicationController
 
   def create
     repository_id = params[:collaboration][:repository_id]
-    if !repository_id.match? /^\d+$/
+    unregisted_list = Github::Repository.unregisted_list(current_user)
+    if unregisted_list.none? { |unregisted_repository| unregisted_repository[:id] == repository_id.to_i }
       redirect_to new_collaboration_path, alert: '無効な選択です。再度、選択してください'
       return
     end
 
-    client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-    repo = client.repo(repository_id.to_i)
-    if repo.nil?
-      redirect_to new_collaboration_path, alert: 'リポジトリが見つかりませんでした。再度、選択してください'
-      return
-    end
-
-    repository = Repository.find_or_create_by_octokit_data!(id: repo.id, name: repo.full_name)
+    repository = Repository.find_or_create_by_api_data!(Github::Repository.get(repository_id))
     collaboration = current_user.collaborations.new(repository:)
     if collaboration.save
       Newspaper.publish(:repository_create, { repository: repository, user: current_user })

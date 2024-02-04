@@ -2,6 +2,10 @@ module Github
   CLIENT = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
   class Repository
     class << self
+      def get(reposiotry_id)
+        CLIENT.repo(reposiotry_id.to_i)
+      end
+
       def unregisted_list(user)
         unregisted_repositories = self.all_collaborated_repository_name_list(user) - user.registed_repositories.pluck(:name)
 
