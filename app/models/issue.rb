@@ -6,6 +6,8 @@ class Issue < ApplicationRecord
   has_many :labels, through: :labelings
   has_many :assigns, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :references, dependent: :destroy
+  has_many :pull_requests, through: :references
 
   paginates_per 30
 

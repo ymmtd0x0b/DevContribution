@@ -3,21 +3,26 @@ class CollaborationsController < ApplicationController
 
   def new
     @collaboration = Collaboration.new
-    @repositories = Github::Repository.unregisted_list(current_user)
+    @repositories = Github::Repository.hash_list_of_not_registed_by(current_user)
   end
 
   def create
     repository_id = params[:collaboration][:repository_id]
-    unregisted_list = Github::Repository.unregisted_list(current_user)
-    if unregisted_list.none? { |unregisted_repository| unregisted_repository[:id] == repository_id.to_i }
+    not_registed_repositories = Github::Repository.hash_list_of_not_registed_by(current_user)
+    if not_registed_repositories.none? { |not_registed_repository| not_registed_repository[:id] == repository_id.to_i }
       redirect_to new_collaboration_path, alert: '無効な選択です。再度、選択してください'
       return
     end
 
-    repository = Repository.find_or_create_by_api_data!(Github::Repository.get(repository_id))
+    repository = Repository.find_or_create_by_api_data!(Github::Repository.find_by(repository_id))
     collaboration = current_user.collaborations.new(repository:)
     if collaboration.save
-      Newspaper.publish(:repository_create, { repository: repository, user: current_user })
+      # Newspaper.publish(:repository_create, { repository: repository, user: current_user })
+      Github::Label.create_all(repository)
+      Github::Issue.save_all_of_created_by(current_user, repository)
+      Github::Issue.save_all_of_assigned_by(current_user, repository)
+      Github::Issue.save_all_of_reviewed_by(current_user, repository)
+      Git::Wiki.save_all(repository, current_user)
       redirect_to repository_issues_assign_index_path(repository), info: 'リポジトリを追加しました'
     else
       redirect_to new_collaboration_path, alert: '登録に失敗しました。再度、選択してください。'

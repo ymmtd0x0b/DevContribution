@@ -5,7 +5,6 @@ class CreateIssues < ActiveRecord::Migration[7.0]
       t.bigint :user_id,       null: false
       t.string :title,         null: false
       t.string :url,           null: false
-      t.string :pr_url
 
       t.timestamps
     end
