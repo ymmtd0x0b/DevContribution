@@ -58,7 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
   create_table "pull_requests", force: :cascade do |t|
     t.bigint "repository_id", null: false
     t.string "url", null: false
-    t.integer "number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

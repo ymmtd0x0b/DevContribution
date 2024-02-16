@@ -13,17 +13,17 @@ h3.text-center.text-2xl.my-16
   .max-w-3xl.mx-auto.border-2.border-base-600.rounded-md
     / = f.hidden_field :name, value: ''
     .flex.flex-col.divide-y-2.divide-base-600
-      - @repositories.each do |repo|
-        = f.label :repository_id, value: repo[:id] do
+      - @repositories.each do |repository|
+        = f.label :repository_id, value: repository.id do
           = content_tag :div, class: 'py-5 hover:bg-base-200' do
             div.flex
               .radio-2.radio-primary.mx-4
-                = f.radio_button :repository_id, repo[:id]
+                = f.radio_button :repository_id, repository.id
               .avatar.w-8.mr-2
-                = image_tag repo[:avatar]
-              = content_tag :p, repo[:name], class: 'text-lg'
-            - if repo[:description]
-              = content_tag :p, repo[:description], class: 'pt-2 pl-16 text-sm'
+                = image_tag repository.avatar
+              = content_tag :p, repository.name, class: 'text-lg'
+            - if repository.description
+              = content_tag :p, repository.description, class: 'pt-2 pl-16 text-sm'
 
   .my-4.text-center
     = f.submit '追加', class: 'btn btn-outline btn-primary px-10 mt-8'
