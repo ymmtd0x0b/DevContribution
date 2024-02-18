@@ -15,8 +15,8 @@
 
       .deliverable-container
         .bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
-          = render 'table', haeder: 'Pull Request', issues: @assigned_issues
-          = render 'table', haeder: 'Review',       issues: @reviewed_issues
+          = render 'table', haeder: 'Pull Request', pull_requests: @assigned_pull_requests
+          = render 'table', haeder: 'Review',       pull_requests: @reviewed_pull_requests
 
           section.bg-white.pt-3.pb-5.px-4
             h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3

@@ -1,9 +1,12 @@
 module Github
   class PullRequest
+    attr_reader :id
+
     def initialize(pull_request, repository)
       @id = pull_request.id
       @repository_id = repository.id
       @url = pull_request.html_url
+      @user_id = pull_request.user.id
 
       @body = pull_request.body
     end
@@ -23,18 +26,24 @@ module Github
     def to_activerecord_attributes
       { id: @id,
         repository_id: @repository_id,
-        url: @url }
+        url: @url,
+        user_id: @user_id }
     end
 
     def reference_issue_numbers
       @issue_numbers ||= scan_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }.uniq
     end
 
-    def to_association_of_labels(issues)
-      reference_issue_numbers.map do |issue_number|
-        issue = issues.find { |issue| issue.number == issue_number.to_i }
-        { issue_id: issue.id, pull_request_id: @id }
-      end
+    def to_association_of_references(issues)
+      references =
+        reference_issue_numbers.map do |issue_number|
+          issue = issues.find { |issue| issue.number == issue_number.to_i }
+          next if issue.nil?
+
+          { issue_id: issue.id, pull_request_id: @id }
+        end
+
+      references.compact
     end
 
     private

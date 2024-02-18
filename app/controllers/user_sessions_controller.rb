@@ -3,7 +3,7 @@ class UserSessionsController < ApplicationController
 
   def create
     user = User.find_or_create_by_github_auth!(request.env['omniauth.auth'])
-    if user.registed_repos.present?
+    if user.registed_repositories.present?
       path = repository_issues_assign_index_path(user.repositories.first)
       message = 'ログインしました'
     else

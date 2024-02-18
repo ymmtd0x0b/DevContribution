@@ -1,7 +1,7 @@
 class Repositories::WikisController < ApplicationController
   def index
-    @repositories = current_user.registed_repos
+    @repositories = current_user.registed_repositories
     @repository = @repositories.find(params[:repository_id])
-    @wikis = @current_user.created_wikis(params[:repository_id]).order(:created_at).page(params[:page])
+    @wikis = @current_user.created_wikis.where(repository_id: @repository.id).order(:created_at).page(params[:page])
   end
 end

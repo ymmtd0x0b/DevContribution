@@ -20,21 +20,21 @@ class Insert
     def reference(pull_requests, issues)
       return nil if (pull_requests.empty? or issues.empty?)
 
-      references_data = pull_requests.map { |pull_request| pull_request.to_association_of_labels(issues) }.flatten
+      references_data = pull_requests.map { |pull_request| pull_request.to_association_of_references(issues) }.flatten
       Reference.insert_all references_data if references_data.present?
     end
 
-    def assign(issues, user)
-      return nil if (issues.empty? or user.nil?)
+    def assign(pull_requests, user)
+      return nil if (pull_requests.empty? or user.nil?)
 
-      assigns_data = issues.map { |issue| { issue_id: issue.id, user_id: user.id } }
+      assigns_data = pull_requests.map { |pull_request| { pull_request_id: pull_request.id, user_id: user.id } }
       Assign.insert_all assigns_data if assigns_data.present?
     end
 
-    def review(issues, user)
-      return nil if (issues.empty? or user.nil?)
+    def review(pull_requests, user)
+      return nil if (pull_requests.empty? or user.nil?)
 
-      reviews_data = issues.map { |issue| { issue_id: issue.id, user_id: user.id } }
+      reviews_data = pull_requests.map { |pull_request| { pull_request_id: pull_request.id, user_id: user.id } }
       Review.insert_all reviews_data if reviews_data.present?
     end
 

@@ -1,6 +1,7 @@
 class Repository < ApplicationRecord
   has_many :collaborations, dependent: :destroy
   has_many :issues, dependent: :destroy
+  has_many :pull_requests, dependent: :destroy
   has_many :wikis,  dependent: :destroy
   has_many :labels, dependent: :destroy
 
