@@ -12,15 +12,10 @@
           | 成果物が見つかりませんでした
     - else
       .w-fit.ml-auto.mb-1.pr-3
-        = page_entries_info @wikis
+        = "全 #{ @wikis.count } 件"
       .border-t.border-gray-400
         - @wikis.each do |wiki|
           = link_to wiki.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-b border-x border-gray-400 m-0 p-3 hover:bg-slate-100' } do
             .link.link-hover.text-black.hover:text-blue-700
               .ml-2.h-fit.text-sm.text-slate-800
                 = wiki.title
-
-.bg-indigo-50.pb-5
-  .w-4/5.mx-auto
-    = paginate @wikis, window: 1, left: 5, outer_window: 1
-

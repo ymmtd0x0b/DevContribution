@@ -10,7 +10,6 @@ gem 'git'
 gem "github_api"
 gem "importmap-rails"
 gem "jbuilder"
-gem 'kaminari'
 gem "newspaper"
 gem "octokit", "~> 5.0"
 gem 'omniauth-github'

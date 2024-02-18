@@ -7,8 +7,6 @@ class Issue < ApplicationRecord
   has_many :references, dependent: :destroy
   has_many :pull_requests, through: :references
 
-  # paginates_per 30
-
   def point
     labels.pluck(:name).map(&:to_i).sum
   end

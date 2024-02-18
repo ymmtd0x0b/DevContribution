@@ -12,7 +12,7 @@
           | 成果物が見つかりませんでした
     - else
       .w-fit.ml-auto.mb-1.pr-3
-        = page_entries_info @issues
+        = "全 #{ @issues.count } 件"
       .border-t.border-gray-400
         - @issues.each do |issue|
           = link_to issue.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-b border-x border-gray-400 m-0 p-3 hover:bg-slate-100' } do
@@ -26,8 +26,4 @@
               - issue.labels.each do |label|
                 .w-fit.text-xs.font-medium.my-auto.mx-2.px-2(style="background-color: ##{label.color};")
                   = label.name
-
-.bg-indigo-50.pb-5
-  .w-4/5.mx-auto
-    = paginate @issues, window: 1, left: 5, outer_window: 1
 
