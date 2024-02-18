@@ -35,15 +35,12 @@ module Github
     end
 
     def to_association_of_references(issues)
-      references =
-        reference_issue_numbers.map do |issue_number|
-          issue = issues.find { |issue| issue.number == issue_number.to_i }
-          next if issue.nil?
+      reference_issue_numbers.filter_map do |issue_number|
+        issue = issues.find { |issue| issue.number == issue_number.to_i }
+        next if issue.nil?
 
-          { issue_id: issue.id, pull_request_id: @id }
-        end
-
-      references.compact
+        { issue_id: issue.id, pull_request_id: @id }
+      end
     end
 
     private

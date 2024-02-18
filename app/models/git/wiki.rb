@@ -25,14 +25,11 @@ module Git
           return [] if response.nil?
 
           git = Git.open tmpdir_path
-          wikis = git.lib.ls_files.filter do |file_name, _|
-                    file_log = git.log.object("#{tmpdir_path}/#{file_name}")
-                    file_log.last.author.name == user.name
-                  end
+          wikis = git.lib.ls_files
 
-          wikis.map do |file_name, _|
+          wikis.filter_map do |file_name, _|
             file_log = git.log.object("#{tmpdir_path}/#{file_name}")
-            Wiki.new(repository, user, file_name, file_log)
+            Wiki.new(repository, user, file_name, file_log) if file_log.last.author.name == user.name
           end
         end
       end
