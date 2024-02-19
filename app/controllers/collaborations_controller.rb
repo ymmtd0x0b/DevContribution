@@ -8,15 +8,10 @@ class CollaborationsController < ApplicationController
 
   def create
     repository_id = params[:collaboration][:repository_id]
-    not_registed_repositories = Github::Repository.not_registed_by(current_user)
-    if not_registed_repositories.none? { |not_registed_repository| not_registed_repository.id == repository_id.to_i }
-      redirect_to new_collaboration_path, alert: '無効な選択です。再度、選択してください'
-      return
-    end
-
-    repository = Repository.find_or_create_by_api_data!(Github::Repository.find_by(id: repository_id))
-    collaboration = current_user.collaborations.new(repository:)
-    if collaboration.save
+    repository_data = Github::Repository.find_by(id: repository_id.to_i)
+    if repository_data
+      repository = Repository.find_or_create_by_api_data!(repository_data)
+      current_user.collaborations.create!(repository:)
       Newspaper.publish(:repository_create, { repository: repository, user: current_user })
       redirect_to repository_issues_assign_index_path(repository), info: 'リポジトリを追加しました'
     else
