@@ -1,4 +1,4 @@
-class LabelCreator
+class LabelRegister
   def call(options = {})
     labels = Github::Label.search(options[:repository])
     return nil if labels.empty?

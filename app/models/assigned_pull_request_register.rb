@@ -1,4 +1,4 @@
-class AssignedPullRequestCreator
+class AssignedPullRequestRegister
   def call(options = {})
     repository = options[:repository]
     user = options[:user]

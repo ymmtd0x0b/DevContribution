@@ -1,4 +1,4 @@
-class CreatedIssueCreator
+class CreatedIssueRegister
   def call(options = {})
     repository = options[:repository]
     user = options[:user]
