@@ -6,5 +6,6 @@ class CreateReferences < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    add_index :references, %i[issue_id pull_request_id], unique: true
   end
 end

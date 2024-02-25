@@ -68,6 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.bigint "pull_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["issue_id", "pull_request_id"], name: "index_references_on_issue_id_and_pull_request_id", unique: true
   end
 
   create_table "repositories", force: :cascade do |t|
