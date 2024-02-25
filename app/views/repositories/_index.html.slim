@@ -8,7 +8,7 @@
 
   #repository-update-button.btn.bg-white.border-gray-300.ml-3
     i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
-    | 最新情報へ更新
+    = link_to '最新情報へ更新', repository_path(repository), data: { turbo_method: :patch, turbo_confirm: '本当に実行しますか？' }
 
   #repository-delete-button.btn.bg-white.border-gray-300.ml-3.hover:bg-error.hover:text-white
     i.fa-solid.fa-minus
@@ -18,3 +18,8 @@
     i.fa-solid.fa-plus
     | 新しいリポジトリを追加
 
+/ # ラベル更新確認用
+.mb-3
+  - repository.labels.each do |label|
+    .ml-3
+      = label.name
