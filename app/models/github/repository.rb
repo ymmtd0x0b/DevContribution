@@ -14,12 +14,22 @@ module Github
         return if !!id and !!name
 
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-
-        if id
-          client.repo(id.to_i) rescue nil
-        else
-          client.repo(name) rescue nil
+        begin
+          repository =
+            if id
+              client.repo(id.to_i)
+            else
+              client.repo(name)
+            end
+          Github::Repository.new(repository)
+        rescue
+          nil
         end
+      end
+
+      def not_registed_by(user)
+        unregisted_repository_name_list = all_involved_repository_name_list_by(user) - user.registed_repositories.pluck(:name)
+        unregisted_repository_name_list.map { |repository_name| Github::Repository.find_by(name: repository_name) }
       end
 
       def labels(repository, option = { page: 1, per_page: 100 })
@@ -37,18 +47,6 @@ module Github
         end while(labels_per_page.count == option[:per_page])
 
         labels
-      end
-
-      def not_registed_by(user)
-        client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-
-        unregisted_repository_name_list =
-          all_involved_repository_name_list_by(user) - user.registed_repositories.pluck(:name)
-
-        unregisted_repository_name_list.map do |repository_name|
-          repository = Github::Repository.find_by(name: repository_name)
-          Github::Repository.new(repository)
-        end
       end
 
       def search_issues(query, option = { page: 1, per_page: 100 })

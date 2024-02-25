@@ -1,7 +1,13 @@
 Rails.configuration.to_prepare do
-  Newspaper.subscribe(:repository_create, LabelRegister.new)
-  Newspaper.subscribe(:repository_create, CreatedIssueRegister.new)
-  Newspaper.subscribe(:repository_create, AssignedPullRequestRegister.new)
-  Newspaper.subscribe(:repository_create, ReviewedPullRequestRegister.new)
-  Newspaper.subscribe(:repository_create, WikiRegister.new)
+  Newspaper.subscribe(:collaboration_create, LabelRegister.new)
+  Newspaper.subscribe(:collaboration_create, CreatedIssueRegister.new)
+  Newspaper.subscribe(:collaboration_create, AssignedPullRequestRegister.new)
+  Newspaper.subscribe(:collaboration_create, ReviewedPullRequestRegister.new)
+  Newspaper.subscribe(:collaboration_create, WikiRegister.new)
+
+  Newspaper.subscribe(:repository_update, LabelUpdater.new)
+  Newspaper.subscribe(:repository_update, CreatedIssueUpdater.new)
+  Newspaper.subscribe(:repository_update, AssignedPullRequestUpdater.new)
+  Newspaper.subscribe(:repository_update, ReviewedPullRequestUpdater.new)
+  Newspaper.subscribe(:repository_update, WikiUpdater.new)
 end

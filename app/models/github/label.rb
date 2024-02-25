@@ -1,5 +1,7 @@
 module Github
   class Label
+    attr_reader :id
+
     def initialize(repository, label)
       @repository_id = repository.id
       @id = label.id

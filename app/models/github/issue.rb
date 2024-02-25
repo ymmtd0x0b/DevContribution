@@ -17,6 +17,12 @@ module Github
       @url.slice(/\d+$/).to_i
     end
 
+    def labels_id
+      return [] if @labels.nil?
+
+      @labels.map(&:id)
+    end
+
     def to_activerecord_attributes
       {
         id: @id,

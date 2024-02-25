@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
   resource :retirement, only: %i[create], controller: 'retirement'
   resources :collaborations, only: %i[new create update destroy]
-  resources :repositories, only: [] do
+  resources :repositories, only: %i[update] do
     scope module: :repositories do
       namespace :issues do
         resources :assign, only: %i[index]
