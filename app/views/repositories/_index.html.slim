@@ -12,14 +12,14 @@
 
   #repository-delete-button.btn.bg-white.border-gray-300.ml-3.hover:bg-error.hover:text-white
     i.fa-solid.fa-minus
-    | 削除
+    = link_to '削除', collaboration_path(current_user.collaborations.find_by(repository_id: repository.id)), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリの登録を解除しますか？' }
 
   = link_to new_collaboration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
     i.fa-solid.fa-plus
     | 新しいリポジトリを追加
 
 / # ラベル更新確認用
-.mb-3
-  - repository.labels.each do |label|
-    .ml-3
-      = label.name
+/ .mb-3
+/   - repository.labels.each do |label|
+/     .ml-3
+/       = label.name

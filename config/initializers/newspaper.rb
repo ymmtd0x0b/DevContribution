@@ -10,4 +10,9 @@ Rails.configuration.to_prepare do
   Newspaper.subscribe(:repository_update, AssignedPullRequestUpdater.new)
   Newspaper.subscribe(:repository_update, ReviewedPullRequestUpdater.new)
   Newspaper.subscribe(:repository_update, WikiUpdater.new)
+
+  Newspaper.subscribe(:collaboration_destroy, CreatedIssueClear.new)
+  Newspaper.subscribe(:collaboration_destroy, AssignedPullRequestClear.new)
+  Newspaper.subscribe(:collaboration_destroy, ReviewedPullRequestClear.new)
+  Newspaper.subscribe(:collaboration_destroy, WikiClear.new)
 end
