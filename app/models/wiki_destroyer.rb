@@ -1,4 +1,4 @@
-class WikiClear
+class WikiDestroyer
   def call(options = {})
     repository = options[:repository]
     user = options[:user]

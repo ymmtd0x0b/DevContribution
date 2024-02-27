@@ -1,4 +1,4 @@
-class CreatedIssueClear
+class CreatedIssueDestroyer
   def call(options = {})
     repository = options[:repository]
     user = options[:user]

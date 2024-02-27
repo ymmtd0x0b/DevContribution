@@ -1,4 +1,4 @@
-class ReviewedPullRequestClear
+class ReviewedPullRequestDestroyer
   def call(options = {})
     repository = options[:repository]
     user = options[:user]

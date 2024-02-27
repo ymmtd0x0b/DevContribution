@@ -1,10 +1,10 @@
-class AssignedPullRequestClear
+class AssignedPullRequestDestroyer
   def call(options = {})
     repository = options[:repository]
     user = options[:user]
 
     assigned_pull_requests_id = user.assigned_pull_requests.where(repository_id: repository.id).pluck(:id)
-    retrun if assigned_pull_requests_id.empty?
+    return if assigned_pull_requests_id.empty?
 
     # 自身が担当したプルリクは誰かがレビューしたプルリクでもあるので
     # ReviewTable から参照されているか否かで削除する対象を変える
