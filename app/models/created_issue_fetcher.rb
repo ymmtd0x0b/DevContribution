@@ -1,4 +1,4 @@
-class CreatedIssueRegister
+class CreatedIssueFetcher
   def call(options = {})
     repository = options[:repository]
     user = options[:user]
@@ -6,6 +6,6 @@ class CreatedIssueRegister
     issues = Github::Issue.created_by(repository, user)
     return if issues.nil?
 
-    Insert.issue(issues)
+    Upsert.issue(issues)
   end
 end

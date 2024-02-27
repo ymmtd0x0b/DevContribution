@@ -1,4 +1,4 @@
-class LabelUpdater
+class LabelFetcher
   def call(options = {})
     repository = options[:repository]
     labels = Github::Label.search(repository)
