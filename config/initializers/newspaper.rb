@@ -11,6 +11,7 @@ Rails.configuration.to_prepare do
   Newspaper.subscribe(:repository_update, ReviewedPullRequestFetcher.new)
   Newspaper.subscribe(:repository_update, WikiFetcher.new)
 
+  Newspaper.subscribe(:collaboration_destroy, RepositoryDestroyer.new)
   Newspaper.subscribe(:collaboration_destroy, CreatedIssueDestroyer.new)
   Newspaper.subscribe(:collaboration_destroy, AssignedPullRequestDestroyer.new)
   Newspaper.subscribe(:collaboration_destroy, ReviewedPullRequestDestroyer.new)
