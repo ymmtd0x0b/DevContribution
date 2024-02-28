@@ -1,7 +1,7 @@
 - content_for :js do
   = javascript_import_module_tag 'clipboard-write'
 
-= render 'repositories/index', repositories: @repositories, repository: @repository
+= render 'repositories/index', repository: @repository, registed_repositories: @registed_repositories, collaboration: @collaboration
 
 = render 'repositories/page_tabs', repository: @repository
 
@@ -13,14 +13,15 @@
           i.fa-regular.fa-copy
           | クリップボードにコピーする
 
-      .deliverable-container
-        .bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
-          = render 'table', haeder: 'Pull Request', pull_requests: @assigned_pull_requests
-          = render 'table', haeder: 'Review',       pull_requests: @reviewed_pull_requests
+      #all-items-table.bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
+        = render 'table', haeder: 'Pull Request', pull_requests: @assigned_pull_requests
+        = render 'table', haeder: 'Review',       pull_requests: @reviewed_pull_requests
 
-          section.bg-white.pt-3.pb-5.px-4
-            h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
-              | その他
+        .bg-white.pt-3.pb-5.px-4
+          h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+            | その他
+          .pt-4
             = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成した Issue です。', items: @created_issues unless @created_issues.count.zero?
+          .pt-4
             = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成した Wikiページです。', items: @wikis unless @wikis.count.zero?
 

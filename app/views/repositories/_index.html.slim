@@ -4,7 +4,7 @@
   = javascript_import_module_tag 'repository-selector'
 
 .flex.flex-row.items-center.py-4.px-3
-  = collection_select :repository, :id, repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
+  = collection_select :repository, :id, registed_repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
 
   #repository-update-button.btn.bg-white.border-gray-300.ml-3
     i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
@@ -12,7 +12,7 @@
 
   #repository-delete-button.btn.bg-white.border-gray-300.ml-3.hover:bg-error.hover:text-white
     i.fa-solid.fa-minus
-    = link_to '削除', collaboration_path(current_user.collaborations.find_by(repository_id: repository.id)), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリの登録を解除しますか？' }
+    = link_to '削除', collaboration_path(collaboration), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリの登録を解除しますか？' }
 
   = link_to new_collaboration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
     i.fa-solid.fa-plus
