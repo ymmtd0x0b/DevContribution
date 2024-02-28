@@ -10,6 +10,6 @@ class WikiFetcher
     wikis = Git::Wiki.created_by(repository, user)
     return nil if wikis.empty?
 
-    Insert.wiki(wikis)
+    Upsert.wiki(wikis)
   end
 end

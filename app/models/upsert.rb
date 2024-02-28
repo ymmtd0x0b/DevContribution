@@ -56,5 +56,12 @@ class Upsert
       labels_data = labels.map(&:to_activerecord_attributes)
       Label.upsert_all labels_data, unique_by: :id
     end
+
+    def wiki(wikis)
+      return nil if wikis.empty?
+
+      wikis_data = wikis.map(&:to_activerecord_attributes)
+      Wiki.upsert_all wikis_data, unique_by: :id
+    end
   end
 end
