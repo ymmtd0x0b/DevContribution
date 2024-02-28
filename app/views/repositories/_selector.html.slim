@@ -1,0 +1,19 @@
+- content_for :js do
+  = javascript_import_module_tag 'repository-update-button'
+  = javascript_import_module_tag 'repository-delete-button'
+  = javascript_import_module_tag 'repository-selector'
+
+.flex.flex-row.items-center.py-4.px-3
+  = collection_select :repository, :id, registed_repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
+
+  = link_to repository_path(repository), data: { turbo_method: :patch, turbo_confirm: '本当に実行しますか？' }, class: 'btn bg-white border-gray-300 ml-3' do
+      i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
+      | 最新情報へ更新
+
+  = link_to collaboration_path(collaboration), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリを登録解除しますか？' }, class: 'btn bg-white border-gray-300 ml-3 hover:bg-error hover:text-white' do
+      i.fa-solid.fa-minus
+      | 削除
+
+  = link_to new_collaboration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
+    i.fa-solid.fa-plus
+    | 新しいリポジトリを追加
