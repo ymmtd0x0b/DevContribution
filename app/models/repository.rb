@@ -5,8 +5,6 @@ class Repository < ApplicationRecord
   has_many :wikis,  dependent: :destroy
   has_many :labels, dependent: :destroy
 
-  has_many :assigns_or_reviews_issues, through: :pull_requests, source: :issues
-
   def self.find_or_create_by_api_data!(api_data)
     id = api_data.id
     name = api_data.name

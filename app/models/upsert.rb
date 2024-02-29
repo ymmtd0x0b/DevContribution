@@ -23,31 +23,31 @@ class Upsert
       Labeling.upsert_all(labelings_data, unique_by: %i[issue_id label_id]) if labelings_data.present?
     end
 
-    def reference(pull_requests, issues)
+    def reference(issues, pull_requests)
       return nil if (pull_requests.empty? or issues.empty?)
 
-      # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを削除する
+      # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを予め削除する
       pull_requests.each do |pull_request|
         ref = Reference.where(pull_request_id: pull_request.id).where.not(issue_id: pull_request.reference_issue_numbers)
         ref.destroy_all unless ref.nil?
       end
 
       references_data = pull_requests.map { |pull_request| pull_request.to_association_of_references(issues) }.flatten
-      Reference.upsert_all references_data, unique_by: %i[issue_id pull_request_id]
+      Reference.upsert_all references_data, unique_by: :issue_id
     end
 
-    def assign(pull_requests, user)
-      return nil if (pull_requests.empty? or user.nil?)
+    def assign(issues, user)
+      return nil if (issues.empty? or user.nil?)
 
-      assigns_data = pull_requests.map { |pull_request| { user_id: user.id, pull_request_id: pull_request.id } }
-      Assign.upsert_all assigns_data, unique_by: %i[user_id pull_request_id]
+      assigns_data = issues.map { |issue| { user_id: user.id, issue_id: issue.id } }
+      Assign.upsert_all assigns_data, unique_by: %i[user_id issue_id]
     end
 
-    def review(pull_requests, user)
-      return nil if (pull_requests.empty? or user.nil?)
+    def review(issues, user)
+      return nil if (issues.empty? or user.nil?)
 
-      reviews_data = pull_requests.map { |pull_request| { user_id: user.id, pull_request_id: pull_request.id } }
-      Review.upsert_all reviews_data, unique_by: %i[user_id pull_request_id]
+      reviews_data = issues.map { |issue| { user_id: user.id, issue_id: issue.id } }
+      Review.upsert_all reviews_data, unique_by: %i[user_id issue_id]
     end
 
     def label(labels)

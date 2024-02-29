@@ -12,11 +12,6 @@ module Github
     end
 
     class << self
-      # def created_by(repository, user)
-      #   pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr author:#{user.name}")
-      #   pull_requests.map { |pull_request| Github::PullRequest.new(pull_request, repository) }
-      # end
-
       def assigned_by(repository, user)
         # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.name} -label:release is:merged")
         pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.name} -label:release") # 確認用

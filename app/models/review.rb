@@ -1,4 +1,4 @@
 class Review < ApplicationRecord
   belongs_to :user
-  belongs_to :pull_request
+  belongs_to :issue
 end

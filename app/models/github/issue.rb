@@ -45,6 +45,11 @@ module Github
         issues.map { |issue| Github::Issue.new(repository, issue) }
       end
 
+      def assigned_by(repository, user)
+        issues = Github::Repository.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}")
+        issues.map { |issue| Github::Issue.new(repository, issue) }
+      end
+
       def search_numbers(repository, numbers)
         issues = Github::Repository.issues_by_number(repository, numbers)
         issues.map { |issue| Github::Issue.new(repository, issue) }
