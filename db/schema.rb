@@ -22,14 +22,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.index ["user_id", "issue_id"], name: "index_assigns_on_user_id_and_issue_id", unique: true
   end
 
-  create_table "collaborations", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "repository_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id", "repository_id"], name: "index_collaborations_on_user_id_and_repository_id", unique: true
-  end
-
   create_table "issues", force: :cascade do |t|
     t.bigint "repository_id", null: false
     t.bigint "user_id", null: false
@@ -83,6 +75,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "issue_id"], name: "index_reviews_on_user_id_and_issue_id", unique: true
+  end
+
+  create_table "solutions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "repository_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "repository_id"], name: "index_solutions_on_user_id_and_repository_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

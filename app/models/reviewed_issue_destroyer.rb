@@ -16,7 +16,7 @@ class ReviewedIssueDestroyer
       # 作成者がこの Issue を参照しない(このサービスやリポジトリを登録していない)場合は削除して問題ない
       not_referenced_issues_id =
         user.reviewed_issues.where(repository_id: repository.id).filter_map do |issue|
-          issue.id if issue.user.nil? or issue.user.collaborations.find_by(repository_id: repository.id).nil?
+          issue.id if issue.user.nil? or issue.user.solutions.find_by(repository_id: repository.id).nil?
         end
       user.reviewed_issues.where(id: not_referenced_issues_id).destroy_all
 
