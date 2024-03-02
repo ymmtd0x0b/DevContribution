@@ -11,32 +11,7 @@ html(data-theme='emerald')
     = javascript_importmap_tags
     = yield :js
   body
-    header
-      .navbar.p-0.drop-shadow
-        .bg-primary.py-2.w-full
-          .flex-1.items-center
-            = link_to 'DevContribution', root_path, class: 'pl-3 font-semibold normal-case text-xl text-white'
-          - if logged_in?
-            .flex-none
-              .dropdown.dropdown-end.pr-3
-                label.btn.btn-ghost.btn-circle.avatar(tabindex='0')
-                  .w-10.rounded-full
-                    = image_tag current_user.image_url
-                ul.mt-1.p-2.shadow-lg.menu.dropdown-content.bg-base-100.rounded-box.w-52.border(tabindex='0' class='z-[1]')
-                  li
-                    = form_tag logout_path, method: :delete, class: 'flex p-0' do
-                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4' do
-                        i.fa-solid.fa-arrow-right-from-bracket.pr-2
-                        | ログアウト
-                  li
-                    = form_tag retirement_path, method: :post, class: 'flex p-0' do
-                      = button_tag class: 'text-left text-lg block w-full py-3 pl-4 text-error', data: { turbo_confirm: '本当に実行してもよろしいですか？' } do
-                        i.fa-solid.fa-trash-can.pr-2
-                        | アカウント削除
-          - else
-            .flex-none
-              = form_tag '/auth/github', method: :post, data: { turbo: false } do
-                = button_tag 'ログイン', class: 'btn btn-ghost normal-case text-lg text-white'
+    = render 'shared/header'
 
     - flash.each do |message_type, message|
       = content_tag :div, message, class: "py-3 text-center bg-#{message_type}"
@@ -44,9 +19,4 @@ html(data-theme='emerald')
     main
       = yield
 
-    footer.footer.footer-center.bg-primary.p-4.text-base-content.gap-y-2
-      nav.grid.grid-flow-col.gap-4
-        = link_to '利用規約', page_path('terms_of_service'), class: 'link link-hover'
-        = link_to 'プライバシーポリシー', page_path('privacy_policy'), class: 'link link-hover'
-      aside
-        p ymmtd0x0b © 2023
+    = render 'shared/footer'

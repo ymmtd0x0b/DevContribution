@@ -4,5 +4,7 @@ class Repositories::WikisController < ApplicationController
     @repository = @registed_repositories.find(params[:repository_id])
     @wikis = current_user.created_wikis.where(repository_id: @repository.id).order(:created_at)
     @registration = current_user.registrations.find_by(repository_id: @repository.id)
+
+    render layout: 'repositories'
   end
 end

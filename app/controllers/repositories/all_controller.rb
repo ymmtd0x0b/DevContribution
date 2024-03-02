@@ -7,5 +7,7 @@ class Repositories::AllController < ApplicationController
     @reviewed_issues = current_user.reviewed_issues.where(repository_id: @repository.id).order(:created_at)
     @created_issues = current_user.created_issues.where(repository_id: @repository.id).order(:created_at)
     @wikis = current_user.created_wikis.where(repository_id: @repository.id).order(:created_at)
+
+    render layout: 'repositories'
   end
 end

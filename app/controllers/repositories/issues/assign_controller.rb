@@ -5,6 +5,6 @@ class Repositories::Issues::AssignController < ApplicationController
     @issues = current_user.assigned_issues.where(repository_id: @repository.id).order(:created_at)
     @registration = current_user.registrations.find_by(repository_id: @repository.id)
 
-    render 'repositories/issues/index'
+    render 'repositories/issues/index', layout: 'repositories'
   end
 end

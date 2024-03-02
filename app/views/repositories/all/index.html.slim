@@ -1,27 +1,19 @@
 - content_for :js do
   = javascript_import_module_tag 'clipboard-write'
 
-= render 'repositories/selector', repository: @repository, registed_repositories: @registed_repositories, registration: @registration
+.w-fit.ml-auto.mb-5
+  .btn.bg-base-100.border.border-stone-400#clipboard_write_button
+    i.fa-regular.fa-copy
+    | クリップボードにコピーする
 
-= render 'repositories/page_tabs', repository: @repository
+#all-items-table.bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
+  = render 'table', haeder: 'Pull Request', issues: @assigned_issues
+  = render 'table', haeder: 'Review',       issues: @reviewed_issues
 
-.page-body
-  .bg-indigo-50.h-full.px-10.pt-5.pb-10.my-0
-    .max-w-4xl.mx-auto.py-3
-      .w-fit.ml-auto.mb-5
-        .btn.bg-base-100.border.border-stone-400#clipboard_write_button
-          i.fa-regular.fa-copy
-          | クリップボードにコピーする
-
-      #all-items-table.bg-neutral-200.border.border-black.py-3.px-2.mx-auto.my-3
-        = render 'table', haeder: 'Pull Request', issues: @assigned_issues
-        = render 'table', haeder: 'Review',       issues: @reviewed_issues
-
-        .bg-white.pt-3.pb-5.px-4
-          h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
-            | その他
-          .pt-4
-            = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成した Issue です。', items: @created_issues unless @created_issues.count.zero?
-          .pt-4
-            = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成した Wikiページです。', items: @wikis unless @wikis.count.zero?
+  - unless @created_issues.count.zero? and @wikis.count.zero?
+    .bg-white.pt-3.pb-5.px-4
+      h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+        | その他
+      = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成した Issue です。', items: @created_issues unless @created_issues.count.zero?
+      = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成した Wikiページです。', items: @wikis unless @wikis.count.zero?
 
