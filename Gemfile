@@ -9,6 +9,7 @@ gem "font-awesome-sass", "~> 6.4.2"
 gem 'git'
 gem "github_api"
 gem "importmap-rails"
+gem 'high_voltage', '~> 3.1'
 gem "jbuilder"
 gem "newspaper"
 gem "octokit", "~> 5.0"
