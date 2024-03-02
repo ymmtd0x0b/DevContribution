@@ -14,11 +14,11 @@ class AssignedIssueDestroyer
     else
       # 参照されていなければ、Issue 自体が削除候補となる
       # 作成者がこの Issue を参照しない(このサービスやリポジトリを登録していない)場合は削除して問題ない
-      not_referenced_issues_id =
+      not_references_issues_id =
         user.assigned_issues.where(repository_id: repository.id).filter_map do |issue|
-          issue.id if issue.user.nil? or issue.user.solutions.find_by(repository_id: repository.id).nil?
+          issue.id if issue.user.nil? or issue.user.registrations.find_by(repository_id: repository.id).nil?
         end
-      user.assigned_issues.where(id: not_referenced_issues_id).destroy_all
+      user.assigned_issues.where(id: not_references_issues_id).destroy_all
 
       # レビューされていない = プルリクは不要なので全て削除する
       user.assigned_pull_requests.where(repository_id: repository.id).destroy_all

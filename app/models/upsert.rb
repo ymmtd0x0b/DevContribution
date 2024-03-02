@@ -23,17 +23,17 @@ class Upsert
       Labeling.upsert_all(labelings_data, unique_by: %i[issue_id label_id]) if labelings_data.present?
     end
 
-    def reference(issues, pull_requests)
+    def solution(issues, pull_requests)
       return nil if (pull_requests.empty? or issues.empty?)
 
       # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを予め削除する
       pull_requests.each do |pull_request|
-        ref = Reference.where(pull_request_id: pull_request.id).where.not(issue_id: pull_request.reference_issue_numbers)
+        ref = Solution.where(pull_request_id: pull_request.id).where.not(issue_id: pull_request.solutions_issue_numbers)
         ref.destroy_all unless ref.nil?
       end
 
-      references_data = pull_requests.map { |pull_request| pull_request.to_association_of_references(issues) }.flatten
-      Reference.upsert_all references_data, unique_by: :issue_id
+      solutions_data = pull_requests.map { |pull_request| pull_request.to_association_of_solutions(issues) }.flatten
+      Solution.upsert_all solutions_data, unique_by: :issue_id
     end
 
     def assign(issues, user)

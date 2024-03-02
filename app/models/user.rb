@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :solutions, dependent: :destroy
-  has_many :registed_repositories, through: :solutions, source: :repository
+  has_many :registrations, dependent: :destroy
+  has_many :registed_repositories, through: :registrations, source: :repository
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :issue
   has_many :assigned_pull_requests, through: :assigned_issues, source: :pull_request

@@ -11,6 +11,6 @@ class AssignedIssueFetcher
     Upsert.issue(issues)
     Upsert.assign(issues, user)
     Upsert.pull_request(pull_requests)
-    Upsert.reference(issues, pull_requests)
+    Upsert.solution(issues, pull_requests)
   end
 end

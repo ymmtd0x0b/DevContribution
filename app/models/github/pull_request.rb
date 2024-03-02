@@ -31,12 +31,12 @@ module Github
         user_id: @user_id }
     end
 
-    def reference_issue_numbers
+    def solutions_issue_numbers
       @issue_numbers ||= scan_issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }.uniq
     end
 
-    def to_association_of_references(issues)
-      reference_issue_numbers.filter_map do |issue_number|
+    def to_association_of_solutions(issues)
+      solutions_issue_numbers.filter_map do |issue_number|
         issue = issues.find { |issue| issue.number == issue_number.to_i }
         next if issue.nil?
 

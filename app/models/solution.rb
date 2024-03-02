@@ -1,4 +1,4 @@
 class Solution < ApplicationRecord
-  belongs_to :user
-  belongs_to :repository
+  belongs_to :issue
+  belongs_to :pull_request
 end

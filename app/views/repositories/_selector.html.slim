@@ -10,10 +10,10 @@
       i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
       | 最新情報へ更新
 
-  = link_to solution_path(solution), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリを登録解除しますか？' }, class: 'btn bg-white border-gray-300 ml-3 hover:bg-error hover:text-white' do
+  = link_to registration_path(registration), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリを登録解除しますか？' }, class: 'btn bg-white border-gray-300 ml-3 hover:bg-error hover:text-white' do
       i.fa-solid.fa-minus
       | 削除
 
-  = link_to new_solution_path, class: 'btn bg-white border border-gray-300 ml-auto' do
+  = link_to new_registration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
     i.fa-solid.fa-plus
     | 新しいリポジトリを追加

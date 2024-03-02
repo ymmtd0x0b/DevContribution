@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'auth/github/callback', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
   resource :retirement, only: %i[create], controller: 'retirement'
-  resources :solutions, only: %i[new create destroy]
+  resources :registrations, only: %i[new create destroy]
   resources :repositories, only: %i[update] do
     scope module: :repositories do
       namespace :issues do

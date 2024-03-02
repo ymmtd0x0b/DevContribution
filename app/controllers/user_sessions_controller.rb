@@ -7,7 +7,7 @@ class UserSessionsController < ApplicationController
       path = repository_issues_assign_index_path(user.registed_repositories.first)
       message = 'ログインしました'
     else
-      path = new_solution_path
+      path = new_registration_path
       message = 'アカウント連携しました'
     end
     session[:user_id] = user.id

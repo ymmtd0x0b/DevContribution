@@ -1,4 +1,4 @@
 class PullRequest < ApplicationRecord
-  has_many :references, dependent: :destroy
-  has_many :issues, through: :references
+  has_many :solutions, dependent: :destroy
+  has_many :issues, through: :solutions
 end

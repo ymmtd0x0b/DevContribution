@@ -7,7 +7,7 @@ class HomeController < ApplicationController
         redirect_to repository_issues_assign_index_path(current_user.registed_repositories.first)
       else
         flash[:error] = 'リポジトリが登録されていません'
-        redirect_to new_solution_path
+        redirect_to new_registration_path
       end
     end
   end
