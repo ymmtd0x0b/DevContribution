@@ -8,8 +8,6 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 
 # not default
 pin 'clipboard-write', preload: true
-pin 'repository-update-button', preload: true
-pin 'repository-delete-button', preload: true
 pin 'repository-selector', preload: true
 
 # node-html-markdown
@@ -26,3 +24,4 @@ pin "he", to: "https://ga.jspm.io/npm:he@1.2.0/he.js"
 pin "node-html-parser", to: "https://ga.jspm.io/npm:node-html-parser@6.1.5/dist/index.js"
 pin "nth-check", to: "https://ga.jspm.io/npm:nth-check@2.1.1/lib/index.js"
 pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/process-production.js"
+pin "sweetalert2", to: "https://ga.jspm.io/npm:sweetalert2@11.10.5/dist/sweetalert2.all.js"

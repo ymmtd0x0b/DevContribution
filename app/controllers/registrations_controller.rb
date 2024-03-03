@@ -10,9 +10,11 @@ class RegistrationsController < ApplicationController
     registration = current_user.registrations.new(repository_id: repository.id)
     if registration.save
       Newspaper.publish(:registration_create, { repository: repository, user: current_user })
-      redirect_to repository_issues_assign_index_path(repository), info: 'リポジトリを追加しました'
+      flash[:success] = 'リポジトリを追加しました'
+      redirect_to repository_issues_assign_index_path(repository)
     else
-      redirect_to new_registration_path, alert: '登録に失敗しました。再度、選択してください。'
+      flash[:error] = '登録に失敗しました。再度、選択してください。'
+      redirect_to new_registration_path
     end
   end
 
@@ -20,9 +22,11 @@ class RegistrationsController < ApplicationController
     registration = current_user.registrations.find(params[:id])
     if registration.destroy
       Newspaper.publish(:registration_destroy, { repository: registration.repository, user: current_user })
-      redirect_to root_path, alert: 'リポジトリの登録解除に成功しました'
+      flash[:success] = 'リポジトリの登録解除に成功しました'
+      redirect_to root_path
     else
-      redirect_to root_path, alert: 'リポジトリの登録解除に失敗しました。再度、選択してください。'
+      flash[:error] = 'リポジトリの登録解除に失敗しました。再度、選択してください。'
+      redirect_to root_path
     end
   end
 end
