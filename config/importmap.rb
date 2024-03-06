@@ -7,7 +7,6 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
 
 # not default
-pin 'clipboard-write', preload: true
 pin 'repository-selector', preload: true
 
 # node-html-markdown
