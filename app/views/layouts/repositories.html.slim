@@ -9,14 +9,13 @@ html(data-theme='emerald')
     = stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload', defer: true
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
-    = javascript_import_module_tag 'repository-selector'
     = yield :js
   body.flex
     = render 'shared/header'
     = render 'shared/toast'
     main.flex-grow
       .flex.flex-row.items-center.py-4.px-3
-        = collection_select :repository, :id, @registed_repositories, :id, :name, {}, class: 'select select-bordered text-lg py-0'
+        = collection_select :repository, :id, @registed_repositories, :id, :name, {}, { class: 'select select-bordered text-lg py-0', data: { controller: 'selector', action: 'selector#change' } }
         = link_to repository_path(@repository), data: { turbo_method: :patch, turbo_confirm: '本当に実行しますか？' }, class: 'btn bg-white border-gray-300 ml-3' do
             i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
             | 最新情報へ更新

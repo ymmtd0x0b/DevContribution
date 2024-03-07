@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { NodeHtmlMarkdown } from "node-html-markdown";
 
-// Connects to data-controller="copy-to-clipboad"
+// Connects to data-controller="copy-to-clipboard"
 export default class extends Controller {
   static targets = [ 'allIssuesTable' ]
 
