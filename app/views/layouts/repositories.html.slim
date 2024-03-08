@@ -12,7 +12,7 @@ html(data-theme='emerald')
     = yield :js
   body.flex
     = render 'shared/header'
-    = render 'shared/toast'
+    = render 'shared/flash'
     main.flex-grow
       .flex.flex-row.items-center.py-4.px-3
         = collection_select :repository, :id, @registed_repositories, :id, :name, {}, { class: 'select select-bordered text-lg py-0', data: { controller: 'selector', action: 'selector#change' } }
