@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { NodeHtmlMarkdown } from "node-html-markdown";
+import { NodeHtmlMarkdown } from "node-html-markdown"
+import toast from '../toast'
 
 // Connects to data-controller="copy-to-clipboard"
 export default class extends Controller {
@@ -18,29 +19,10 @@ export default class extends Controller {
       return;
     }
 
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    })
-
     const markdonwText = NodeHtmlMarkdown.translate(this.allIssuesTableTarget.outerHTML, { bulletMarker: '-' })
     navigator.clipboard.writeText(markdonwText).then(
-      () => {
-        Toast.fire({
-          title: 'コピーに成功しました',
-          icon: 'success'
-        })
-      },
-      () => {
-        Toast.fire({
-          title: 'コピーに失敗しました',
-          icon: 'error',
-          text: 'ページをリロードすると改善するかも知れません'
-        })
-      }
+      () => { toast('コピーしました', 'success') },
+      () => { toast('コピーに失敗しました', 'error') }
     )
   }
 }

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import toast from '../toast'
 
 // Connects to data-controller="toast"
 export default class extends Controller {
@@ -8,14 +9,6 @@ export default class extends Controller {
   }
 
   connect() {
-    Swal.fire({
-      title: this.messageValue,
-      icon: this.messageTypeValue,
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    })
+    toast(this.messageValue, this.messageTypeValue)
   }
 }
