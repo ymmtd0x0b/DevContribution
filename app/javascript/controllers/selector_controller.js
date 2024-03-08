@@ -5,7 +5,7 @@ export default class extends Controller {
   connect() {
   }
 
-  change(e) {
-    Turbo.visit(location.pathname.replace(/repositories\/\d+/, `repositories/${e.target.value}`))
+  change(element) {
+    Turbo.visit(location.pathname.replace(/repositories\/\d+/, `repositories/${element.target.value}`))
   }
 }
