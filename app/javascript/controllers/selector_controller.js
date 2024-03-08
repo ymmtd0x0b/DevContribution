@@ -6,6 +6,6 @@ export default class extends Controller {
   }
 
   change(e) {
-    location.href = location.pathname.replace(/repositories\/\d+/, `repositories/${e.target.value}`)
+    Turbo.visit(location.pathname.replace(/repositories\/\d+/, `repositories/${e.target.value}`))
   }
 }
