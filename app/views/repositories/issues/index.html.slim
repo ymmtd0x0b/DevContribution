@@ -8,16 +8,5 @@
   .w-fit.ml-auto.mb-1.pr-3
     = "全 #{ @issues.count } 件"
   .border-t.border-gray-400
-    - @issues.each do |issue|
-      = link_to issue.url, { target: '_blank', rel: 'noopener noreferrer', class: 'block bg-white border-b border-x border-gray-400 m-0 p-3 hover:bg-slate-100' } do
-        .link.link-hover.text-black.hover:text-blue-700
-          .ml-2.h-fit.text-sm.text-slate-800
-            = issue.title
-        .flex.pt-2
-          .text-center.text-xs.text-slate-500.my-auto
-            p.w-12
-              = "##{File.basename issue.url}"
-          - issue.labels.each do |label|
-            .w-fit.text-xs.font-medium.my-auto.mx-2.px-2(style="background-color: ##{label.color};")
-              = label.name
+    = render partial: 'repositories/issues/issue', collection: @issues
 
