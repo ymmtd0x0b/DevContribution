@@ -11,7 +11,7 @@ class RegistrationsController < ApplicationController
     if registration.save
       Newspaper.publish(:registration_create, { repository: repository, user: current_user })
       flash[:success] = 'リポジトリを追加しました'
-      redirect_to repository_issues_assign_index_path(repository)
+      redirect_to repository_assigned_issues_path(repository)
     else
       flash[:error] = '登録に失敗しました。再度、選択してください。'
       redirect_to new_registration_path

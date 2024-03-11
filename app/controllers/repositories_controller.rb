@@ -4,7 +4,7 @@ class RepositoriesController < ApplicationController
     if repository
       Newspaper.publish(:repository_update, { repository: repository, user: current_user })
       flash[:info] = '更新しました'
-      redirect_to repository_issues_assign_index_path(repository)
+      redirect_to repository_assigned_issues_path(repository)
     else
       flash[:error] = 'リポジトリが見つかりませんでした'
       redirect_to root_path
