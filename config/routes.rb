@@ -7,11 +7,9 @@ Rails.application.routes.draw do
   resources :registrations, only: %i[new create destroy]
   resources :repositories, only: %i[update] do
     scope module: :repositories do
-      namespace :issues do
-        resources :assigns, only: %i[index]
-        resources :reviews, only: %i[index]
-        resources :creates,  only: %i[index]
-      end
+      resources :assigned_issues, only: %i[index]
+      resources :reviewed_issues, only: %i[index]
+      resources :issues,  only: %i[index]
       resources :wikis, only: %i[index]
       resources :all, only: %i[index]
     end
