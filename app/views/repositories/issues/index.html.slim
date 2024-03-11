@@ -1,12 +1,13 @@
-- if @issues.count.zero?
-  .text-center.mt-16
-    .sad-mark.text-7xl
-      i.fa-regular.fa-face-sad-tear
-    .font-medium.text-2xl.pt-4
-      | 成果物が見つかりませんでした
-- else
-  .w-fit.ml-auto.mb-1.pr-3
-    = "全 #{ @issues.count } 件"
-  .border-t.border-gray-400
-    = render partial: 'repositories/issues/issue', collection: @issues
+= render 'repositories/index', registed_repositories: @registed_repositories, repository: @repository, registration: @registration do
+  - if @issues.count.zero?
+    .text-center.mt-16
+      .sad-mark.text-7xl
+        i.fa-regular.fa-face-sad-tear
+      .font-medium.text-2xl.pt-4
+        | 成果物が見つかりませんでした
+  - else
+    .w-fit.ml-auto.mb-1.pr-3
+      = "全 #{ @issues.count } 件"
+    .border-t.border-gray-400
+      = render partial: 'repositories/issues/issue', collection: @issues
 

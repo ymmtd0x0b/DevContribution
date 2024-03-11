@@ -1,0 +1,23 @@
+.flex.flex-row.items-center.py-4.px-3
+  = collection_select :repository, :id, registed_repositories, :id, :name, {}, { class: 'select select-bordered text-lg py-0', data: { controller: 'selector', action: 'selector#change' } }
+  = link_to repository_path(repository), data: { turbo_method: :patch, turbo_confirm: '本当に実行しますか？' }, class: 'btn bg-white border-gray-300 ml-3' do
+      i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
+      | 最新情報へ更新
+  = link_to registration_path(registration), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリを登録解除しますか？' }, class: 'btn bg-white border-gray-300 ml-3 hover:bg-error hover:text-white' do
+      i.fa-solid.fa-minus
+      | 削除
+  = link_to new_registration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
+    i.fa-solid.fa-plus
+    | 新しいリポジトリを追加
+
+= turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
+  .border-b.border-gray-400.mb-0
+    .flex.justify-start
+      = tab_to '担当 Issue',     repository_issues_assigns_path(repository), 'ml-3 mr-2 '
+      = tab_to 'レビュー Issue', repository_issues_reviews_path(repository), 'mr-2'
+      = tab_to '作成 Issue',     repository_issues_creates_path(repository),  'mr-2'
+      = tab_to '作成 Wiki',      repository_wikis_path(repository) , 'mr-2'
+      = tab_to '全て表示',       repository_all_index_path(repository)
+  .bg-indigo-50.pt-5.pb-10.flex-grow
+    .w-5/6.max-w-4xl.mx-auto
+      = yield

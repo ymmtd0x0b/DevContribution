@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   resources :repositories, only: %i[update] do
     scope module: :repositories do
       namespace :issues do
-        resources :assign, only: %i[index]
-        resources :review, only: %i[index]
-        resources :create,  only: %i[index]
+        resources :assigns, only: %i[index]
+        resources :reviews, only: %i[index]
+        resources :creates,  only: %i[index]
       end
       resources :wikis, only: %i[index]
       resources :all, only: %i[index]
