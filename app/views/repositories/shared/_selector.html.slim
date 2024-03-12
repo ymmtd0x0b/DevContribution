@@ -1,0 +1,11 @@
+.flex.flex-row.items-center.py-4.px-3
+  = collection_select :repository, :id, registed_repositories, :id, :name, {}, { class: 'select select-bordered text-lg py-0', data: { controller: 'selector', action: 'selector#change' } }
+  = link_to repository_path(repository), data: { turbo_method: :patch, turbo_confirm: '本当に実行しますか？' }, class: 'btn bg-white border-gray-300 ml-3' do
+      i.fa-solid.fa-arrow-rotate-right.fa-rotate-270
+      | 最新情報へ更新
+  = link_to registration_path(registration), data: { turbo_method: :delete, turbo_confirm: 'このリポジトリを登録解除しますか？' }, class: 'btn bg-white border-gray-300 ml-3 hover:bg-error hover:text-white' do
+      i.fa-solid.fa-minus
+      | 削除
+  = link_to new_registration_path, class: 'btn bg-white border border-gray-300 ml-auto' do
+    i.fa-solid.fa-plus
+    | 新しいリポジトリを追加

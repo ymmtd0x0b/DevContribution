@@ -12,4 +12,8 @@ class Issue < ApplicationRecord
   def point
     labels.pluck(:name).map(&:to_i).sum
   end
+
+  def number
+    File.basename url
+  end
 end
