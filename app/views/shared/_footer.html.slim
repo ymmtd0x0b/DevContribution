@@ -1,6 +1,9 @@
-footer.footer.footer-center.bg-primary.p-4.text-base-content.gap-y-2
-  nav.grid.grid-flow-col.gap-4
-    = link_to '利用規約', page_path('terms_of_service'), class: 'link link-hover'
-    = link_to 'プライバシーポリシー', page_path('privacy_policy'), class: 'link link-hover'
-  aside
-    p ymmtd0x0b © 2023
+footer.bg-green-400
+  .rounded-lg.shadow.dark:bg-gray-800
+    .w-full.max-w-screen-xl.mx-auto.p-4.md:flex.flex-col.gap-y-1.md:items-center
+      ul.flex.flex-wrap.items-center.gap-x-3.mt-3.text-sm.font-medium.text-gray-500.dark:text-gray-400.sm:mt-0
+        li
+          = link_to '利用規約', page_path('terms_of_service'), class: 'link link-hover'
+        li
+          = link_to 'プライバシーポリシー', page_path('privacy_policy'), class: 'link link-hover'
+      p ymmtd0x0b © 2023
