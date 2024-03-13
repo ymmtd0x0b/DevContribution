@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "flowbite": "^2.3.0",
     "node-html-markdown": "^1.3.0"
   },
   "devDependencies": {

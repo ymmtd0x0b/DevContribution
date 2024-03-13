@@ -1,26 +1,24 @@
 header
-  .navbar.p-0.drop-shadow
-    .bg-primary.py-2.w-full
-      .flex-1.items-center
-        = link_to 'DevContribution', root_path, class: 'pl-3 font-semibold normal-case text-xl text-white'
-      - if logged_in?
-        .flex-none
-          .dropdown.dropdown-end.pr-3
-            label.btn.btn-ghost.btn-circle.avatar(tabindex='0')
-              .w-10.rounded-full
-                = image_tag current_user.image_url
-            ul.mt-1.p-2.shadow-lg.menu.dropdown-content.bg-base-100.rounded-box.w-52.border(tabindex='0' class='z-[1]')
-              li
-                = form_tag logout_path, method: :delete, class: 'flex p-0' do
-                  = button_tag class: 'text-left text-lg block w-full py-3 pl-4' do
-                    i.fa-solid.fa-arrow-right-from-bracket.pr-2
-                    | ログアウト
-              li
-                = form_tag retirement_path, method: :post, class: 'flex p-0' do
-                  = button_tag class: 'text-left text-lg block w-full py-3 pl-4 text-error', data: { turbo_confirm: '本当に実行してもよろしいですか？' } do
-                    i.fa-solid.fa-trash-can.pr-2
-                    | アカウント削除
-      - else
-        .flex-none
+  nav.bg-green-400.border-gray-200.px-4.lg:px-6.py-2.5.dark:bg-gray-800
+    .flex.flex-wrap.justify-between.items-center.mx-auto.max-w-screen-xl
+      = link_to root_path, class: 'flex items-center text-white' do
+        span.self-center.text-xl.font-semibold.whitespace-nowrap.dark:text-white
+          | DevContribution
+      .flex.items-center.lg:order-2
+        - if logged_in?
+          button#dropdownUserAvatarButton(data-dropdown-toggle='dropdownAvatarName' class='flex items-center text-sm pe-1 font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:me-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white')
+            = image_tag current_user.image_url, class: 'w-8 h-8 me-2 rounded-full'
+            = current_user.name
+            = icon('drop_down')
+          #dropdownAvatarName.z-10.hidden.bg-gray-50.divide-y.divide-gray-100.rounded-lg.shadow.w-52.dark:bg-gray-700.dark:divide-gray-600
+            .py-2
+              = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' }, class: 'block bg-red-300 px-4 py-2 text-sm text-gray-700 hover:bg-red-400 dark:hover:bg-gray-600 dark:hover:text-white' do
+                i.fa-solid.fa-trash-can.pr-2
+                | アカウントの連携を解除
+            .py-2
+              = link_to logout_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white' do
+                i.fa-solid.fa-arrow-right-from-bracket.pr-2
+                | ログアウト
+        - else
           = form_tag '/auth/github', method: :post, data: { turbo: false } do
-            = button_tag 'ログイン', class: 'btn btn-ghost normal-case text-lg text-white'
+            = button_tag 'ログイン', class: 'text-gray-800 bg-gray-50 dark:text-white hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800'
