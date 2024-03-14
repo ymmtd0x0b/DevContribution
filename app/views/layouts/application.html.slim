@@ -10,7 +10,7 @@ html(data-theme='emerald')
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
     = yield :js
-  body.flex
+  body.flex.bg-gray-50
     = render 'shared/header'
     = render 'shared/flash'
     main.flex-grow
