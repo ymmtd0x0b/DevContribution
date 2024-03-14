@@ -1,6 +1,12 @@
-.flex.justify-start.border-b.border-gray-400.mb-0
-  = tab_to '担当 Issue',     repository_assigned_issues_path(repository), 'ml-3 mr-2 '
-  = tab_to 'レビュー Issue', repository_reviewed_issues_path(repository), 'mr-2'
-  = tab_to '作成 Issue',     repository_issues_path(repository),  'mr-2'
-  = tab_to '作成 Wiki',      repository_wikis_path(repository) , 'mr-2'
-  = tab_to '全て表示',       repository_all_index_path(repository)
+.text-sm.font-medium.text-center.text-gray-500.border-b.border-gray-200.dark:text-gray-400.dark:border-gray-700.w-full.mx-auto.max-w-screen-xl
+  ul.flex.flex-wrap.-mb-px
+    li.me-2
+      = tab_to '担当 Issue', repository_assigned_issues_path(repository)
+    li.me-2
+      = tab_to 'レビュー Issue', repository_reviewed_issues_path(repository)
+    li.me-2
+      = tab_to '作成 Issue', repository_issues_path(repository)
+    li.me-2
+      = tab_to '作成 Wiki', repository_wikis_path(repository)
+    li.me-2
+      = tab_to '全て表示', repository_all_index_path(repository)
