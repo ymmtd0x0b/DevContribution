@@ -1,28 +1,31 @@
-section.bg-white.pt-3.pb-5.px-4
-  h2.text-2xl.font-bold.border-b.border-gray-400.pb-2.mb-3
+/ section.bg-white.pt-3.pb-5.px-4
+/ .container.pt-3.pb-5.px-4
+.mb-10
+  h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
     = haeder
 
-  table.table.table-zebra.border.border-gray-400
-    thead
-      tr.bg-base-300.text-gray-600.border.border-gray-400
-        th.border.border-gray-400
-          | Point
-        th.border.border-gray-400
-          | Issue
-        th.border.border-gray-400
-          | PR
-    tbody
-      - issues.each do |issue|
-        tr.border.border-gray-400
-          td.border.border-gray-400
-            = issue.point
-          td.border.border-gray-400
-            = link_to issue.title, issue.url
-          td.border.border-gray-400
-            = link_to "##{issue.pull_request.url.slice(/\d+$/)}", issue.pull_request.url if issue.pull_request
-      tr
-        td.border.border-gray-400
-          = issues.sum(&:point)
-        td.border.border-gray-400
-          | total
-        td.border.border-gray-400
+  .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
+    table.w-full.text-sm.text-left.rtl:text-right.text-gray-500.dark:text-gray-400
+      thead.text-xs.text-gray-700.bg-gray-50.dark:bg-gray-700.dark:text-gray-400
+        tr.odd:bg-slate-200.odd:dark:bg-gray-900.even:bg-gray-50.even:dark:bg-gray-800.border-b.dark:border-gray-700
+          th.px-6.py-3(col='col')
+            | Point
+          th.px-6.py-3(col='col')
+            | Issue
+          th.px-6.py-3(col='col')
+            | PR
+      tbody
+        - issues.each do |issue|
+          tr.odd:bg-white.text-gray-800.odd:dark:bg-gray-900.even:bg-gray-100.even:dark:bg-gray-800.border-b.dark:border-gray-700
+            td.px-6.py-3.text-center
+              = issue.point
+            td.px-6.py-3
+              = link_to issue.title, issue.url, class: 'hover:text-blue-600'
+            td.px-6.py-3
+              = link_to "##{issue.pull_request.url.slice(/\d+$/)}", issue.pull_request.url, class: 'hover:text-blue-600' if issue.pull_request
+        tr.odd:bg-white.text-gray-800.odd:dark:bg-gray-900.even:bg-gray-50.even:dark:bg-gray-800.border-b.dark:border-gray-700
+          td.px-6.py-3
+            = issues.sum(&:point)
+          td.px-6.py-3
+            | total
+          td.px-6.py-3
