@@ -1,8 +1,16 @@
-= render 'repositories/index', registed_repositories: @registed_repositories, repository: @repository, registration: @registration do
-  - if @wikis.count.zero?
-    = render 'repositories/shared/nothing'
-  - else
-    .w-fit.ml-auto.mb-1.pr-3
-      = "全 #{ @wikis.count } 件"
-    .border-t.border-gray-400
-      = render @wikis
+= render 'repositories/shared/selector', registed_repositories: @registed_repositories, repository: @repository, registration: @registration
+
+= turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
+  = render 'repositories/shared/tabs', repository: @repository
+  .bg-indigo-50.pt-5.pb-10.flex-grow
+    .px-10.mx-auto.max-w-screen-xl
+      - if @wikis.count.zero?
+        = render 'repositories/shared/nothing'
+      - else
+        .mt-2.relative.overflow-x-auto.shadow-md.sm:rounded-lgrelative.overflow-x-auto.shadow-md.sm:rounded-lg
+          .w-full.text-sm.text-left.rtl:text-right.text-gray-500.dark:text-gray-400
+            .text-xs.text-gray-700.bg-gray-200.dark:bg-gray-700.dark:text-gray-400
+              .px-6.py-3
+                = "#{@wikis.count} wikis"
+            = render @wikis
+
