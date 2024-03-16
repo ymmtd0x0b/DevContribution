@@ -1,10 +1,10 @@
 .pt-4.ml-4
-  h3.text-2xl.font-bold.mb-4
+  h3.text-2xl.text-slate-700.font-bold.mb-4
     = header
-  p
+  p.text-gray-800
     = content
 
   ul.menu-list.pt-2.ml-6
     - items.each do |item|
-        li.list-disc.w-fit.py-3.hover:text-blue-600
+        li.list-disc.w-fit.py-3.text-gray-800.hover:text-blue-600
           = link_to item.title, item.url

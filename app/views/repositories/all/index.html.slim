@@ -4,7 +4,7 @@
   = render 'repositories/shared/tabs', repository: @repository
   .bg-gray-50.pt-5.pb-10.flex-grow
     .px-7.mx-auto.max-w-screen-xl(data-controller='clipboard')
-      button.fixed.z-40.bottom-10.right-10.px-4.text-white.bg-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.w-full.sm:w-auto.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800.items-center.inline-flex.justify-center(data-action='clipboard#copy' data-tooltip-target="tooltip-default")
+      button.fixed.z-40.bottom-24.right-80.px-4.text-white.bg-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.w-full.sm:w-auto.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800.items-center.inline-flex.justify-center(data-action='clipboard#copy' data-tooltip-target="tooltip-default")
         span#default-message.inline-flex.items-center(data-clipboard-target='defaultMessage')
           i.fa-regular.fa-clipboard.mr-2
           | Copy
@@ -16,13 +16,12 @@
         | クリップボードへコピーします
         .tooltip-arrow(data-popper-arrow)
 
-      .w-full(data-clipboard-target='allIssuesTable')
+      .max-w-screen-lg.w-full(data-clipboard-target='allIssuesTable')
         = render 'table', haeder: 'Pull Request', issues: @assigned_issues
         = render 'table', haeder: 'Review',       issues: @reviewed_issues
 
         - unless @created_issues.count.zero? and @wikis.count.zero?
-          / .bg-white.pt-3.pb-5.px-4
-          h2.text-2xl.font-bold.border-b.border-gray-400.pt-4.pb-2.mb-3
+          h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
             | その他
           = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @created_issues unless @created_issues.count.zero?
           = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis unless @wikis.count.zero?
