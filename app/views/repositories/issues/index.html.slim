@@ -3,7 +3,7 @@
 = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
   = render 'repositories/shared/tabs', repository: @repository
   .bg-indigo-50.pt-5.pb-10.flex-grow
-    .px-10.mx-auto.max-w-screen-xl
+    .px-10.mx-auto.max-w-screen-lg
       - if @issues.count.zero?
         = render 'repositories/shared/nothing'
       - else
