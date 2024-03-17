@@ -2,15 +2,14 @@
 
 = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
   = render 'repositories/shared/tabs', repository: @repository
-  .bg-indigo-50.pt-5.pb-10.flex-grow
+  .bg-gray-50.pt-5.pb-10.flex-grow
     .px-10.mx-auto.max-w-screen-lg
       - if @wikis.count.zero?
         = render 'repositories/shared/nothing'
       - else
-        .mt-2.relative.overflow-x-auto.shadow-md.sm:rounded-lgrelative.overflow-x-auto.shadow-md.sm:rounded-lg
+        .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
           .w-full.text-sm.text-left.rtl:text-right.text-gray-500.dark:text-gray-400
-            .text-xs.text-gray-700.bg-gray-200.dark:bg-gray-700.dark:text-gray-400
-              .px-6.py-3
-                = "#{@wikis.count} wikis"
+            .px-6.py-3.text-gray-700.font-semibold.bg-slate-200.dark:bg-gray-900.border-b.dark:border-gray-700
+                = "Total #{@wikis.count}"
             = render @wikis
 
