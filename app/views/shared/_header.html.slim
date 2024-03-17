@@ -10,13 +10,13 @@ header
             = image_tag current_user.image_url, class: 'w-8 h-8 me-2 rounded-full'
             = current_user.name
             = icon('drop_down', { class: 'w-2.5 h-2.5 ms-3' })
-          #dropdownAvatarName.z-10.hidden.bg-gray-50.divide-y.divide-gray-100.rounded-lg.shadow.w-52.dark:bg-gray-700.dark:divide-gray-600
+          #dropdownAvatarName.z-10.hidden.bg-gray-500.text-gray-50.font-semibold.divide-y.divide-gray-100.rounded-lg.shadow.w-52.dark:bg-gray-700.dark:divide-gray-600
             .py-2
-              = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' }, class: 'block bg-red-300 px-4 py-2 text-sm text-gray-700 hover:bg-red-400 dark:hover:bg-gray-600 dark:hover:text-white' do
+              = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' }, class: 'block px-4 py-2 text-sm hover:bg-red-500 dark:hover:bg-gray-600 dark:hover:text-white' do
                 i.fa-solid.fa-trash-can.pr-2
-                | アカウントの連携を解除
+                | アカウントを削除
             .py-2
-              = link_to logout_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white' do
+              = link_to logout_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm hover:bg-gray-400 dark:hover:bg-gray-600 dark:hover:text-white' do
                 i.fa-solid.fa-arrow-right-from-bracket.pr-2
                 | ログアウト
         - else
