@@ -1,10 +1,11 @@
-.pt-4.ml-4
-  h3.text-2xl.text-slate-700.font-bold.mb-4
-    = header
-  p.text-gray-800
-    = content
+.pt-2.ml-4.mb-5
+  .mb-3
+    h3.text-2xl.text-slate-600.font-semibold.mb-2
+      = header
+    p.text-slate-700
+      = content
 
-  ul.menu-list.pt-2.ml-6
+  ul.ml-2.space-y-2.text-gray-800.list-disc.list-inside.dark:text-gray-400
     - items.each do |item|
-        li.list-disc.w-fit.py-3.text-gray-800.hover:text-blue-600
-          = link_to item.title, item.url
+        li
+          = link_to item.title, item.url, class: 'hover:text-blue-600'
