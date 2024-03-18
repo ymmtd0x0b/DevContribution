@@ -1,9 +1,9 @@
-.bg-white.border-b.dark:bg-gray-800.dark:border-gray-700.hover:bg-gray-50.dark:hover:bg-gray-600
-  .px-6.py-4.font-medium.text-gray-900.dark:text-white
+.bg-white.border-b.dark:bg-gray-800.dark:border-gray-700.hover:bg-gray-100.dark:hover:bg-gray-600
+  .px-6.py-3.font-bold.text-slate-700.dark:text-white
     = link_to issue.url, { class: 'block w-fit hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' } do
       = issue.title
     .flex.pt-2
-      .text-center.text-xs.text-slate-500.my-auto
+      .mr-2.text-center.text-sm.font-medium.text-slate-500.my-auto
         p.w-12
           = "##{issue.number}"
       = render issue.labels

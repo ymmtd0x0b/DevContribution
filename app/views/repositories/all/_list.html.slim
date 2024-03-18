@@ -2,10 +2,10 @@
   .mb-3
     h3.text-2xl.text-slate-600.font-semibold.mb-2
       = header
-    p.text-slate-700
+    p.font-medium.text-slate-700
       = content
 
-  ul.ml-2.space-y-2.text-gray-800.list-disc.list-inside.dark:text-gray-400
+  ul.ml-2.space-y-2.font-semibold.text-slate-700.list-disc.list-inside.dark:text-gray-400
     - items.each do |item|
         li
           = link_to item.title, item.url, class: 'hover:text-blue-600'
