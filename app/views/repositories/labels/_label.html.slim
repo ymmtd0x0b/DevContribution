@@ -2,5 +2,5 @@ ruby:
   border_color = "##{label.color}".paint.darken(5)
   font_color = "##{label.color}".paint.dark? ? "#FFFFFF" :"#333333"
 
-.flex.items-center.text-xs.font-medium.me-2.px-2.py-px.rounded-full.dark:bg-blue-900.dark:text-blue-300(style="background-color: ##{label.color}; color: #{font_color}; border: 1px solid #{border_color}")
+.flex.items-center.text-xs.font-semibold.me-2.px-2.py-px.rounded-full.dark:bg-blue-900.dark:text-blue-300(style="background-color: ##{label.color}; color: #{font_color}; border: 1px solid #{border_color}")
   = label.name
