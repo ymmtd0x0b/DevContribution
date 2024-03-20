@@ -6,6 +6,7 @@ export default class extends Controller {
   }
 
   change(element) {
-    Turbo.visit(location.pathname.replace(/repositories\/\d+/, `repositories/${element.target.value}`))
+    const frameTarget = document.querySelector('turbo-frame#main')
+    frameTarget.src = location.pathname.replace(/repositories\/\d+/, `repositories/${element.target.value}`)
   }
 }
