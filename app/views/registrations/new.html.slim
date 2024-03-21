@@ -1,11 +1,10 @@
 = turbo_frame_tag 'main' do
   = turbo_frame_tag 'form', src: lazy_registrations_new_path do
+
+    div(data-controller='loading-modal' data-loading-modal-status-value="loading")
+
     h3.text-center.text-2xl.text-slate-700.my-16.animate-pulse(role='status')
-      = icon('search', class: 'w-6 h-6 text-slate-800 inline')
-      | リポジトリを探しています
-      br
-      | しばらくお待ちください...
-      = icon('spinner_indicator', class: 'inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600')
+      | リポジトリ選択して追加してください
 
     .max-w-3xl.mx-auto.border-2.border-base-600.rounded-md
       .flex.flex-col.divide-y-2.divide-base-600.animate-pulse(role='status')
@@ -20,4 +19,4 @@
               .ml-16.h-3.5.bg-gray-400.rounded-full.w-48
 
     .my-4.text-center
-      = button_to '追加', '#', { disabled: true, class: 'text-gray-50 bg-blue-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center' }
+      = button_to '追加', '#', { disabled: true, class: 'text-gray-50 bg-gray-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center' }
