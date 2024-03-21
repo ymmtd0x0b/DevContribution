@@ -1,21 +1,23 @@
-= turbo_frame_tag 'main', data: { turbo_action: :advance } do
-  h3.text-center.text-2xl.my-16
-    | リポジトリを追加してください
+= turbo_frame_tag 'main' do
+  = turbo_frame_tag 'form', src: lazy_registrations_new_path do
+    h3.text-center.text-2xl.text-slate-700.my-16.animate-pulse(role='status')
+      = icon('search', class: 'w-6 h-6 text-slate-800 inline')
+      | リポジトリを探しています
+      br
+      | しばらくお待ちください...
+      = icon('spinner_indicator', class: 'inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600')
 
-  = form_with model: @registration do |f|
     .max-w-3xl.mx-auto.border-2.border-base-600.rounded-md
-      .flex.flex-col.divide-y-2.divide-base-600
-        - @repositories.each do |repository|
-          = f.label :repository_id, value: repository.id do
-            = content_tag :div, class: 'py-5 hover:bg-base-200' do
-              div.flex
-                .radio-2.radio-primary.mx-4
-                  = f.radio_button :repository_id, repository.id
-                .avatar.w-8.mr-2
-                  = image_tag repository.avatar
-                = content_tag :p, repository.name, class: 'text-lg'
-              - if repository.description
-                = content_tag :p, repository.description, class: 'pt-2 pl-16 text-sm'
+      .flex.flex-col.divide-y-2.divide-base-600.animate-pulse(role='status')
+        - (1..5).each do
+          .py-5.hover:bg-base-200
+            .flex.items-center
+              input.block.mx-4(type='radio' disabled)
+              .avatar.w-8.mr-2
+                = icon('skelton_icon', class: 'w-7 h-7 text-gray-400 me-4')
+              .h-3.5.bg-gray-400.rounded-full.w-48
+            .h-7.flex.items-end
+              .ml-16.h-3.5.bg-gray-400.rounded-full.w-48
 
     .my-4.text-center
-      = f.submit '追加', disabled: true, class: 'h-9 items-center text-gray-50 bg-blue-600 border border-blue-700 text-gray-50 dark:text-gray-50 hover:bg-blue-800 focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-4 lg:px-5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800'
+      = button_to '追加', '#', { disabled: true, class: 'text-gray-50 bg-blue-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center' }

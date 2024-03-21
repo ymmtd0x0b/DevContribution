@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :lazy do
+    get 'registrations/new'
+  end
   root to: 'home#index'
   get '/pages/*id', to: 'pages#show', as: :page, format: false
   get 'auth/github/callback', to: 'user_sessions#create'
