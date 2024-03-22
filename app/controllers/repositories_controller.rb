@@ -1,12 +1,15 @@
 class RepositoriesController < ApplicationController
+  include Settable
+  before_action :set_repository, only: %i[update]
+
   def update
-    repository = Repository.find_by(id: params[:id])
-    if repository
-      Newspaper.publish(:repository_update, { repository: repository, user: current_user })
-      flash[:info] = '更新しました'
-      redirect_to repository_assigned_issues_path(repository)
+    newest_repository = Github::Repository.find_by(id: @repository.id)
+    if @repository.update(name: newest_repository.name)
+      # Newspaper.publish(:repository_update, { repository: repository, user: current_user })
+      flash[:info] = '更新に成功しました'
+      redirect_to user_assigned_issues_path(current_user)
     else
-      flash[:error] = 'リポジトリが見つかりませんでした'
+      flash[:error] = '更新に失敗しました'
       redirect_to root_path
     end
   end

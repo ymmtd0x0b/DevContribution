@@ -4,14 +4,13 @@ class UserSessionsController < ApplicationController
   def create
     user = User.find_or_create_by_github_auth!(request.env['omniauth.auth'])
     if user.registed_repositories.present?
-      path = repository_assigned_issues_path(user.registed_repositories.first)
       flash[:info] = 'ログインしました'
     else
-      path = new_registration_path
       flash[:success] = 'アカウント連携しました'
+      Newspaper.publish(:user_create, user)
     end
     session[:user_id] = user.id
-    redirect_to path
+    redirect_to user_assigned_issues_path(user)
   end
 
   def destroy

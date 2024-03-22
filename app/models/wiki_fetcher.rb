@@ -1,7 +1,6 @@
 class WikiFetcher
-  def call(options = {})
-    repository = options[:repository]
-    user = options[:user]
+  def call(user)
+    repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
 
     # Wiki は API が提供されていない都合上、取得したデータと保存済みデータを
     # 照合できないので、一旦全削除して取得したデータ再登録する

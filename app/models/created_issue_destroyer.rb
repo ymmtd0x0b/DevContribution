@@ -1,7 +1,6 @@
 class CreatedIssueDestroyer
-  def call(options = {})
+  def call(user)
     repository = options[:repository]
-    user = options[:user]
 
     issues_id = user.created_issues.where(repository_id: repository.id).map(&:id)
     return if issues_id.empty?

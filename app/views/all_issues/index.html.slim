@@ -1,8 +1,8 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
-  = render 'repositories/shared/selector', registed_repositories: @registed_repositories, repository: @repository, registration: @registration
+  = render 'shared/selector', registed_repositories: @registed_repositories, repository: @repository, registration: @registration
 
   = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
-    = render 'repositories/shared/tabs', repository: @repository
+    = render 'shared/tabs', repository: @repository
     .bg-gray-50.pt-5.pb-10.flex-grow
       .px-7.mx-auto.max-w-screen-lg(data-controller='clipboard')
         button.block.ml-auto.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.w-full.sm:w-auto.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800.items-center.justify-center(data-action='clipboard#copy' data-tooltip-target="tooltip-default")

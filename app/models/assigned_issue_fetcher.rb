@@ -1,7 +1,6 @@
 class AssignedIssueFetcher
-  def call(options = {})
-    repository = options[:repository]
-    user = options[:user]
+  def call(user)
+    repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
 
     issues = Github::Issue.assigned_by(repository, user)
     return nil if issues.empty?

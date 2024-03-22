@@ -1,6 +1,6 @@
 class LabelFetcher
-  def call(options = {})
-    repository = options[:repository]
+  def call(user)
+    repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
     labels = Github::Label.search(repository)
 
     labels_id = labels.map(&:id)

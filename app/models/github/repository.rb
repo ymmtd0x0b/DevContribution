@@ -1,11 +1,10 @@
 module Github
   class Repository
-    attr_reader :id, :name, :description, :avatar
+    attr_reader :id, :name, :avatar
 
     def initialize(repository)
       @id = repository.id
       @name = repository.full_name
-      @description = repository.description
       @avatar = repository.owner.avatar_url
     end
 

@@ -1,7 +1,6 @@
 class ReviewedIssueFetcher
-  def call(options = {})
-    repository = options[:repository]
-    user = options[:user]
+  def call(user)
+    repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
 
     pull_requests = Github::PullRequest.reviewed_by(repository, user)
     return nil if pull_requests.empty?

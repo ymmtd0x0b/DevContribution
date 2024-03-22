@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
 
   create_table "repositories", force: :cascade do |t|
     t.string "name", null: false
+    t.string "avatar", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

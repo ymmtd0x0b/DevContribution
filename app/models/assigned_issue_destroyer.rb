@@ -1,7 +1,6 @@
 class AssignedIssueDestroyer
-  def call(options = {})
+  def call(user)
     repository = options[:repository]
-    user = options[:user]
 
     assigned_issues_id = user.assigned_issues.where(repository_id: repository.id).pluck(:id)
     return if assigned_issues_id.empty?
