@@ -10,7 +10,7 @@ export default class extends Controller {
   connect() {
     if(this.statusValue == 'loading') {
       Swal.fire({
-        title: 'リポジトリを探しています<br>しばらくお待ちください...',
+        title: 'Issueを取得しています<br>しばらくお待ちください...',
         allowEscapeKey: false,
         allowOutsideClick: false,
         showConfirmButton: false,

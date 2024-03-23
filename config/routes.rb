@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :all_issues, only: %i[index]
   end
   namespace :lazy do
-    get 'registrations/new'
+    get 'first_login', to: 'first_login#show'
   end
+  get 'first_login', to: 'first_login#show'
 end

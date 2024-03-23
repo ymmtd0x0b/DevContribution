@@ -1,5 +1,5 @@
 .flex.gap-x-3.py-4.px-4.w-full.mx-auto.max-w-screen-lg
-  .flex.items-end
+  .flex.items-center
     = image_tag(repository.avatar, class: 'w-8 h-8 rounded-full') if repository.avatar
     .flex.gap-2.ml-1.mr-3.py-1.px-2.text-lg.font-semibold.text-slate-700.bg-transparent.border-0.border-b-2.border-blue-400
       = @repository.name
