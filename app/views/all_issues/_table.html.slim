@@ -3,9 +3,9 @@
     = header
 
   .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
-    table.w-full.text-sm.text-left.rtl:text-right.text-gray-500.dark:text-gray-400
-      thead.text-gray-50.bg-gray-50.dark:bg-gray-700.dark:text-gray-400
-        tr.odd:bg-slate-700.odd:dark:bg-gray-900.even:bg-gray-50.even:dark:bg-gray-800.border-b.dark:border-gray-700
+    table.w-full.text-sm.text-left.rtl:text-right.text-gray-500
+      thead.text-gray-50.bg-gray-50
+        tr.odd:bg-slate-700.even:bg-gray-50.border-b
           th.px-6.py-3(col='col')
             | Point
           th.px-6.py-3(col='col')
@@ -14,7 +14,7 @@
             | PR
       tbody
         - issues.each do |issue|
-          tr.font-semibold.odd:bg-white.text-slate-700.odd:dark:bg-gray-900.even:bg-gray-100.even:dark:bg-gray-800.border-b.dark:border-gray-700
+          tr.font-semibold.odd:bg-white.text-slate-700.even:bg-gray-100.border-b
             td.px-6.py-3
               = issue.point
             td.px-6.py-3
@@ -29,7 +29,7 @@
               - pull_requests.each do |pull_request|
                 = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
       tfoot
-        tr.bg-zinc-600.font-semibold.text-gray-50.dark:text-white
+        tr.bg-zinc-600.font-semibold.text-gray-50
           th.px-6.py-3
             = issues.sum(&:point)
           td.px-6.py-3
