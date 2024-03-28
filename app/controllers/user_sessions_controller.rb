@@ -4,7 +4,8 @@ class UserSessionsController < ApplicationController
   def create
     user = User.find_or_create_by_github_auth!(request.env['omniauth.auth'])
     session[:user_id] = user.id
-    if user.registed_repositories.present?
+    repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
+    if repository && repository.contributors.include?(user)
       flash[:info] = 'ログインしました'
       redirect_to user_assigned_issues_path(user)
     else

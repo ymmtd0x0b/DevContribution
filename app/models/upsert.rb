@@ -3,14 +3,14 @@ class Upsert
     def pull_request(pull_requests)
       return nil if pull_requests.empty?
 
-      pull_requests_data = pull_requests.map { |pull_request| pull_request.to_activerecord_attributes }
+      pull_requests_data = pull_requests.map(&:to_activerecord_attributes)
       PullRequest.upsert_all pull_requests_data, unique_by: :id
     end
 
     def issue(issues)
       return nil if issues.empty?
 
-      issues_data = issues.map { |issue| issue.to_activerecord_attributes }
+      issues_data = issues.map(&:to_activerecord_attributes)
       Issue.upsert_all issues_data, unique_by: :id
 
       # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを削除する
@@ -19,7 +19,7 @@ class Upsert
         labels.destroy_all unless labels.nil?
       end
 
-      labelings_data = issues.map { |issue| issue.to_association_of_labels }.flatten
+      labelings_data = issues.map(&:to_association_of_labels).flatten
       Labeling.upsert_all(labelings_data, unique_by: %i[issue_id label_id]) if labelings_data.present?
     end
 
@@ -33,21 +33,35 @@ class Upsert
       end
 
       solutions_data = pull_requests.map { |pull_request| pull_request.to_association_of_solutions(issues) }.flatten
-      Solution.upsert_all solutions_data, unique_by: :issue_id
+      Solution.upsert_all solutions_data, unique_by: %i[issue_id pull_request_id] if solutions_data.present?
     end
 
-    def assign(issues, user)
+    def assign_to_issue(issues, user)
       return nil if (issues.empty? or user.nil?)
 
-      assigns_data = issues.map { |issue| { user_id: user.id, issue_id: issue.id } }
-      Assign.upsert_all assigns_data, unique_by: %i[user_id issue_id]
+      assigns_data = issues.map { |issue| { assignable_type: 'Issue', assignable_id: issue.id, user_id: user.id } }
+      Assign.upsert_all assigns_data, unique_by: %i[assignable_id user_id]
     end
 
-    def review(issues, user)
+    def assign_to_pull_request(pull_requests, user)
+      return nil if (pull_requests.empty? or user.nil?)
+
+      assigns_data = pull_requests.map { |pull_request| { assignable_type: 'PullRequest', assignable_id: pull_request.id, user_id: user.id } }
+      Assign.upsert_all assigns_data, unique_by: %i[assignable_id user_id]
+    end
+
+    def review_to_issue(issues, user)
       return nil if (issues.empty? or user.nil?)
 
-      reviews_data = issues.map { |issue| { user_id: user.id, issue_id: issue.id } }
-      Review.upsert_all reviews_data, unique_by: %i[user_id issue_id]
+      reviews_data = issues.map { |issue| {  reviewable_type: 'Issue', reviewable_id: issue.id, user_id: user.id } }
+      Review.upsert_all reviews_data, unique_by: %i[reviewable_id user_id]
+    end
+
+    def review_to_pull_request(pull_requests, user)
+      return nil if (pull_requests.empty? or user.nil?)
+
+      reviews_data = pull_requests.map { |pull_request| { reviewable_type: 'PullRequest', reviewable_id: pull_request.id, user_id: user.id } }
+      Review.upsert_all reviews_data, unique_by: %i[reviewable_id user_id]
     end
 
     def label(labels)

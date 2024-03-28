@@ -6,6 +6,6 @@ class CreateSolutions < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :solutions, :issue_id, unique: true
+    add_index :solutions, %i[issue_id pull_request_id], unique: true
   end
 end

@@ -1,6 +1,6 @@
 .mb-10
   h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
-    = haeder
+    = header
 
   .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
     table.w-full.text-sm.text-left.rtl:text-right.text-gray-500.dark:text-gray-400
@@ -20,7 +20,14 @@
             td.px-6.py-3
               = link_to issue.title, issue.url, class: 'hover:text-blue-600'
             td.px-6.py-3
-              = link_to "##{issue.pull_request.url.slice(/\d+$/)}", issue.pull_request.url, class: 'hover:text-blue-600' if issue.pull_request
+              ruby:
+                if header == 'Pull Request'
+                  pull_requests = issue.pull_requests.assignee_of(current_user)
+                else
+                  pull_requests = issue.pull_requests.reviewers_of(current_user)
+                end
+              - pull_requests.each do |pull_request|
+                = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
       tfoot
         tr.bg-zinc-600.font-semibold.text-gray-50.dark:text-white
           th.px-6.py-3
