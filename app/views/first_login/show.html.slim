@@ -1,5 +1,4 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance }, src: lazy_first_login_path do
-
   div(data-controller='loading-modal' data-loading-modal-status-value="loading")
 
   .flex.gap-x-3.py-4.px-4.mt-px.w-full.mx-auto.max-w-screen-lg.animate-pulse(role='status')
@@ -15,19 +14,19 @@
   .px-4.text-sm.font-medium.text-center.text-gray-500.border-b.border-gray-300.w-full.mx-auto.max-w-screen-lg.animate-pulse(role='status')
     ul.flex.flex-wrap.-mb-px
       li.me-2
-        .inline-block.p-4.text-blue-600.border-b-2.border-blue-600.rounded-t-lg.active
+        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg
           | 担当 Issue
       li.me-2
-        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg.hover:text-gray-600.hover:border-gray-300
+        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg
           | レビュー Issue
       li.me-2
-        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg.hover:text-gray-600.hover:border-gray-300
+        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg
           | 作成 Issue
       li.me-2
-        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg.hover:text-gray-600.hover:border-gray-300
+        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg
           | 作成 Wiki
       li.me-2
-        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg.hover:text-gray-600.hover:border-gray-300
+        .inline-block.p-4.border-b-2.border-transparent.rounded-t-lg
           | 全て表示
 
   .bg-gray-50.pt-5.pb-10.flex-grow.animate-pulse(role='status')
@@ -37,7 +36,7 @@
           .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
             .mt-1.mb-0.5.h-4.bg-gray-400.rounded-full.w-12
           - (1..7).each do
-            .bg-white.border-b.hover:bg-gray-100
+            .bg-white.border-b
               .px-6(class="py-3.5")
                 .h-4.bg-gray-400.rounded-full.w-48
                 .flex.pt-2
