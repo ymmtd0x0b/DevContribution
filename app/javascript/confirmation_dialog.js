@@ -7,7 +7,23 @@ Turbo.setConfirmMethod((message, element) => {
       icon: 'warning',
       showCancelButton: true
     }).then((result) => {
-      resolve(result.isConfirmed)
+      if (result.isConfirmed) {
+        resolve(result.isConfirmed)
+        if (element.attributes.getNamedItem('method').value == 'patch') {
+          Swal.fire({
+            title: '処理を実行中です<br>しばらくお待ちください...',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            customClass: {
+              title: 'text-2xl text-gray-600 font-medium'
+            },
+            willOpen: () => {
+              Swal.showLoading()
+            }
+          })
+        }
+      }
     }).catch(error => { reject(error) })
   })
 })
