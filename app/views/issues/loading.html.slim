@@ -1,5 +1,5 @@
-= turbo_frame_tag 'main', data: { turbo_action: :advance }, src: lazy_first_login_path do
-  div(data-controller='loading-modal' data-loading-modal-status-value="loading")
+= turbo_frame_tag 'main', data: { turbo_action: :advance }, src: first_login_path do
+  div(data-controller='loading-modal')
 
   .flex.gap-x-3.py-4.px-4.mt-px.w-full.mx-auto.max-w-screen-lg.animate-pulse(role='status')
     .flex.items-center.divide-base-600

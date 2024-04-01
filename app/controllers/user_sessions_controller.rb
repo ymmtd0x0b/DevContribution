@@ -9,7 +9,8 @@ class UserSessionsController < ApplicationController
       flash[:info] = 'ログインしました'
       redirect_to user_assigned_issues_path(user)
     else
-      redirect_to first_login_path
+      # redirect_to first_login_path
+      redirect_to user_assigned_issues_path(user)
     end
   end
 
