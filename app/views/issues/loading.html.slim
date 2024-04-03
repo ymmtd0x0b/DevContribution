@@ -1,4 +1,4 @@
-= turbo_frame_tag 'main', data: { turbo_action: :advance }, src: first_login_path do
+= turbo_frame_tag :main, src: loading_path, loading: :lazy do
   div(data-controller='loading-modal')
 
   .flex.gap-x-3.py-4.px-4.mt-px.w-full.mx-auto.max-w-screen-lg.animate-pulse(role='status')

@@ -6,8 +6,9 @@ class RepositoriesController < ApplicationController
     newest_repository = Github::Repository.find_by(id: @repository.id)
     if @repository.update(name: newest_repository.name)
       # Newspaper.publish(:repository_update, current_user)
-      sleep 2
-      flash[:info] = '更新に成功しました'
+      # flash[:info] = '更新に成功しました'
+
+      session[:newspaper] = 'repository_update'
       redirect_to user_assigned_issues_path(current_user)
     else
       flash[:error] = '更新に失敗しました'

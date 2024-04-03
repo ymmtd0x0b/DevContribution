@@ -1,11 +1,11 @@
 Rails.configuration.to_prepare do
-  Newspaper.subscribe(:first_login, Newspaper::RepositoryCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::ContributionCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::LabelCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::AssignedIssueCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::ReviewedIssueCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::CreatedIssueCreator.new)
-  Newspaper.subscribe(:first_login, Newspaper::WikiCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::RepositoryCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::ContributionCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::LabelCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::AssignedIssueCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::ReviewedIssueCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::CreatedIssueCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::WikiCreator.new)
 
   Newspaper.subscribe(:repository_update, Newspaper::LabelCreator.new)
   Newspaper.subscribe(:repository_update, Newspaper::AssignedIssueCreator.new)

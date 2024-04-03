@@ -7,11 +7,10 @@ class UserSessionsController < ApplicationController
     repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
     if repository && repository.contributors.include?(user)
       flash[:info] = 'ログインしました'
-      redirect_to user_assigned_issues_path(user)
     else
-      # redirect_to first_login_path
-      redirect_to user_assigned_issues_path(user)
+      session[:newspaper] = 'user_create'
     end
+    redirect_to user_assigned_issues_path(user)
   end
 
   def destroy

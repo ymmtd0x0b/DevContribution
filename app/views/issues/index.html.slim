@@ -1,4 +1,4 @@
-= turbo_frame_tag 'main', data: { turbo_action: :advance } do
+= turbo_frame_tag :main do
   = render 'shared/repository', repository: @repository
 
   = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
