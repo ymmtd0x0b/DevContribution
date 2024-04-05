@@ -9,7 +9,7 @@ class RepositoriesController < ApplicationController
       # flash[:info] = '更新に成功しました'
 
       session[:newspaper] = 'repository_update'
-      redirect_to user_assigned_issues_path(current_user)
+      # redirect_to user_assigned_issues_path(current_user)
     else
       flash[:error] = '更新に失敗しました'
       redirect_to root_path

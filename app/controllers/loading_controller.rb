@@ -4,13 +4,14 @@ class LoadingController < ApplicationController
     when 'user_create'
       Newspaper.publish(:user_create, current_user)
       flash[:success] = 'アカウント連携に成功しました'
+      path = user_assigned_issues_path(current_user)
     when 'repository_update'
-      # Newspaper.publish(:repository_update, current_user)
-      sleep 5
+      Newspaper.publish(:repository_update, current_user)
       flash[:success] = '更新に成功しました'
+      path = request.headers[:HTTP_REFERER]
     end
 
     session.delete(:newspaper)
-    redirect_to user_assigned_issues_path(current_user)
+    redirect_to path
   end
 end

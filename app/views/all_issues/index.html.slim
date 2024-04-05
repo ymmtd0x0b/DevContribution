@@ -1,4 +1,6 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
+  div(data-controller='loading-modal' data-loading-modal-hidden-value='true')
+
   = render 'shared/repository', repository: @repository
 
   = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
@@ -26,3 +28,5 @@
               | その他
             = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @created_issues unless @created_issues.count.zero?
             = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis unless @wikis.count.zero?
+
+  = render 'shared/flash'

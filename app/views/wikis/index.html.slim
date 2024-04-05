@@ -1,4 +1,6 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
+  div(data-controller='loading-modal' data-loading-modal-hidden-value='true')
+
   = render 'shared/repository', repository: @repository
 
   = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
@@ -13,3 +15,5 @@
               .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
                 = "Total #{@wikis.count}"
               = render @wikis
+
+  = render 'shared/flash'

@@ -1,17 +1,23 @@
-= turbo_frame_tag :main do
-  = render 'shared/repository', repository: @repository
+- if session[:newspaper]
+  = turbo_frame_tag :main, src: loading_path, loading: :lazy do
+    = render 'shared/loading'
+- else
+  = turbo_frame_tag :main do
+    div(data-controller='loading-modal' data-loading-modal-hidden-value='true')
 
-  = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
-    = render 'shared/tabs'
-    .bg-gray-50.pt-5.pb-10.flex-grow
-      .px-10.mx-auto.max-w-screen-lg
-        - if @issues.count.zero?
-          = render 'shared/nothing'
-        - else
-          .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
-            .w-full.text-sm.text-left.rtl:text-right.text-gray-500
-              .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
-                = "Total #{@issues.count}"
-              = render @issues
+    = render 'shared/repository', repository: @repository
 
-  = render 'shared/flash'
+    = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
+      = render 'shared/tabs'
+      .bg-gray-50.pt-5.pb-10.flex-grow
+        .px-10.mx-auto.max-w-screen-lg
+          - if @issues.count.zero?
+            = render 'shared/nothing'
+          - else
+            .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
+              .w-full.text-sm.text-left.rtl:text-right.text-gray-500
+                .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
+                  = "Total #{@issues.count}"
+                = render @issues
+
+    = render 'shared/flash'

@@ -1,7 +1,6 @@
 Rails.configuration.to_prepare do
-  Newspaper.subscribe(:user_create, Newspaper::RepositoryCreator.new)
-  Newspaper.subscribe(:user_create, Newspaper::ContributionCreator.new)
   Newspaper.subscribe(:user_create, Newspaper::LabelCreator.new)
+  Newspaper.subscribe(:user_create, Newspaper::ContributionCreator.new)
   Newspaper.subscribe(:user_create, Newspaper::AssignedIssueCreator.new)
   Newspaper.subscribe(:user_create, Newspaper::ReviewedIssueCreator.new)
   Newspaper.subscribe(:user_create, Newspaper::CreatedIssueCreator.new)
