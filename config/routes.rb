@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :reviewed_issues, only: %i[index]
     resources :issues,  only: %i[index]
     resources :wikis, only: %i[index]
-    resources :all_issues, only: %i[index]
+    resources :contributions, only: %i[index]
   end
   get 'loading', to: 'loading#show'
 end
