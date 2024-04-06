@@ -8,6 +8,13 @@ module Github
       @avatar = repository.owner.avatar_url
     end
 
+    def to_hash
+      { id: @id,
+        name: @name,
+        avatar: @avatar }
+    end
+
+
     class << self
       def find_by(id: nil, name: nil)
         return if !!id and !!name
