@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   resource :retirement, only: %i[create], controller: 'retirement'
   resources :repositories, only: %i[update]
   resources :users, only: [], path: :contributors do
-    resources :assigned_issues, only: %i[index]
-    resources :reviewed_issues, only: %i[index]
     resources :issues,  only: %i[index]
     resources :wikis, only: %i[index]
     resources :contributions, only: %i[index]

@@ -10,7 +10,7 @@ class UserSessionsController < ApplicationController
     else
       session[:newspaper] = 'user_create'
     end
-    redirect_to user_assigned_issues_path(user)
+    redirect_to "#{user_issues_path(current_user)}?association=assigned"
   end
 
   def destroy
