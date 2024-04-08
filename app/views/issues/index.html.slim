@@ -1,8 +1,8 @@
 - if session[:newspaper]
-  = turbo_frame_tag :main, src: loading_path, loading: :lazy do
+  = turbo_frame_tag :main, data: { turbo_action: :advance }, src: loading_path, loading: :lazy do
     = render 'shared/loading'
 - else
-  = turbo_frame_tag :main do
+  = turbo_frame_tag :main, data: { turbo_action: :advance } do
     div(data-controller='loading-modal' data-loading-modal-hidden-value='true')
 
     = render 'shared/repository', repository: @repository
