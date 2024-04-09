@@ -4,8 +4,8 @@
 
   .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
     table.w-full.text-sm.text-left.rtl:text-right.text-gray-500
-      thead.text-gray-50.bg-gray-50
-        tr.odd:bg-slate-700.even:bg-gray-50.border-b
+      thead.text-gray-50.bg-slate-600.border-b.border-gray-400
+        tr
           th.px-6.py-3(col='col')
             | Point
           th.px-6.py-3(col='col')
@@ -13,23 +13,32 @@
           th.px-6.py-3(col='col')
             | PR
       tbody
-        - issues.each do |issue|
-          tr.font-semibold.odd:bg-white.text-slate-700.even:bg-gray-100.border-b
-            td.px-6.py-3
-              = issue.point
-            td.px-6.py-3
-              = link_to issue.title, issue.url, class: 'hover:text-blue-600'
-            td.px-6.py-3
-              ruby:
-                if header == 'Pull Request'
-                  pull_requests = issue.pull_requests.assignee_of(current_user)
-                else
-                  pull_requests = issue.pull_requests.reviewers_of(current_user)
-                end
-              - pull_requests.each do |pull_request|
-                = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
+        - if issues.any?
+          - issues.each do |issue|
+            tr.font-semibold.odd:bg-gray-200.text-slate-800.even:bg-gray-100.border-b.border-gray-400
+              td.px-6.py-3
+                = issue.point
+              td.px-6.py-3
+                = link_to issue.title, issue.url, class: 'hover:text-blue-600'
+              td.px-6.py-3
+                ruby:
+                  if header == 'Pull Request'
+                    pull_requests = issue.pull_requests.assignee_of(current_user)
+                  else
+                    pull_requests = issue.pull_requests.reviewers_of(current_user)
+                  end
+                - pull_requests.each do |pull_request|
+                  = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
+        - else
+            tr.font-semibold.bg-gray-200.text-slate-800.border-b.border-gray-400
+              td.px-6.py-3
+                | -
+              td.px-6.py-3
+                | -
+              td.px-6.py-3
+                | -
       tfoot
-        tr.bg-zinc-500.font-semibold.text-gray-50
+        tr.bg-slate-600.font-semibold.text-gray-50
           th.px-6.py-3
             = issues.sum(&:point)
           td.px-6.py-3
