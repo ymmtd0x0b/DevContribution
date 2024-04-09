@@ -7,8 +7,14 @@ header
       .flex.items-center.lg:order-2
         - if logged_in?
           button#dropdownUserAvatarButton(data-dropdown-toggle='dropdownAvatarName' class='flex items-center text-sm pe-1 font-medium text-white rounded-full hover:text-blue-600 md:me-0 focus:ring-4 focus:ring-gray-100' type='button')
-            = image_tag current_user.image_url, class: 'w-8 h-8 me-2 rounded-full'
-            = current_user.name
+            = image_tag current_user.avatar_url, class: 'w-8 h-8 me-2 rounded-full'
+            - if current_user.name?
+                .font-medium
+                    = current_user.login
+                    .text-xs.text-left
+                      = current_user.name
+            - else
+              = current_user.login
             = icon('drop_down', { class: 'w-2.5 h-2.5 ms-3' })
           #dropdownAvatarName.z-10.hidden.bg-gray-500.text-gray-50.font-semibold.divide-y.divide-gray-100.rounded-lg.shadow.w-52
             .py-2

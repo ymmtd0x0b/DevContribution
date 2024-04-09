@@ -14,13 +14,15 @@ class User < ApplicationRecord
 
   def self.find_or_create_by_github_auth!(auth_hash)
     uid  = auth_hash[:uid]
-    name = auth_hash[:info][:nickname]
-    image_url = auth_hash[:info][:image]
+    login = auth_hash[:extra][:raw_info][:login]
+    name = auth_hash[:extra][:raw_info][:name]
+    avatar_url = auth_hash[:extra][:raw_info][:avatar_url]
 
     User.find_or_create_by!(id: uid) do |user|
       user.id = uid
+      user.login = login
       user.name = name
-      user.image_url = image_url
+      user.avatar_url = avatar_url
     end
   end
 end

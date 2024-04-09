@@ -1,17 +1,17 @@
 module Github
   class Repository
-    attr_reader :id, :name, :avatar
+    attr_reader :id, :name, :avatar_url
 
     def initialize(repository)
       @id = repository.id
       @name = repository.full_name
-      @avatar = repository.owner.avatar_url
+      @avatar_url = repository.owner.avatar_url
     end
 
     def to_hash
       { id: @id,
         name: @name,
-        avatar: @avatar }
+        avatar_url: @avatar_url }
     end
 
 
