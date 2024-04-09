@@ -41,12 +41,12 @@ module Github
 
     class << self
       def created_by(repository, user)
-        issues = Github::Repository.search_issues("repo:#{repository.name} is:issue author:#{user.name}")
+        issues = Github::Repository.search_issues("repo:#{repository.name} is:issue author:#{user.login}")
         issues.map { |issue| Github::Issue.new(repository, issue) }
       end
 
       def assigned_by(repository, user)
-        issues = Github::Repository.search_issues("repo:#{repository.name} is:issue assignee:#{user.name}")
+        issues = Github::Repository.search_issues("repo:#{repository.name} is:issue assignee:#{user.login}")
         issues.map { |issue| Github::Issue.new(repository, issue) }
       end
 

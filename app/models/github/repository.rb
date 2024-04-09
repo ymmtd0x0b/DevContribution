@@ -90,8 +90,8 @@ module Github
       private
 
       def all_involved_repository_name_list_by(user)
-        involves_issues = search_issues("is:issue involves:#{user.name}")
-        involves_pull_request = search_issues("is:pr involves:#{user.name}")
+        involves_issues = search_issues("is:issue involves:#{user.login}")
+        involves_pull_request = search_issues("is:pr involves:#{user.login}")
 
         issues = involves_issues + involves_pull_request
 

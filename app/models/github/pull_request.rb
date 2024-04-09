@@ -13,13 +13,13 @@ module Github
 
     class << self
       def assigned_by(repository, user)
-        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.name} -label:release is:merged")
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.name} -label:release") # 確認用
+        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release is:merged")
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release") # 確認用
         pull_requests.map { |pull_request| Github::PullRequest.new(pull_request, repository) }
       end
 
       def reviewed_by(repository, user)
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.name} review:approved -assignee:#{user.name} is:merged")
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login} is:merged")
         pull_requests.map { |pull_request| Github::PullRequest.new(pull_request, repository) }
       end
     end
