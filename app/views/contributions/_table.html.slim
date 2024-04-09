@@ -29,7 +29,7 @@
               - pull_requests.each do |pull_request|
                 = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
       tfoot
-        tr.bg-zinc-600.font-semibold.text-gray-50
+        tr.bg-zinc-500.font-semibold.text-gray-50
           th.px-6.py-3
             = issues.sum(&:point)
           td.px-6.py-3
