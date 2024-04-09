@@ -6,7 +6,7 @@ function toast(title, type) {
     title: title,
     icon: type,
     toast: true,
-    position: 'top',
+    position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true
