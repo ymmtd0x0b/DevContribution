@@ -9,10 +9,10 @@
       | あなたが関わったIssueとPRを一覧表示できるサービスです
 
     .flex.justify-around.py-16
-      = render 'shared/card', icon: 'code_merge', item_type: '担当した', item_name:'Issue'
-      = render 'shared/card', icon: 'annotation', item_type: 'レビューした', item_name:'Issue'
-      = render 'shared/card', icon: 'file_pen', item_type: '作成した', item_name:'Issue'
-      = render 'shared/card', icon: 'file_search', item_type: '作成した', item_name:'Wikiページ'
+      = render 'item_card', icon: 'code_merge', item_type: '担当した', item_name:'Issue'
+      = render 'item_card', icon: 'annotation', item_type: 'レビューした', item_name:'Issue'
+      = render 'item_card', icon: 'file_pen', item_type: '作成した', item_name:'Issue'
+      = render 'item_card', icon: 'file_search', item_type: '作成した', item_name:'Wikiページ'
 
     .text-slate-700.text-center.pt-5.text-xl.mb-10
       | 初めて利用する方はGitHubアカウントを連携してください
