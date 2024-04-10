@@ -1,7 +1,7 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
   div(data-controller='loading-modal' data-loading-modal-hidden-value='true')
 
-  = render 'shared/repository', repository: @repository
+  = render 'repositories/show', repository: @repository
 
   = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
     = render 'shared/tabs'
