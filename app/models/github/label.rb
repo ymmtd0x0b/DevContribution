@@ -10,12 +10,10 @@ module Github
     end
 
     def to_activerecord_attributes
-      {
-        repository_id: @repository_id,
+      { repository_id: @repository_id,
         id: @id,
         name: @name,
-        color: @color
-      }
+        color: @color }
     end
 
     class << self

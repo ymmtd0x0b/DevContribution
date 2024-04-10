@@ -29,7 +29,7 @@ module Git
 
           wikis.filter_map do |file_name, _|
             file_log = git.log.object("#{tmpdir_path}/#{file_name}")
-            Wiki.new(repository, user, file_name, file_log) if file_log.last.author.name == user.name
+            Wiki.new(repository, user, file_name, file_log) if file_log.last.author.name == user.login
           end
         end
       end

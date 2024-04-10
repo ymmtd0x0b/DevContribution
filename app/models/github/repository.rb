@@ -14,7 +14,6 @@ module Github
         avatar_url: @avatar_url }
     end
 
-
     class << self
       def find_by(id: nil, name: nil)
         return if !!id and !!name
@@ -31,11 +30,6 @@ module Github
         rescue
           nil
         end
-      end
-
-      def not_registed_by(user)
-        unregisted_repository_name_list = all_involved_repository_name_list_by(user) - user.registed_repositories.pluck(:name)
-        unregisted_repository_name_list.map { |repository_name| Github::Repository.find_by(name: repository_name) }
       end
 
       def labels(repository, option = { page: 1, per_page: 100 })
@@ -85,18 +79,6 @@ module Github
         end
 
         issues
-      end
-
-      private
-
-      def all_involved_repository_name_list_by(user)
-        involves_issues = search_issues("is:issue involves:#{user.login}")
-        involves_pull_request = search_issues("is:pr involves:#{user.login}")
-
-        issues = involves_issues + involves_pull_request
-
-        issues.map { |issue| issue.repository_url.delete_prefix('https://api.github.com/repos/') }
-              .uniq
       end
     end
   end

@@ -25,7 +25,7 @@
                   if header == 'Pull Request'
                     pull_requests = issue.pull_requests.assignee_of(current_user)
                   else
-                    pull_requests = issue.pull_requests.reviewers_of(current_user)
+                    pull_requests = issue.pull_requests.reviewer_of(current_user)
                   end
                 - pull_requests.each do |pull_request|
                   = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }

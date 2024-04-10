@@ -24,15 +24,13 @@ module Github
     end
 
     def to_activerecord_attributes
-      {
-        id: @id,
+      { id: @id,
         repository_id: @repository_id,
         user_id: @user_id,
         title: @title,
         url: @url,
         created_at: @created_at,
-        updated_at: @updated_at
-      }
+        updated_at: @updated_at }
     end
 
     def to_association_of_labels
