@@ -7,6 +7,21 @@ Turbo.setConfirmMethod((message, element) => {
       icon: 'warning',
       showCancelButton: true
     }).then((result) => {
+      const id = element.getAttribute('id')
+      if(result.isConfirmed && id == 'repository_update_button') {
+        Swal.fire({
+          title: '処理を実行中です<br>しばらくお待ちください...',
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          customClass: {
+            title: 'text-2xl text-gray-600 font-medium'
+          },
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        })
+      }
       resolve(result.isConfirmed)
     }).catch(error => { reject(error) })
   })

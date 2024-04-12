@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  has_many :contributions, dependent: :destroy
-
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :assignable, source_type: "Issue"
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
@@ -12,13 +10,13 @@ class User < ApplicationRecord
   has_many :created_issues, class_name: 'Issue'
   has_many :created_wikis, dependent: :destroy, class_name: 'Wiki'
 
-  def self.find_or_create_by_github_auth!(auth_hash)
+  def self.find_or_initialize_by_github_auth(auth_hash)
     uid  = auth_hash[:uid]
     login = auth_hash[:extra][:raw_info][:login]
     name = auth_hash[:extra][:raw_info][:name]
     avatar_url = auth_hash[:extra][:raw_info][:avatar_url]
 
-    User.find_or_create_by!(id: uid) do |user|
+    User.find_or_initialize_by(id: uid) do |user|
       user.id = uid
       user.login = login
       user.name = name

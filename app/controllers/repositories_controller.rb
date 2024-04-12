@@ -4,11 +4,13 @@ class RepositoriesController < ApplicationController
 
   def update
     newest_repository = Github::Repository.find_by(id: @repository.id)
-    if @repository.update(newest_repository.to_hash)
-      session[:newspaper] = 'repository_update'
+    if newest_repository && @repository.update(newest_repository.to_hash)
+      Newspaper.publish(:repository_update, current_user)
+      flash[:success] = '更新に成功しました'
     else
       flash[:error] = '更新に失敗しました'
-      redirect_to user_issues_path(current_user, association: 'assigned')
     end
+
+    redirect_to request.headers[:HTTP_REFERER]
   end
 end
