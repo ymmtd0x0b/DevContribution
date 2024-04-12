@@ -3,7 +3,7 @@ header
     .flex.flex-wrap.justify-between.items-center.px-4.py-2.5.mx-auto.max-w-screen-lg
       = link_to root_path, class: 'flex items-center text-white', data: { turbo_frame: 'main' } do
         span.self-center.text-xl.font-semibold.whitespace-nowrap
-          | Fjord My Issues
+          | FjordContributions
       .flex.items-center.lg:order-2
         - if logged_in?
           button#dropdownUserAvatarButton(data-dropdown-toggle='dropdownAvatarName' class='flex items-center text-sm pe-1 font-medium text-white rounded-full hover:text-blue-600 md:me-0 focus:ring-4 focus:ring-gray-100' type='button')
