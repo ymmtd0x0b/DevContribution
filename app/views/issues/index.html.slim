@@ -7,17 +7,18 @@
 
     = render 'repositories/show', repository: @repository
 
-    = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
-      = render 'shared/tabs'
-      .bg-gray-50.pt-5.pb-10.flex-grow
-        .px-10.mx-auto.max-w-screen-lg
-          - if @issues.count.zero?
-            = render 'shared/nothing'
-          - else
-            .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
-              .w-full.text-sm.text-left.rtl:text-right.text-gray-500
-                .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
-                  = "Total #{@issues.count}"
-                = render @issues
+    .flex.flex-col.flex-grow
+      = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
+        = render 'shared/tabs'
+        .bg-gray-50.pt-5.pb-10.flex-grow
+          .px-10.mx-auto.max-w-screen-lg
+            - if @issues.count.zero?
+              = render 'shared/nothing'
+            - else
+              .relative.mt-4.mx-3.overflow-x-auto.shadow-md.sm:rounded-lg
+                .w-full.text-sm.text-left.rtl:text-right.text-gray-500
+                  .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
+                    = "Total #{@issues.count}"
+                  = render @issues
 
     = render 'shared/flash'
