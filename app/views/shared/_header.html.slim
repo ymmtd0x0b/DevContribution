@@ -1,29 +1,37 @@
 header
   nav.py-2.bg-slate-600
     .flex.flex-wrap.justify-between.items-center.px-4.py-2.5.mx-auto.max-w-screen-lg
-      = link_to root_path, class: 'flex items-center text-white', data: { turbo_frame: 'main' } do
-        span.self-center.text-xl.font-semibold.whitespace-nowrap
-          | FjordContributions
+      .flex.items-center.text-white
+        = link_to root_path, data: { turbo_frame: 'main' } do
+          span.self-center.text-xl.font-semibold.whitespace-nowrap
+            | FjordContributions
       .flex.items-center.lg:order-2
         - if logged_in?
-          button#dropdownUserAvatarButton(data-dropdown-toggle='dropdownAvatarName' class='flex items-center text-sm pe-1 font-medium text-white rounded-full hover:text-blue-600 md:me-0 focus:ring-4 focus:ring-gray-100' type='button')
-            = image_tag current_user.avatar_url, class: 'w-8 h-8 me-2 rounded-full'
-            - if current_user.name?
-                .font-medium
+          .text-sm.pe-1.font-medium.text-white.rounded-full.hover:text-blue-600.md:me-0.focus:ring-4.focus:ring-gray-100
+            button#dropdownUserAvatarButton(data-dropdown-toggle='dropdownAvatarName' type='button')
+              .flex.items-center
+                .w-8.h-8.me-2
+                  = image_tag current_user.avatar_url, class: 'rounded-full'
+                - if current_user.name?
+                  .font-medium
                     = current_user.login
                     .text-xs.text-left
                       = current_user.name
-            - else
-              = current_user.login
-            = icon('drop_down', { class: 'w-2.5 h-2.5 ms-3' })
+                - else
+                  = current_user.login
+                .w-2.5.h-2.5.ms-3
+                  = icon('drop_down')
           #dropdownAvatarName.z-10.hidden.bg-gray-500.text-gray-50.font-semibold.divide-y.divide-gray-100.rounded-lg.shadow.w-52
             .py-2
-              = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' }, class: 'block px-4 py-2 text-sm hover:bg-red-500' do
-                i.fa-solid.fa-trash-can.pr-2
-                | アカウントを削除
+              .px-4.py-2.text-sm.hover:bg-red-500
+                = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' } do
+                  i.fa-solid.fa-trash-can.pr-2
+                  | アカウントを削除
             .py-2
-              = link_to logout_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm hover:bg-gray-400' do
-                i.fa-solid.fa-arrow-right-from-bracket.pr-2
-                | ログアウト
+              .px-4.py-2.text-sm.hover:bg-gray-400
+                = link_to logout_path, data: { turbo_method: :delete } do
+                  i.fa-solid.fa-arrow-right-from-bracket.pr-2
+                  | ログアウト
         - else
-          = button_to 'ログイン', '/auth/github', method: :post, form: { data: { controller: 'button', 'button-target' => 'form' } }, data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' }, class: 'text-gray-800 bg-gray-50 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none'
+          .text-gray-800.bg-gray-50.hover:bg-gray-200.focus:ring-4.focus:ring-gray-300.font-medium.rounded-lg.text-sm.px-4.py-2.mr-2.focus:outline-none
+            = button_to 'ログイン', '/auth/github', method: :post, form: { data: { controller: 'button', 'button-target' => 'form' } }, data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' }
