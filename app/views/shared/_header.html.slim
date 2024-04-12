@@ -23,15 +23,17 @@ header
                   = icon('drop_down')
           #dropdownAvatarName.z-10.hidden.bg-gray-500.text-gray-50.font-semibold.divide-y.divide-gray-100.rounded-lg.shadow.w-52
             .py-2
-              .px-4.py-2.text-sm.hover:bg-red-500
+              .text-sm.hover:bg-red-500
                 = link_to retirement_path, data: { turbo_method: :post, turbo_confirm: '本当に実行してもよろしいですか？' } do
-                  i.fa-solid.fa-trash-can.pr-2
-                  | アカウントを削除
+                  .w-full.px-4.py-2
+                    i.fa-solid.fa-trash-can.pr-2
+                    | アカウントを削除
             .py-2
-              .px-4.py-2.text-sm.hover:bg-gray-400
+              .text-sm.hover:bg-gray-400
                 = link_to logout_path, data: { turbo_method: :delete } do
-                  i.fa-solid.fa-arrow-right-from-bracket.pr-2
-                  | ログアウト
+                  .w-full.px-4.py-2
+                    i.fa-solid.fa-arrow-right-from-bracket.pr-2
+                    | ログアウト
         - else
           .text-gray-800.bg-gray-50.hover:bg-gray-200.focus:ring-4.focus:ring-gray-300.font-medium.rounded-lg.text-sm.px-4.py-2.mr-2.focus:outline-none
             = button_to 'ログイン', '/auth/github', method: :post, form: { data: { controller: 'button', 'button-target' => 'form' } }, data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' }
