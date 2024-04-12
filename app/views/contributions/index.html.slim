@@ -3,30 +3,31 @@
 
   = render 'repositories/show', repository: @repository
 
-  = turbo_frame_tag 'issues-list', class: 'flex flex-col flex-grow', data: { turbo_action: :advance } do
-    = render 'shared/tabs'
-    .bg-gray-50.pt-5.pb-10.flex-grow
-      .px-7.mx-auto.max-w-screen-lg(data-controller='clipboard')
-        button.block.ml-auto.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.w-full.sm:w-auto.py-2.5.text-center.items-center.justify-center(data-action='clipboard#copy' data-tooltip-target="tooltip-default")
-          span#default-message.inline-flex.items-center(data-clipboard-target='defaultMessage')
-            i.fa-regular.fa-clipboard.mr-2
-            | Copy
-          span#success-message.hidden.inline-flex.items-center(data-clipboard-target='successMessage')
-            = icon('checked', { class: "w-3 h-3 text-white me-1.5" })
-            | Copied!
+  = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
+    .flex.flex-col.flex-grow
+      = render 'shared/tabs'
+      .bg-gray-50.pt-5.pb-10.flex-grow
+        .px-7.mx-auto.max-w-screen-lg(data-controller='clipboard')
+          button.block.ml-auto.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.w-full.sm:w-auto.py-2.5.text-center.items-center.justify-center(data-action='clipboard#copy' data-tooltip-target="tooltip-default")
+            span#default-message.inline-flex.items-center(data-clipboard-target='defaultMessage')
+              i.fa-regular.fa-clipboard.mr-2
+              | Copy
+            span#success-message.hidden.inline-flex.items-center(data-clipboard-target='successMessage')
+              = icon('checked', { class: "w-3 h-3 text-white me-1.5" })
+              | Copied!
 
-        #tooltip-default.absolute.z-50.invisible.inline-block.px-3.py-2.text-sm.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
-          | クリップボードへコピーします
-          .tooltip-arrow(data-popper-arrow)
+          #tooltip-default.absolute.z-50.invisible.inline-block.px-3.py-2.text-sm.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
+            | クリップボードへコピーします
+            .tooltip-arrow(data-popper-arrow)
 
-        .max-w-screen-lg.w-full(data-clipboard-target='allIssuesTable')
-          = render 'table', header: 'Pull Request', issues: @assigned_issues
-          = render 'table', header: 'Review',       issues: @reviewed_issues
+          .max-w-screen-lg.w-full(data-clipboard-target='allIssuesTable')
+            = render 'table', header: 'Pull Request', issues: @assigned_issues
+            = render 'table', header: 'Review',       issues: @reviewed_issues
 
-          - unless @created_issues.count.zero? and @wikis.count.zero?
-            h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
-              | その他
-            = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @created_issues unless @created_issues.count.zero?
-            = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis unless @wikis.count.zero?
+            - unless @created_issues.count.zero? and @wikis.count.zero?
+              h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
+                | その他
+              = render 'list', header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @created_issues unless @created_issues.count.zero?
+              = render 'list', header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis unless @wikis.count.zero?
 
   = render 'shared/flash'
