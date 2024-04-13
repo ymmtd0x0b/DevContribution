@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2'
+import loadingModal from './loading_modal.js'
 
 Turbo.setConfirmMethod((message, element) => {
   return new Promise((resolve, reject) => {
@@ -9,18 +10,7 @@ Turbo.setConfirmMethod((message, element) => {
     }).then((result) => {
       const id = element.getAttribute('id')
       if(result.isConfirmed && id == 'repository_update_button') {
-        Swal.fire({
-          title: '処理を実行中です<br>しばらくお待ちください...',
-          allowEscapeKey: false,
-          allowOutsideClick: false,
-          showConfirmButton: false,
-          customClass: {
-            title: 'text-2xl text-gray-600 font-medium'
-          },
-          didOpen: () => {
-            Swal.showLoading()
-          }
-        })
+        loadingModal()
       }
       resolve(result.isConfirmed)
     }).catch(error => { reject(error) })
