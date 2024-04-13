@@ -1,4 +1,4 @@
-class WikisController < ApplicationController
+class CurrentUser::WikisController < ApplicationController
   include Settable
   before_action :set_repository, only: %i[index]
 

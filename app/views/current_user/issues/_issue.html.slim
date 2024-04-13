@@ -7,4 +7,5 @@
       .mr-2.text-center.text-sm.font-medium.text-slate-500.my-auto
         .px-2
           = "##{issue.number}"
-      = render issue.labels
+      - issue.labels.each do |label|
+        = render 'label', label: label

@@ -1,4 +1,4 @@
-class IssuesController < ApplicationController
+class CurrentUser::IssuesController < ApplicationController
   include Settable
   before_action :set_repository, only: %i[index]
 

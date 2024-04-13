@@ -1,0 +1,8 @@
+= turbo_frame_tag 'main', data: { turbo_action: :advance } do
+  = render 'current_user/page_header', repository: @repository
+
+  = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
+    = render 'current_user/page_tabs'
+    = render 'current_user/page_body', items: @wikis
+
+  = render 'shared/flash'

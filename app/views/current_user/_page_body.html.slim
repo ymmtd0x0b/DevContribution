@@ -1,0 +1,29 @@
+- if items.count.zero?
+  .text-center.mt-16
+    .sad-mark.text-7xl
+      i.fa-regular.fa-face-sad-tear
+    .font-medium.text-2xl.pt-4
+      | 表示可能なアイテムはありませんでした
+- else
+  .bg-gray-50
+    .max-w-screen-lg.mx-auto
+      .relative.my-10.mx-10.overflow-x-auto.shadow-md.sm:rounded-lg
+        .w-full.text-sm.text-left.rtl:text-right.text-gray-500
+          .px-6.py-3.text-gray-50.font-semibold.bg-slate-700.border-b
+            = "Total #{items.count}"
+          - items.each do |item|
+            .bg-white.border-b.hover:bg-gray-100.px-6.py-3.font-bold.text-slate-700
+              .w-fit.hover:text-blue-600
+                = link_to item.title, item.url, { target: '_blank', rel: 'noopener noreferrer' }
+              - if item.class == Issue
+                .flex.pt-2.space-x-2
+                  .px-2.text-sm.font-medium.text-slate-500
+                    = "##{item.number}"
+                  - item.labels.each do |label|
+                    ruby:
+                      # そのままの色では見づらいので調整を行う
+                      border_color = "##{label.color}".paint.darken(5)
+                      font_color = "##{label.color}".paint.dark? ? "#FFFFFF" :"#333333"
+                    .flex.items-center.px-2.text-xs.font-semibold.rounded-full(style="background-color: ##{label.color}; color: #{font_color}; border: 1px solid #{border_color}")
+                      = label.name
+
