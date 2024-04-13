@@ -15,5 +15,5 @@ Rails.application.routes.draw do
     resources :wikis, only: %i[index]
     resources :contributions, only: %i[index]
   end
-  get 'loading', to: 'loading#show'
+  get 'loading', to: 'current_user/loading#show'
 end

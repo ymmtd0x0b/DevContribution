@@ -8,21 +8,17 @@ export default class extends Controller {
   }
 
   connect() {
-    if(this.hiddenValue) {
-      Swal.closeModal()
-    } else {
-      Swal.fire({
-        title: '処理を実行中です<br>しばらくお待ちください...',
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        customClass: {
-          title: 'text-2xl text-gray-600 font-medium'
-        },
-        didOpen: () => {
-          Swal.showLoading()
-        }
-      })
-    }
+    Swal.fire({
+      title: '処理を実行中です<br>しばらくお待ちください...',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      customClass: {
+        title: 'text-2xl text-gray-600 font-medium'
+      },
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
   }
 }

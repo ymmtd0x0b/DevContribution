@@ -6,6 +6,6 @@ class CurrentUser::LoadingController < ApplicationController
     end
 
     session.delete(:newspaper)
-    redirect_to current_user_issues_path(current_user, association: 'assigned')
+    redirect_to current_user_issues_path(association: 'assigned')
   end
 end
