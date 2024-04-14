@@ -1,11 +1,11 @@
 module Newspaper
   class AssignedIssueDestroyer
     def call(user)
-      repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
-
       destroy_assigned_issues(user)
       destory_assigned_pull_requests(user)
     end
+
+    private
 
     def destroy_assigned_issues(user)
       issues_with_reviewer, issues_without_reviewer =
