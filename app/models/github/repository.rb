@@ -5,12 +5,14 @@ module Github
     def initialize(repository)
       @id = repository.id
       @name = repository.full_name
+      @url = repository.html_url
       @avatar_url = repository.owner.avatar_url
     end
 
-    def to_hash
+    def to_h
       { id: @id,
         name: @name,
+        url: @url,
         avatar_url: @avatar_url }
     end
 
@@ -62,21 +64,6 @@ module Github
           issues.concat issues_per_page.items
           option[:page] += 1
         end while(issues_per_page.items.count == option[:per_page])
-
-        issues
-      end
-
-      def issues_by_number(repository, numbers)
-        client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-
-        issues = []
-        numbers.each_slice(50) do |some_numbers| # クエリの文字数制限(256 文字超 (演算子や修飾子は除く))を超えないように何回かに分けて処理を行う
-          begin
-            issues.concat client.search_issues("repo:#{repository.name} is:issue #{some_numbers.join(' ')}").items
-          rescue
-            return []
-          end
-        end
 
         issues
       end

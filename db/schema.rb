@@ -25,12 +25,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
   end
 
   create_table "issues", force: :cascade do |t|
-    t.bigint "repository_id", null: false
+    t.bigint "repository_id"
     t.bigint "user_id", null: false
     t.string "title", null: false
-    t.string "url", null: false
+    t.integer "number", null: false
+    t.bigint "labels_id", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_issues_on_repository_id"
   end
 
   create_table "labelings", force: :cascade do |t|
@@ -50,15 +52,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
   end
 
   create_table "pull_requests", force: :cascade do |t|
-    t.bigint "repository_id", null: false
-    t.bigint "user_id", null: false
-    t.string "url", null: false
+    t.bigint "repository_id"
+    t.integer "number", null: false
+    t.bigint "issue_numbers", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
   end
 
   create_table "repositories", force: :cascade do |t|
     t.string "name", null: false
+    t.string "url", null: false
     t.string "avatar_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -72,14 +76,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.datetime "updated_at", null: false
     t.index ["reviewable_id", "user_id"], name: "index_reviews_on_reviewable_id_and_user_id", unique: true
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
-  end
-
-  create_table "solutions", force: :cascade do |t|
-    t.bigint "issue_id", null: false
-    t.bigint "pull_request_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["issue_id", "pull_request_id"], name: "index_solutions_on_issue_id_and_pull_request_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,4 +94,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "issues", "repositories"
+  add_foreign_key "pull_requests", "repositories"
 end

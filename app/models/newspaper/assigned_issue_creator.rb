@@ -12,7 +12,6 @@ module Newspaper
       Upsert.assign_to_issue(issues, user)
       Upsert.pull_request(pull_requests)
       Upsert.assign_to_pull_request(pull_requests, user)
-      Upsert.solution(issues, pull_requests)
     end
   end
 end

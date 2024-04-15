@@ -7,7 +7,4 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 repository = Github::Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
-Repository.create!(
-  id: repository.id,
-  name: repository.name,
-  avatar_url: repository.avatar_url)
+Repository.create!(repository.to_h)

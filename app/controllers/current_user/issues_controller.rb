@@ -10,7 +10,7 @@ class CurrentUser::IssuesController < ApplicationController
       when 'reviewed'
         current_user.reviewed_issues
       else
-        current_user.created_issues
+        current_user.issues
       end
     @issues = refined_issues.where(repository_id: @repository.id).order(:created_at)
   end

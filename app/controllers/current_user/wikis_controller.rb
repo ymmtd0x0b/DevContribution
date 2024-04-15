@@ -3,6 +3,6 @@ class CurrentUser::WikisController < ApplicationController
   before_action :set_repository, only: %i[index]
 
   def index
-    @wikis = current_user.created_wikis.where(repository_id: @repository.id).order(:created_at)
+    @wikis = current_user.wikis.where(repository_id: @repository.id).order(:created_at)
   end
 end

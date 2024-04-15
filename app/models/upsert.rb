@@ -3,37 +3,15 @@ class Upsert
     def pull_request(pull_requests)
       return nil if pull_requests.empty?
 
-      pull_requests_data = pull_requests.map(&:to_activerecord_attributes)
+      pull_requests_data = pull_requests.map(&:to_h)
       PullRequest.upsert_all pull_requests_data, unique_by: :id
     end
 
     def issue(issues)
       return nil if issues.empty?
 
-      issues_data = issues.map(&:to_activerecord_attributes)
+      issues_data = issues.map(&:to_h)
       Issue.upsert_all issues_data, unique_by: :id
-
-      # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを削除する
-      issues.each do |issue|
-        labels = Labeling.where(issue_id: issue.id).where.not(label_id: issue.labels_id)
-        labels.destroy_all unless labels.nil?
-      end
-
-      labelings_data = issues.map(&:to_association_of_labels).flatten
-      Labeling.upsert_all(labelings_data, unique_by: %i[issue_id label_id]) if labelings_data.present?
-    end
-
-    def solution(issues, pull_requests)
-      return nil if (pull_requests.empty? or issues.empty?)
-
-      # 今回取得したアソシエーションに含まれない、登録済みのアソシエーションを予め削除する
-      pull_requests.each do |pull_request|
-        ref = Solution.where(pull_request_id: pull_request.id).where.not(issue_id: pull_request.solutions_issue_numbers)
-        ref.destroy_all unless ref.nil?
-      end
-
-      solutions_data = pull_requests.map { |pull_request| pull_request.to_association_of_solutions(issues) }.flatten
-      Solution.upsert_all solutions_data, unique_by: %i[issue_id pull_request_id] if solutions_data.present?
     end
 
     def assign_to_issue(issues, user)

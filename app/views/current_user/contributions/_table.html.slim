@@ -24,12 +24,12 @@
                 ruby:
                   pull_requests =
                     if header == 'Pull Request'
-                      issue.pull_requests.assignee_of(current_user)
+                      issue.resolves_pull_requests_assignee_of(current_user)
                     else
-                      issue.pull_requests.reviewer_of(current_user)
+                      issue.resolves_pull_requests_reviewer_of(current_user)
                     end
                 - pull_requests.each do |pull_request|
-                  = link_to "##{pull_request.url.slice(/\d+$/)}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
+                  = link_to "##{pull_request.number}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
         - else
             tr.font-semibold.bg-gray-200.text-slate-800.border-b.border-gray-400
               td.px-6.py-3

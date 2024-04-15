@@ -1,9 +1,6 @@
 class Issue < ApplicationRecord
-  belongs_to :user
   belongs_to :repository
-
-  has_many :labelings, dependent: :destroy
-  has_many :labels, through: :labelings
+  belongs_to :user
 
   has_many :assigns, as: :assignable, dependent: :destroy
   has_many :assignee, through: :assigns, source: :user
@@ -11,22 +8,23 @@ class Issue < ApplicationRecord
   has_many :reviews, as: :reviewable, dependent: :destroy
   has_many :reviewers, through: :reviews, source: :user
 
-  has_many :solution, dependent: :destroy
-  has_many :pull_requests, through: :solution do
-    def assignee_of(user)
-      self.joins(:assigns).where('assigns.user_id = ?', user.id)
-    end
+  def resolves_pull_requests_assignee_of(user)
+    PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id ,number)
+  end
 
-    def reviewer_of(user)
-      self.joins(:reviews).where('reviews.user_id = ?', user.id)
-    end
+  def resolves_pull_requests_reviewer_of(user)
+    PullRequest.joins(:reviews).where('reviews.user_id = ? and ? = any (issue_numbers)', user.id ,number)
+  end
+
+  def url
+    "#{repository.url}/issues/#{number}"
+  end
+
+  def labels
+    repository.labels.where(id: labels_id)
   end
 
   def point
     labels.pluck(:name).map(&:to_i).sum
-  end
-
-  def number
-    File.basename url
   end
 end

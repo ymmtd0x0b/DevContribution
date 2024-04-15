@@ -13,7 +13,6 @@ module Newspaper
       Upsert.review_to_issue(issues, user)
       Upsert.pull_request(pull_requests)
       Upsert.review_to_pull_request(pull_requests, user)
-      Upsert.solution(issues, pull_requests)
     end
   end
 end
