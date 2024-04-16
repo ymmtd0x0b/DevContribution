@@ -1,6 +1,6 @@
 module Github
   class PullRequest
-    attr_reader :id
+    attr_reader :id, :issue_numbers
 
     def initialize(repository_id, pull_request)
       @id = pull_request.id

@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
   end
 
   create_table "issues", force: :cascade do |t|
-    t.bigint "repository_id"
+    t.bigint "repository_id", null: false
     t.bigint "user_id", null: false
     t.string "title", null: false
     t.integer "number", null: false
@@ -33,14 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id"], name: "index_issues_on_repository_id"
-  end
-
-  create_table "labelings", force: :cascade do |t|
-    t.bigint "issue_id", null: false
-    t.bigint "label_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["issue_id", "label_id"], name: "index_labelings_on_issue_id_and_label_id", unique: true
   end
 
   create_table "labels", force: :cascade do |t|
@@ -52,7 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_073228) do
   end
 
   create_table "pull_requests", force: :cascade do |t|
-    t.bigint "repository_id"
+    t.bigint "repository_id", null: false
     t.integer "number", null: false
     t.bigint "issue_numbers", array: true
     t.datetime "created_at", null: false
