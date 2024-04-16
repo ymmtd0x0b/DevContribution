@@ -8,41 +8,21 @@ module Newspaper
     private
 
     def destroy_reviewed_issues(user)
-      issues_with_other_users, issues_without_other_users =
-        user.reviewed_issues.partition do |issue|
-          issue.assignees.exists? or issue.reviewers.where.not(id: user.id).exists?
-        end
+      issues_id = user.reviewed_issues.ids
+      issues_id_referenced_by_other_users = Issue.joins(:reviews, :assigns)
+        .where('reviews.reviewable_id in (?) and reviews.user_id != ? or assigns.assignable_id in (?)', issues_id, user.id, issues_id)
+        .ids
 
-      if issues_with_other_users.any?
-        issues_id = issues_with_other_users.map(&:id)
-        # Review.where('reviewable_id in (?) and user_id = ?', issues_id, user.id).destroy_all
-        user.reviews.where(reviewable_type: 'Issue', reviewable_id: issues_id).destroy_all
-      end
-
-      if issues_without_other_users.any?
-        issues_id = issues_without_other_users.map(&:id)
-        # Issue.where(id: issues_id).destroy_all
-        user.reviewed_issues.where(id: issues_id).destroy_all
-      end
+      user.reviewed_issues.where.not(id: issues_id_referenced_by_other_users).destroy_all
     end
 
     def destory_reviewed_pull_requests(user)
-      pull_requests_with_other_users, pull_requests_without_other_users =
-        user.reviewed_pull_requests.partition do |pull_request|
-          pull_request.assignees.exists? or pull_request.reviewers.where.not(id: user.id).exists?
-        end
+      pull_requests_id = user.reviewed_pull_requests.ids
+      pull_requests_id_referenced_by_other_users = PullRequest.joins(:reviews, :assigns)
+        .where('reviews.reviewable_id in (?) and reviews.user_id != ? or assigns.assignable_id in (?)', pull_requests_id, user.id, pull_requests_id)
+        .ids
 
-      if pull_requests_with_other_users.any?
-        pull_requests_id = pull_requests_with_other_users.map(&:id)
-        # Review.where('reviewable_id in (?) and user_id = ?', pull_requests_id, user.id).destroy_all
-        user.reviews.where(reviewable_type: 'PullRequest', reviewable_id: pull_requests_id).destroy_all
-      end
-
-      if pull_requests_without_other_users.any?
-        pull_requests_id = pull_requests_without_other_users.map(&:id)
-        # PullRequest.where(id: pull_requests_id).destroy_all
-        user.reviewed_pull_requests.where(id: pull_requests_id).destroy_all
-      end
+      user.reviewed_pull_requests.where.not(id: pull_requests_id_referenced_by_other_users).destroy_all
     end
   end
 end
