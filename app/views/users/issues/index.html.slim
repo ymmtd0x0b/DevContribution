@@ -1,5 +1,5 @@
 - if session[:newspaper]
-  = turbo_frame_tag :main, data: { turbo_action: :advance }, src: loading_path, loading: :lazy do
+  = turbo_frame_tag :main, data: { turbo_action: :advance }, src: users_loading_path, loading: :lazy do
     = render 'loading'
 - else
   = turbo_frame_tag :main, data: { turbo_action: :advance } do

@@ -19,6 +19,6 @@ Rails.application.routes.draw do
     resources :issues,  only: %i[index]
     resources :wikis, only: %i[index]
     resources :contributions, only: %i[index]
+    get 'loading', to: 'loading#show'
   end
-  get 'loading', to: 'users/loading#show'
 end
