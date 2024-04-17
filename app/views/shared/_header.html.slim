@@ -35,5 +35,7 @@ header
                     i.fa-solid.fa-arrow-right-from-bracket.pr-2
                     | ログアウト
         - else
-          .text-gray-800.bg-gray-50.hover:bg-gray-200.focus:ring-4.focus:ring-gray-300.font-medium.rounded-lg.text-sm.px-4.py-2.mr-2.focus:outline-none
-            = button_to 'ログイン', '/auth/github', method: :post, form: { data: { controller: 'button', 'button-target' => 'form' } }, data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' }
+          = button_to 'ログイン', '/auth/github', method: :post,
+                      form: { data: { controller: 'button', 'button-target' => 'form' } },
+                      data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' },
+                      class: 'text-gray-800 bg-gray-50 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 mr-2 focus:outline-none'
