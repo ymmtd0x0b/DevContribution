@@ -1,16 +1,17 @@
-class CurrentUser::IssuesController < ApplicationController
+class Users::IssuesController < ApplicationController
   include Settable
   before_action :set_repository, only: %i[index]
 
   def index
+    @user = User.find_by(login: params[:user_login])
     refined_issues =
       case params[:association]
       when 'assigned'
-        current_user.assigned_issues
+        @user.assigned_issues
       when 'reviewed'
-        current_user.reviewed_issues
+        @user.reviewed_issues
       else
-        current_user.issues
+        @user.issues
       end
     @issues = refined_issues.where(repository_id: @repository.id).order(:created_at)
   end

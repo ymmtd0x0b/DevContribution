@@ -1,4 +1,4 @@
-class CurrentUser::LoadingController < ApplicationController
+class Users::LoadingController < ApplicationController
   def show
     if session[:newspaper] == 'user_create'
       Newspaper.publish(:user_create, current_user)
@@ -6,6 +6,6 @@ class CurrentUser::LoadingController < ApplicationController
     end
 
     session.delete(:newspaper)
-    redirect_to current_user_issues_path(association: 'assigned')
+    redirect_to users_issues_path(current_user.login, association: 'assigned')
   end
 end

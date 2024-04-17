@@ -24,9 +24,9 @@
                 ruby:
                   pull_requests =
                     if header == 'Pull Request'
-                      issue.resolves_pull_requests_assignee_of(current_user)
+                      issue.resolves_pull_requests_assignee_of(@user)
                     else
-                      issue.resolves_pull_requests_reviewer_of(current_user)
+                      issue.resolves_pull_requests_reviewer_of(@user)
                     end
                 - pull_requests.each do |pull_request|
                   = link_to "##{pull_request.number}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }

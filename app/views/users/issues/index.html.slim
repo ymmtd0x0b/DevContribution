@@ -3,10 +3,10 @@
     = render 'loading'
 - else
   = turbo_frame_tag :main, data: { turbo_action: :advance } do
-    = render 'current_user/page_header', repository: @repository
+    = render 'users/page_header', repository: @repository
 
     = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
-      = render 'current_user/page_tabs'
-      = render 'current_user/page_body', items: @issues
+      = render 'users/page_tabs'
+      = render 'users/page_body', items: @issues
 
     = render 'shared/flash'

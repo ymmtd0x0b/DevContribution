@@ -10,10 +10,15 @@ Rails.application.routes.draw do
   #   resources :wikis, only: %i[index]
   #   resources :contributions, only: %i[index]
   # end
-  namespace :current_user do
+  # namespace :current_user do
+  #   resources :issues,  only: %i[index]
+  #   resources :wikis, only: %i[index]
+  #   resources :contributions, only: %i[index]
+  # end
+  namespace :users, path: '/:user_login' do
     resources :issues,  only: %i[index]
     resources :wikis, only: %i[index]
     resources :contributions, only: %i[index]
   end
-  get 'loading', to: 'current_user/loading#show'
+  get 'loading', to: 'users/loading#show'
 end
