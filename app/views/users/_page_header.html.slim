@@ -14,8 +14,9 @@
           = "#{user.login} さん"
       .font-medium
         | の取り組み
-    = button_to repository_path, form: { id: 'repository_update_button' }, method: :patch,
-                                  data: { turbo_confirm: '更新を実行しますか？' },
-                                  class: 'h-9 flex items-center text-gray-800 bg-white border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 focus:outline-none' do
-      i.fa-solid.fa-arrow-rotate-right.fa-rotate-270.mr-1
-      | 最新情報へ更新
+    - if user == current_user
+      = button_to repository_path, form: { id: 'repository_update_button' }, method: :patch,
+                                    data: { turbo_confirm: '更新を実行しますか？' },
+                                    class: 'h-9 flex items-center text-gray-800 bg-white border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 focus:outline-none' do
+        i.fa-solid.fa-arrow-rotate-right.fa-rotate-270.mr-1
+        | 最新情報へ更新
