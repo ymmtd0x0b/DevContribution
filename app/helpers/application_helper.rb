@@ -1,9 +1,9 @@
 module ApplicationHelper
   def tab_to(tab_name, path)
     if current_page?(path, check_parameters: true)
-      link_to tab_name, path, class: "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500", aria: { current: "page" }
+      link_to tab_name, path, class: "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active", aria: { current: "page" }
     else
-      link_to tab_name, path, class: "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+      link_to tab_name, path, class: "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300"
     end
   end
 

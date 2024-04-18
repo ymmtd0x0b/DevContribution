@@ -1,5 +1,5 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
-  = render 'users/page_header', repository: @repository
+  = render 'users/page_header', repository: @repository, user: @user
 
   = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
     = render 'users/page_tabs'
