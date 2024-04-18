@@ -1,5 +1,6 @@
 class Users::ContributionsController < ApplicationController
   include Settable
+  skip_before_action :authenticate_user!, only: %i[index]
   before_action :set_repository, only: %i[index]
 
   def index
@@ -8,5 +9,7 @@ class Users::ContributionsController < ApplicationController
     @reviewed_issues = @user.reviewed_issues.where(repository_id: @repository.id).order(:created_at)
     @issues = @user.issues.where(repository_id: @repository.id).order(:created_at)
     @wikis = @user.wikis.where(repository_id: @repository.id).order(:created_at)
+
+    render :unauthorized_index unless logged_in?
   end
 end
