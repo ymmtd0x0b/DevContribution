@@ -13,6 +13,6 @@ class Users::IssuesController < ApplicationController
       else
         @user.issues
       end
-    @issues = refined_issues.where(repository_id: @repository.id).order(:created_at)
+    @issues = refined_issues.where(repository_id: @repository.id).includes(:repository, :labels).order(:created_at)
   end
 end

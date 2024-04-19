@@ -2,6 +2,9 @@ class Issue < ApplicationRecord
   belongs_to :repository
   belongs_to :user
 
+  has_many :labelings, dependent: :destroy
+  has_many :labels, through: :labelings
+
   has_many :assigns, as: :assignable, dependent: :destroy
   has_many :assignees, through: :assigns, source: :user
 
@@ -18,10 +21,6 @@ class Issue < ApplicationRecord
 
   def url
     "#{repository.url}/issues/#{number}"
-  end
-
-  def labels
-    repository.labels.where(id: labels_id)
   end
 
   def point

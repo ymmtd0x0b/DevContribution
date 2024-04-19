@@ -14,6 +14,9 @@ module Newspaper
 
       Upsert.issue(issues)
       Upsert.review_to_issue(issues, user)
+
+      Upsert.labeling(issues)
+
       Upsert.pull_request(pull_requests)
       Upsert.review_to_pull_request(pull_requests, user)
     end

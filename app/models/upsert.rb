@@ -14,6 +14,26 @@ class Upsert
       Issue.upsert_all issues_data, unique_by: :id
     end
 
+    def labeling(issues)
+      return nil if issues.empty?
+
+      new_labeling_hash_list = []
+      issues.each do |issue|
+        issue.labels_id.each do |label_id|
+          new_labeling_hash_list << { issue_id: issue.id, label_id: label_id }
+        end
+      end
+
+      exists_labelings = Labeling.where(issue_id: issues.map(&:id))
+      lost_labelings = exists_labelings.reject do |labeling|
+                          exists_labeling = labeling.attributes.symbolize_keys.slice(:issue_id, :label_id)
+                          new_labeling_hash_list.include? exists_labeling
+                        end
+      Labeling.where(id: lost_labelings.map(&:id)).destroy_all
+
+      Labeling.upsert_all new_labeling_hash_list, unique_by: %i[issue_id label_id]
+    end
+
     def assign_to_issue(issues, user)
       return nil if (issues.empty? or user.nil?)
 

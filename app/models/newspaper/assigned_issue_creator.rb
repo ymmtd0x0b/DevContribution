@@ -10,6 +10,9 @@ module Newspaper
 
       Upsert.issue(issues)
       Upsert.assign_to_issue(issues, user)
+
+      Upsert.labeling(issues)
+
       Upsert.pull_request(pull_requests)
       Upsert.assign_to_pull_request(pull_requests, user)
     end

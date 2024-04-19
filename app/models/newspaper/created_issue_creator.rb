@@ -7,6 +7,7 @@ module Newspaper
       return if issues.nil?
 
       Upsert.issue(issues)
+      Upsert.labeling(issues)
     end
   end
 end

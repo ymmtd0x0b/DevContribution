@@ -1,6 +1,6 @@
 module Github
   class Issue
-    attr_reader :id
+    attr_reader :id, :labels_id
 
     def initialize(repository_id, issue)
       @id = issue.id
@@ -19,7 +19,6 @@ module Github
         user_id: @user_id,
         title: @title,
         number: @number,
-        labels_id: @labels_id,
         created_at: @created_at,
         updated_at: @updated_at }
     end
