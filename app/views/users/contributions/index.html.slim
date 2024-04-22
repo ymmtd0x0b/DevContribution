@@ -11,7 +11,7 @@
               i.fa-regular.fa-clipboard.mr-2
               | Copy
             span#success-message.hidden.inline-flex.items-center(data-clipboard-target='successMessage')
-              = icon('checked', { class: "w-3 h-3 text-white me-1.5" })
+              = image_tag 'checked', { class: "w-3 h-3 me-1.5" }
               | Copied!
           #tooltip-default.absolute.z-50.invisible.inline-block.px-3.py-2.text-sm.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
             | Markdown記法でクリップボードへコピーします
