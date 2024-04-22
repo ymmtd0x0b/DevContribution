@@ -17,21 +17,13 @@ module Github
     end
 
     class << self
-      def find_by(id: nil, name: nil)
-        return if !!id and !!name
-
+      def find_by(id: nil)
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-        begin
-          repository =
-            if id
-              client.repo(id.to_i)
-            else
-              client.repo(name)
-            end
-          Github::Repository.new(repository)
-        rescue
-          nil
-        end
+        repository = client.repo(id.to_i)
+        Github::Repository.new(repository)
+      rescue Octokit::Error => e
+        log_error(e)
+        nil
       end
 
       def labels(repository, option = { page: 1, per_page: 100 })
@@ -39,16 +31,15 @@ module Github
 
         labels = []
         begin
-          begin
-            labels_per_page = client.labels(repository.name, option)
-          rescue
-            return []
-          end
+          labels_per_page = client.labels(repository.name, option)
           labels.concat labels_per_page
           option[:page] += 1
         end while(labels_per_page.count == option[:per_page])
 
         labels
+      rescue Octokit::Error => e
+        log_error(e)
+        []
       end
 
       def search_issues(query, option = { page: 1, per_page: 100 })
@@ -56,31 +47,29 @@ module Github
 
         issues = []
         begin
-          begin
-            issues_per_page = client.search_issues(query, option)
-          rescue
-            return []
-          end
+          issues_per_page = client.search_issues(query, option)
           issues.concat issues_per_page.items
           option[:page] += 1
         end while(issues_per_page.items.count == option[:per_page])
 
         issues
+      rescue Octokit::Error => e
+        log_error(e)
+        []
       end
 
-      def issues_by_number(repository, numbers)
+      def issues_by_number(repository, issue_numbers)
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+        client.search_issues("repo:#{repository.name} is:issue #{issue_numbers.join(' ')}").items
+      rescue Octokit::Error => e
+        log_error(e)
+        []
+      end
 
-        issues = []
-        numbers.each_slice(50) do |some_numbers| # クエリの文字数制限(256 文字超 (演算子や修飾子は除く))を超えないように何回かに分けて処理を行う
-          begin
-            issues.concat client.search_issues("repo:#{repository.name} is:issue #{some_numbers.join(' ')}").items
-          rescue
-            return []
-          end
-        end
-
-        issues
+      def log_error(exception)
+        # NOTE: exception の例
+        #       - GET https://api.github.com/repos/ymmtd0x0b/error: 404 - Not Found // See: https://docs.github.com/rest/repos/repos#get-a-repository
+        Rails.logger.error "[GitHub API] #{exception}"
       end
     end
   end
