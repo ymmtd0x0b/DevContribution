@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Users::IssuesController < ApplicationController
   include Settable
   before_action :set_repository, only: %i[index]

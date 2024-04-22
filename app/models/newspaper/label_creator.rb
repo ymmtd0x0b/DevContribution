@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Newspaper
   class LabelCreator
-    def call(user)
+    def call(_)
       repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
       labels = Github::Label.search(repository)
 

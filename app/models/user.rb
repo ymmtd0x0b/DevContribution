@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-  has_many :issues
+  scope :issues, -> { Issue.where(user_id: id) }
 
   has_many :assigns, dependent: :destroy
-  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: "Issue"
-  has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: "PullRequest"
+  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'
+  has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
 
   has_many :reviews, dependent: :destroy
   has_many :reviewed_issues, through: :reviews, source: :reviewable, source_type: 'Issue'
@@ -12,7 +14,7 @@ class User < ApplicationRecord
   has_many :wikis, dependent: :destroy
 
   def self.find_or_initialize_by_github_auth(auth_hash)
-    uid  = auth_hash[:uid]
+    uid = auth_hash[:uid]
     login = auth_hash[:extra][:raw_info][:login]
     name = auth_hash[:extra][:raw_info][:name]
     avatar_url = auth_hash[:extra][:raw_info][:avatar_url]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Repository < ApplicationRecord
   has_many :contributions, dependent: :destroy
   has_many :contributors, through: :contributions, source: :user

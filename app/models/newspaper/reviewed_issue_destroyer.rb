@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Newspaper
   class ReviewedIssueDestroyer
     def call(user)

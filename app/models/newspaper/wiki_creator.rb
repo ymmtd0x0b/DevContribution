@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Newspaper
   class WikiCreator
     def call(user)

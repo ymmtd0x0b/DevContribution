@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RepositoriesController < ApplicationController
   include Settable
   before_action :set_repository, only: %i[update]

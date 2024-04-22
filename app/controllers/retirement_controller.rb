@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RetirementController < ApplicationController
   def create
     Newspaper.publish(:user_destroy, current_user)

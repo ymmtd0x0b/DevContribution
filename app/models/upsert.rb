@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Upsert
   class << self
     def pull_request(pull_requests)
@@ -20,7 +22,7 @@ class Upsert
       new_labeling_hash_list = []
       issues.each do |issue|
         issue.labels_id.each do |label_id|
-          new_labeling_hash_list << { issue_id: issue.id, label_id: label_id }
+          new_labeling_hash_list << { issue_id: issue.id, label_id: }
         end
       end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Git
   class Wiki
     def initialize(repository, user, file_name, file_log)

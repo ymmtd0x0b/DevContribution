@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Github
   class Repository
     attr_reader :id, :name, :avatar_url

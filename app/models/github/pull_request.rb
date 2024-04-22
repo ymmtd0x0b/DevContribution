@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Github
   class PullRequest
     attr_reader :id, :issue_numbers
@@ -18,14 +20,12 @@ module Github
 
     class << self
       def assigned_by(repository, user)
-        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release is:merged")
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release") # 確認用
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release")
         pull_requests.map { |pull_request| Github::PullRequest.new(repository.id, pull_request) }
       end
 
       def reviewed_by(repository, user)
-        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login} is:merged")
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}") # 確認用
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
         pull_requests.map { |pull_request| Github::PullRequest.new(repository.id, pull_request) }
       end
     end

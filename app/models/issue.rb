@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Issue < ApplicationRecord
   belongs_to :repository
   belongs_to :user
@@ -12,11 +14,11 @@ class Issue < ApplicationRecord
   has_many :reviewers, through: :reviews, source: :user
 
   def resolves_pull_requests_assignee_of(user)
-    PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id ,number)
+    PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id, number)
   end
 
   def resolves_pull_requests_reviewer_of(user)
-    PullRequest.joins(:reviews).where('reviews.user_id = ? and ? = any (issue_numbers)', user.id ,number)
+    PullRequest.joins(:reviews).where('reviews.user_id = ? and ? = any (issue_numbers)', user.id, number)
   end
 
   def url

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Github
   class Issue
     attr_reader :id, :labels_id
