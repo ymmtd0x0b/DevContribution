@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  scope :issues, -> { Issue.where(user_id: id) }
-
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
@@ -25,5 +23,9 @@ class User < ApplicationRecord
       user.name = name
       user.avatar_url = avatar_url
     end
+  end
+
+  def issues
+    Issue.where(user_id: id)
   end
 end
