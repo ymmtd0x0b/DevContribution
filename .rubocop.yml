@@ -1,0 +1,20 @@
+require:
+  - rubocop-capybara
+
+inherit_gem:
+  rubocop-fjord:
+    - "config/rubocop.yml"
+    - "config/rails.yml"
+
+AllCops:
+    SuggestExtensions: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - app/models/issue.rb
+    - app/models/pull_request.rb
+    - app/models/label.rb
+    - app/models/labeling.rb
+    - app/models/assign.rb
+    - app/models/review.rb
+    - app/models/wiki.rb
