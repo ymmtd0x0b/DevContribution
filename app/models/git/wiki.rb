@@ -23,7 +23,11 @@ module Git
         Dir.mktmpdir do |dir|
           tmpdir_path = "#{dir}/#{repository.name}.wiki.git"
 
-          response = Git.clone("https://github.com/#{repository.name}.wiki.git", tmpdir_path) rescue nil
+          response = begin
+            Git.clone("https://github.com/#{repository.name}.wiki.git", tmpdir_path)
+          rescue StandardError
+            nil
+          end
           return [] if response.nil?
 
           git = Git.open tmpdir_path

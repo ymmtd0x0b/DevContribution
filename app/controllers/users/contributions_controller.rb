@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Users::ContributionsController < ApplicationController
   include Settable
   skip_before_action :authenticate_user!, only: %i[index]

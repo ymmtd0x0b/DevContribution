@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Users::LoadingController < ApplicationController
   def show
     if session[:newspaper] == 'user_create'

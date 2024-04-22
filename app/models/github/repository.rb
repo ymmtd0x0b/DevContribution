@@ -32,11 +32,12 @@ module Github
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
 
         labels = []
-        begin
+        loop do
           labels_per_page = client.labels(repository.name, option)
           labels.concat labels_per_page
           option[:page] += 1
-        end while(labels_per_page.count == option[:per_page])
+          break unless labels_per_page.count == option[:per_page]
+        end
 
         labels
       rescue Octokit::Error => e
@@ -48,11 +49,12 @@ module Github
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
 
         issues = []
-        begin
+        loop do
           issues_per_page = client.search_issues(query, option)
           issues.concat issues_per_page.items
           option[:page] += 1
-        end while(issues_per_page.items.count == option[:per_page])
+          break unless issues_per_page.items.count == option[:per_page]
+        end
 
         issues
       rescue Octokit::Error => e

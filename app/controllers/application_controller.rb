@@ -17,9 +17,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_user!
-    unless logged_in?
-      flash[:warning] = 'ログインしてください'
-      redirect_to root_path
-    end
+    return if logged_in?
+
+    flash[:warning] = 'ログインしてください'
+    redirect_to root_path
   end
 end

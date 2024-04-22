@@ -33,12 +33,12 @@ module Github
     private
 
     def scan_issue_numbers(body)
-      return [] if (body.nil? or !body.match?(/# [Ii]ssue.+# 概要/m))
+      return [] if body.nil? || !body.match?(/# [Ii]ssue.+# 概要/m)
 
       issue_section = body.slice(/# [Ii]ssue.+# 概要/m)
       return [] if issue_section.nil?
 
-      issue_urls = issue_section.scan(/http.+\/issues\/\d+|#\d+/)
+      issue_urls = issue_section.scan(%r{http.+/issues/\d+|#\d+})
       issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }.uniq
     end
   end
