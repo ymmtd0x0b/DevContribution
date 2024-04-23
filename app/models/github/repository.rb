@@ -19,9 +19,9 @@ module Github
     end
 
     class << self
-      def find_by(id: nil)
+      def find_by(id: nil, name: nil)
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-        repository = client.repo(id.to_i)
+        repository = id ? client.repo(id.to_i) : client.repo(name)
         Github::Repository.new(repository)
       rescue Octokit::Error => e
         log_error(e)
