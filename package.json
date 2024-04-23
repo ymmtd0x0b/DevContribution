@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "run-p lint:*",
     "lint:eslint": "eslint 'app/javascript/**/*.js'",
-    "lint:prettier": "prettier app/javascript/**/*.js --check"
+    "lint:prettier": "prettier app/javascript/**/*.js --check",
+    "format": "prettier app/javascript/**/*.js --write"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",

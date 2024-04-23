@@ -6,10 +6,9 @@ import Swal from 'sweetalert2'
 export default class extends Controller {
   static targets = ['allIssuesTable', 'defaultMessage', 'successMessage']
 
-  connect () {
-  }
+  connect() {}
 
-  copy () {
+  copy() {
     if (!navigator.clipboard) {
       Swal.fire({
         title: 'エラー',
@@ -19,7 +18,10 @@ export default class extends Controller {
       return
     }
 
-    const markdonwText = NodeHtmlMarkdown.translate(this.allIssuesTableTarget.outerHTML, { bulletMarker: '-' })
+    const markdonwText = NodeHtmlMarkdown.translate(
+      this.allIssuesTableTarget.outerHTML,
+      { bulletMarker: '-' }
+    )
     navigator.clipboard.writeText(markdonwText).then(() => {
       this.defaultMessageTarget.classList.add('hidden')
       this.successMessageTarget.classList.remove('hidden')
