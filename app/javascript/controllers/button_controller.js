@@ -1,10 +1,10 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 // Connects to data-controller="button"
 export default class extends Controller {
   static targets = ['form', 'submitButton']
 
-  click() {
+  click () {
     document.body.classList.add('cursor-wait')
 
     const ankers = document.querySelectorAll('a')
@@ -14,12 +14,12 @@ export default class extends Controller {
     })
 
     const buttons = document.querySelectorAll('button')
-    if(buttons.length > 0) {
+    if (buttons.length > 0) {
       buttons.forEach((button) => {
         button.disabled = true
         button.classList.add('cursor-wait')
         const cssClassList = button.className.match(/hover:[^ ]+/g)
-        if(cssClassList !== null) {
+        if (cssClassList !== null) {
           cssClassList.forEach((cssClass) => { button.classList.remove(cssClass) })
         }
       })

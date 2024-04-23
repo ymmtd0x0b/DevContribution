@@ -1,9 +1,9 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 import Swal from 'sweetalert2'
 
-function toast(title, type) {
+function toast (title, type) {
   Swal.fire({
-    title: title,
+    title,
     icon: type,
     toast: true,
     position: 'top-end',
@@ -20,7 +20,7 @@ export default class extends Controller {
     messageType: String
   }
 
-  connect() {
+  connect () {
     toast(this.messageValue, this.messageTypeValue)
   }
 }

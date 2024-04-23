@@ -1,3 +1,4 @@
+import { Turbo } from '@hotwired/turbo-rails'
 import Swal from 'sweetalert2'
 import loadingModal from './loading_modal.js'
 
@@ -9,10 +10,10 @@ Turbo.setConfirmMethod((message, element) => {
       showCancelButton: true,
       customClass: {
         title: 'text-xl text-slate-600 font-medium'
-      },
+      }
     }).then((result) => {
       const id = element.getAttribute('id')
-      if(result.isConfirmed && id == 'repository_update_button') {
+      if (result.isConfirmed && id === 'repository_update_button') {
         loadingModal()
       }
       resolve(result.isConfirmed)
