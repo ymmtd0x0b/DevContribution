@@ -10,7 +10,7 @@ module Newspaper
       user.wikis.where(repository_id: repository.id).destroy_all
 
       wikis = Git::Wiki.created_by(repository, user)
-      return nil if wikis.empty?
+      return nil if wikis.blank?
 
       Wiki.bulk_insert(wikis)
     end

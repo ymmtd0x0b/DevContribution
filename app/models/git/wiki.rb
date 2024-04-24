@@ -23,12 +23,7 @@ module Git
         Dir.mktmpdir do |dir|
           tmpdir_path = "#{dir}/#{repository.name}.wiki.git"
 
-          response = begin
-            Git.clone("https://github.com/#{repository.name}.wiki.git", tmpdir_path)
-          rescue StandardError
-            nil
-          end
-          return [] if response.nil?
+          Git.clone("https://github.com/#{repository.name}.wiki.git", tmpdir_path)
 
           git = Git.open tmpdir_path
           wikis = git.lib.ls_files
@@ -37,7 +32,19 @@ module Git
             file_log = git.log.object("#{tmpdir_path}/#{file_name}")
             Wiki.new(repository, user, file_name, file_log) if [user.login, user.name].include? file_log.last.author.name
           end
+        rescue FailedError => e
+          log_error(e)
+          nil
         end
+      end
+
+      private
+
+      def log_error(exception)
+        # NOTE: exception の例
+        #       - fatal: repository 'https://github.com/sample/repository.wiki.git/' not found
+        #       - fatal: unable to access 'https://github.com/sample/repository.wiki.git/': Could not resolve host: github.com
+        Rails.logger.error "[Git] #{exception.to_s.slice(/output: "(.+)"/, 1).split('\\n').last}"
       end
     end
   end
