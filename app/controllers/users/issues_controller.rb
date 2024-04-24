@@ -7,19 +7,25 @@ class Users::IssuesController < ApplicationController
 
   def index
     if @user
-      refined_issues =
-        case params[:association]
-        when 'assigned'
-          @user.assigned_issues
-        when 'reviewed'
-          @user.reviewed_issues
-        else
-          @user.issues
-        end
-      @issues = refined_issues.where(repository_id: @repository.id).includes(:repository, :labels).order(:created_at)
+      set_issues
     else
       flash[:error] = 'ユーザーが見つかりませんでした'
       redirect_to root_path
     end
+  end
+
+  private
+
+  def set_issues
+    @issues = case params[:association]
+              when 'assigned'
+                @user.assigned_issues
+              when 'reviewed'
+                @user.reviewed_issues
+              else
+                @user.issues
+              end
+
+    @issues.where(repository_id: @repository.id).includes(:repository, :labels).order(:created_at) if @issues.any?
   end
 end

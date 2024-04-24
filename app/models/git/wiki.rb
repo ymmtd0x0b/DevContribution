@@ -10,7 +10,7 @@ module Git
       @updated_at = file_log.first.author_date
     end
 
-    def to_activerecord_attributes
+    def to_h
       { repository_id: @repository_id,
         user_id: @user_id,
         title: @title,

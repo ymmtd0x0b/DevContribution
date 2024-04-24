@@ -8,5 +8,6 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-repository = Github::Repository.find_by(name: 'fjordllc/bootcamp')
+# repository = Github::Repository.find_by(name: 'fjordllc/bootcamp')
+repository = Github::Repository.find_by(name: 'ymmtd0x0b/for_test')
 Repository.create!(repository.to_h)

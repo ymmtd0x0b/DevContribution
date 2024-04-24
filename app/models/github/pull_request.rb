@@ -25,7 +25,8 @@ module Github
       end
 
       def reviewed_by(repository, user)
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
+        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr user-review-requested:#{user.login} -assignee:#{user.login}")
         pull_requests.map { |pull_request| Github::PullRequest.new(repository.id, pull_request) }
       end
     end

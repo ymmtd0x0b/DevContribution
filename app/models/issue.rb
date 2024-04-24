@@ -13,6 +13,15 @@ class Issue < ApplicationRecord
   has_many :reviews, as: :reviewable, dependent: :destroy
   has_many :reviewers, through: :reviews, source: :user
 
+  class << self
+    def bulk_insert(issues)
+      return nil if issues.empty?
+
+      issues_data = issues.map(&:to_h)
+      upsert_all issues_data, unique_by: :id
+    end
+  end
+
   def resolves_pull_requests_assignee_of(user)
     PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id, number)
   end

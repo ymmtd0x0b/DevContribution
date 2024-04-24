@@ -8,8 +8,8 @@ module Newspaper
       issues = Github::Issue.created_by(repository, user)
       return if issues.nil?
 
-      Upsert.issue(issues)
-      Upsert.labeling(issues)
+      Issue.bulk_insert(issues)
+      Labeling.bulk_insert(issues)
     end
   end
 end

@@ -24,6 +24,10 @@ module Github
         created_at: @created_at,
         updated_at: @updated_at }
     end
+
+    def labelings_to_h
+      @labels_id.map { |label_id| { issue_id: @id, label_id: } }
+    end
     class << self
       def created_by(repository, user)
         issues = Github::Repository.search_issues("repo:#{repository.name} is:issue author:#{user.login}")
@@ -36,6 +40,8 @@ module Github
       end
 
       def search_numbers(repository, numbers)
+        return [] if numbers.empty?
+
         issues = Github::Repository.issues_by_number(repository, numbers)
         issues.map { |issue| Github::Issue.new(repository.id, issue) }
       end

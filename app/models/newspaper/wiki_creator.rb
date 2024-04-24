@@ -12,7 +12,7 @@ module Newspaper
       wikis = Git::Wiki.created_by(repository, user)
       return nil if wikis.empty?
 
-      Upsert.wiki(wikis)
+      Wiki.bulk_insert(wikis)
     end
   end
 end

@@ -6,7 +6,6 @@ module Newspaper
       repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
 
       pull_requests = Github::PullRequest.reviewed_by(repository, user)
-      return nil if pull_requests.empty?
 
       issue_numbers = []
       pull_requests.each do |pull_request|
@@ -14,13 +13,12 @@ module Newspaper
       end
       issues = Github::Issue.search_numbers(repository, issue_numbers)
 
-      Upsert.issue(issues)
-      Upsert.review_to_issue(issues, user)
+      Issue.bulk_insert(issues)
+      Labeling.bulk_insert(issues)
+      Review.bulk_insert('Issue', issues, user)
 
-      Upsert.labeling(issues)
-
-      Upsert.pull_request(pull_requests)
-      Upsert.review_to_pull_request(pull_requests, user)
+      PullRequest.bulk_insert(pull_requests)
+      Review.bulk_insert('PullRequest', pull_requests, user)
     end
   end
 end
