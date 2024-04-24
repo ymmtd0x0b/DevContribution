@@ -33,9 +33,11 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   gem 'byebug'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails'
 end
 
 group :development do
+  gem 'rspec-rails'
   gem 'rubocop-capybara', require: false
   gem 'rubocop-fjord', require: false
   gem 'rubocop-rails', require: false
