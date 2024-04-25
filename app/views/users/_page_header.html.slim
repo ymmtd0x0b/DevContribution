@@ -1,13 +1,17 @@
 .flex.gap-x-3.py-6.px-4.w-full.mx-auto.max-w-screen-lg
   .flex.items-center.space-x-3
     .flex.items-center
-      = image_tag(repository.avatar_url, class: 'w-8 h-8 rounded') if repository.avatar_url
-      .ml-1.py-1.pl-2.text-ms.font-semibold.text-slate-700
+      .w-8.h-8.rounded.mr-1
+        - if repository.avatar_url?
+          = image_tag repository.avatar_url
+        - else
+          = image_tag 'github.svg'
+      .ml-1.py-1.text-ms.font-semibold.text-slate-700
         = repository.name
     .flex.text-ms.text-slate-700
       .font-medium
         | での
-      .px-2.font-semibold.text-blue-600.border-0.border-b-2.border-blue-600
+      .px-1.mx-1.font-semibold.text-blue-600.border-0.border-b-2.border-blue-600
         - if user == current_user
           | あなた
         - else
