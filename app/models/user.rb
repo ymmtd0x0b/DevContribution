@@ -2,7 +2,6 @@
 
 class User < ApplicationRecord
   validates :login, presence: true
-  validates :avatar_url, presence: true
 
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'

@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
     create_table :users do |t|
       t.string :login,     null: false
       t.string :name
-      t.string :avatar_url, null: false
+      t.string :avatar_url
 
       t.timestamps
     end

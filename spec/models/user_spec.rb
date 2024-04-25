@@ -8,8 +8,8 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
-  it 'login, avatar_url があれば有効であること' do
-    user = User.new(login: 'valid_user', avatar_url: 'https://example.com/12345.jpg')
+  it 'login があれば有効であること' do
+    user = User.new(login: 'valid_user')
     expect(user).to be_valid
   end
 
