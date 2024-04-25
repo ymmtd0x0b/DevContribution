@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  validates :login, presence: true
+  validates :avatar_url, presence: true
+
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
@@ -13,9 +16,9 @@ class User < ApplicationRecord
 
   def self.find_or_initialize_by_github_auth(auth_hash)
     uid = auth_hash[:uid]
-    login = auth_hash[:extra][:raw_info][:login]
-    name = auth_hash[:extra][:raw_info][:name]
-    avatar_url = auth_hash[:extra][:raw_info][:avatar_url]
+    login = auth_hash[:info][:nickname]
+    name = auth_hash[:info][:name]
+    avatar_url = auth_hash[:info][:image]
 
     User.find_or_initialize_by(id: uid) do |user|
       user.id = uid

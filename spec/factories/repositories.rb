@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :user do
-    login { 'tester' }
+  factory :repository do
+    name { 'test/repository' }
+    url { 'https://example.com/test/repository' }
     avatar_url { 'https://example.com/12345.jpg' }
   end
 end
