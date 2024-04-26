@@ -3,6 +3,7 @@
 class Label < ApplicationRecord
   belongs_to :repository
 
+  validates :id, presence: true
   validates :name,  presence: true
   validates :color, presence: true
 

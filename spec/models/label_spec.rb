@@ -8,19 +8,20 @@ RSpec.describe Label, type: :model do
     expect(label).to be_valid
   end
 
-  it 'repository_id, name, color があれば有効であること' do
+  it 'id, repository_id, name, color があれば有効であること' do
     repository = FactoryBot.create(:repository)
-    label = Label.new(repository_id: repository.id, name: 'bug', color: 'FF0000')
+    label = Label.new(id: 1, repository_id: repository.id, name: 'bug', color: 'FF0000')
     expect(label).to be_valid
   end
 
   describe '.bulk_insert' do
     context 'Array でまとめられた Label インスタンスが渡された場合' do
-      it 'データベースへ保存すること' do
+      it '有効なインスタンスのみデータベースへ保存すること' do
         repository = FactoryBot.create(:repository)
         labels = [
-          FactoryBot.build(:label, id: 123, repository:),
-          FactoryBot.build(:label, id: 456, repository:)
+          FactoryBot.build(:label, repository:),
+          FactoryBot.build(:label, repository:),
+          FactoryBot.build(:label, repository:, id: nil)
         ]
         expect { Label.bulk_insert(labels) }.to change(Label, :count).by(2)
       end
