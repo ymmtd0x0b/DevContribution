@@ -9,5 +9,9 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # repository = Github::Repository.find_by(name: 'fjordllc/bootcamp')
-repository = Github::Repository.find_by(name: 'ymmtd0x0b/for_test')
-Repository.create!(repository.to_h)
+Repository.find_and_create_by_octokit(name: 'ymmtd0x0b/for_test2', with_label: true)
+
+# あとで削除する
+client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+user = client.user 'ymmtd0x0b'
+User.create!(id: user.id, login: user.login)

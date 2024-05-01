@@ -2,47 +2,23 @@
 
 module Github
   class Repository
-    attr_reader :id, :name, :avatar_url
+    attr_reader :id, :name, :url, :avatar_url
 
-    def initialize(repository)
-      @id = repository.id
-      @name = repository.full_name
-      @url = repository.html_url
-      @avatar_url = repository.owner.avatar_url
-    end
-
-    def to_h
-      { id: @id,
-        name: @name,
-        url: @url,
-        avatar_url: @avatar_url }
+    def initialize(repository_data)
+      @id = repository_data.id
+      @name = repository_data.full_name
+      @url = repository_data.html_url
+      @avatar_url = repository_data.owner.avatar_url
     end
 
     class << self
       def find_by(id: nil, name: nil)
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-        repository = id ? client.repo(id.to_i) : client.repo(name)
-        Github::Repository.new(repository)
+        repository_data = id ? client.repo(id.to_i) : client.repo(name)
+        new(repository_data)
       rescue Octokit::Error => e
         log_error(e)
         nil
-      end
-
-      def labels(repository, option = { page: 1, per_page: 100 })
-        client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
-
-        labels = []
-        loop do
-          labels_per_page = client.labels(repository.name, option)
-          labels.concat labels_per_page
-          option[:page] += 1
-          break unless labels_per_page.count == option[:per_page]
-        end
-
-        labels
-      rescue Octokit::Error => e
-        log_error(e)
-        []
       end
 
       def search_issues(query, option = { page: 1, per_page: 100 })
