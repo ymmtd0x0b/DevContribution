@@ -8,17 +8,16 @@ class Issue < ApplicationRecord
   has_many :labels, through: :labelings
 
   has_many :assigns, as: :assignable, dependent: :destroy
-  has_many :assignees, through: :assigns, source: :user
-
   has_many :reviews, as: :reviewable, dependent: :destroy
-  has_many :reviewers, through: :reviews, source: :user
 
   class << self
-    def bulk_insert(issues)
+    def synchronize(issues, with_labeling: true)
       return nil if issues.empty?
 
-      issues_data = issues.map(&:to_h)
-      upsert_all issues_data, unique_by: :id
+      issue_hash_list = issues.map(&:to_h)
+      upsert_all issue_hash_list
+
+      Labeling.synchronize(issues) if with_labeling
     end
   end
 

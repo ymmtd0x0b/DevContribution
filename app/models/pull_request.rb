@@ -10,11 +10,11 @@ class PullRequest < ApplicationRecord
   has_many :reviewers, through: :reviews, source: :user
 
   class << self
-    def bulk_insert(pull_requests)
+    def synchronize(pull_requests)
       return nil if pull_requests.empty?
 
-      pull_requests_data = pull_requests.map(&:to_h)
-      upsert_all pull_requests_data, unique_by: :id
+      pr_hash_list = pull_requests.map(&:to_h)
+      upsert_all pr_hash_list
     end
   end
 

@@ -6,8 +6,6 @@ class Review < ApplicationRecord
 
   class << self
     def bulk_insert(model_name, items, user)
-      return nil if user.nil?
-
       if items.empty?
         user.reviews.where(reviewable_type: model_name).destroy_all
       else
