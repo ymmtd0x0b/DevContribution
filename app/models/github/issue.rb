@@ -37,6 +37,8 @@ module Github
       end
 
       def search_numbers(repository, numbers)
+        return [] if numbers.empty?
+
         issues = Github::Repository.issues_by_number(repository, numbers)
         issues.map { |issue| new(repository.id, issue) }
       end

@@ -3,7 +3,7 @@ class CreatePullRequests < ActiveRecord::Migration[7.0]
     create_table :pull_requests do |t|
       t.references :repository, foreign_key: true, null: false
       t.integer :number,        null: false, unique: true
-      t.integer :issue_numbers, array: true
+      t.integer :issues_number, array: true
 
       t.timestamps
     end

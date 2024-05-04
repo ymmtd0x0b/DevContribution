@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_041852) do
   create_table "pull_requests", force: :cascade do |t|
     t.bigint "repository_id", null: false
     t.integer "number", null: false
-    t.integer "issue_numbers", array: true
+    t.integer "issues_number", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id", "number"], name: "index_pull_requests_on_repository_id_and_number", unique: true
