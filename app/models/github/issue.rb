@@ -2,7 +2,7 @@
 
 module Github
   class Issue
-    attr_reader :id
+    attr_reader :id, :number
 
     def initialize(repository_id, issue)
       @id = issue.id

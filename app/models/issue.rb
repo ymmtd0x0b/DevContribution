@@ -10,6 +10,9 @@ class Issue < ApplicationRecord
   has_many :assigns, as: :assignable, dependent: :destroy
   has_many :reviews, as: :reviewable, dependent: :destroy
 
+  has_many :resolutions, dependent: :destroy
+  has_many :pull_requests, through: :resolutions
+
   class << self
     def synchronize(issues, with_labeling: true)
       return nil if issues.empty?

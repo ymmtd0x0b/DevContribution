@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_19_041852) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_04_163824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,7 +60,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_041852) do
   create_table "pull_requests", force: :cascade do |t|
     t.bigint "repository_id", null: false
     t.integer "number", null: false
-    t.integer "issues_number", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id", "number"], name: "index_pull_requests_on_repository_id_and_number", unique: true
@@ -73,6 +72,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_041852) do
     t.string "avatar_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "resolutions", force: :cascade do |t|
+    t.bigint "issue_id", null: false
+    t.bigint "pull_request_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id", "pull_request_id"], name: "index_resolutions_on_issue_id_and_pull_request_id", unique: true
+    t.index ["issue_id"], name: "index_resolutions_on_issue_id"
+    t.index ["pull_request_id"], name: "index_resolutions_on_pull_request_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -112,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_041852) do
   add_foreign_key "labelings", "labels"
   add_foreign_key "labels", "repositories"
   add_foreign_key "pull_requests", "repositories"
+  add_foreign_key "resolutions", "issues"
+  add_foreign_key "resolutions", "pull_requests"
   add_foreign_key "reviews", "users"
   add_foreign_key "wikis", "repositories"
   add_foreign_key "wikis", "users"

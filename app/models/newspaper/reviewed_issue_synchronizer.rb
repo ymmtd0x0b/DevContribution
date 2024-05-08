@@ -14,11 +14,13 @@ module Newspaper
       issues = Github::Issue.search_numbers(repository, issues_number)
 
       Issue.synchronize(issues, with_labeling: true)
-      Labeling.synchronize(issues)
       Review.synchronize('Issue', issues, user)
 
       PullRequest.synchronize(pull_requests)
       Review.synchronize('PullRequest', pull_requests, user)
+
+      exist_resolutions = user.reviewed_issues.flat_map(&:resolutions)
+      Resolution.synchronize(issues, pull_requests, exist_resolutions)
     end
   end
 end

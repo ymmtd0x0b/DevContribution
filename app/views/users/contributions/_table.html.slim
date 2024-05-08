@@ -21,15 +21,10 @@
               td.px-6.py-3
                 = link_to issue.title, issue.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
               td.px-6.py-3
-                ruby:
-                  pull_requests =
-                    if header == 'Pull Request'
-                      issue.resolves_pull_requests_assignee_of(@user)
-                    else
-                      issue.resolves_pull_requests_reviewer_of(@user)
-                    end
-                - pull_requests.each do |pull_request|
-                  = link_to "##{pull_request.number}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
+                - issue.pull_requests.each do |pull_request|
+                  - if (header == 'Pull Request' and pull_request.assignee?(@user)) or (header == 'Review' and pull_request.reviewer?(@user))
+                    = link_to "##{pull_request.number}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
+                    br
         - else
             tr.font-semibold.bg-gray-200.text-slate-800.border-b.border-gray-400
               td.px-6.py-3

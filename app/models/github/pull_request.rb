@@ -14,8 +14,7 @@ module Github
     def to_h
       { id: @id,
         repository_id: @repository_id,
-        number: @number,
-        issues_number: @issues_number }
+        number: @number }
     end
 
     class << self

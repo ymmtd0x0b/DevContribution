@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 module Newspaper
-  class CreatedIssueCreator
+  class CreatedIssueSynchronizer
     def call(user)
       repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
 
       issues = Github::Issue.created_by(repository, user)
-      return if issues.nil?
-
-      Issue.bulk_insert(issues)
-      Labeling.bulk_insert(issues)
+      Issue.synchronize(issues, with_labeling: true)
     end
   end
 end

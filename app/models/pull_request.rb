@@ -9,6 +9,9 @@ class PullRequest < ApplicationRecord
   has_many :reviews, as: :reviewable, dependent: :destroy
   has_many :reviewers, through: :reviews, source: :user
 
+  has_many :resolutions, dependent: :destroy
+  has_many :issues, through: :resolutions
+
   class << self
     def synchronize(pull_requests)
       return nil if pull_requests.empty?
@@ -16,6 +19,14 @@ class PullRequest < ApplicationRecord
       pr_hash_list = pull_requests.map(&:to_h)
       upsert_all pr_hash_list
     end
+  end
+
+  def assignee?(user)
+    assignees.include?(user)
+  end
+
+  def reviewer?(user)
+    reviewers.include?(user)
   end
 
   def url

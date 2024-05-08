@@ -12,6 +12,9 @@ module Newspaper
       pull_requests = Github::PullRequest.assigned_by(repository, user)
       PullRequest.synchronize(pull_requests)
       Assign.synchronize('PullRequest', pull_requests, user)
+
+      exist_resolutions = user.assigned_issues.flat_map(&:resolutions)
+      Resolution.synchronize(issues, pull_requests, exist_resolutions)
     end
   end
 end
