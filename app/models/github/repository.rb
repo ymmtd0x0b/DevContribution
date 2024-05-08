@@ -11,6 +11,12 @@ module Github
       @avatar_url = repository_data.owner.avatar_url
     end
 
+    def to_h
+      { name: @name,
+        url: @url,
+        avatar_url: @avatar_url }
+    end
+
     class << self
       def find_by(id: nil, name: nil)
         client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
