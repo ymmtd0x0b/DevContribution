@@ -18,3 +18,4 @@ Rails/SkipsModelValidations:
     - app/models/assign.rb
     - app/models/review.rb
     - app/models/wiki.rb
+    - app/models/resolution.rb

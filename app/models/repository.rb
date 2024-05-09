@@ -5,7 +5,7 @@ class Repository < ApplicationRecord
   has_many :users, dependent: :destroy
   has_many :issues, dependent: :destroy
   has_many :pull_requests, dependent: :destroy
-  has_many :wikis,  dependent: :destroy
+  has_many :wikis, dependent: :destroy
 
   class << self
     def find_and_create_by_octokit(name: nil, with_label: false)
