@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Newspaper
-  class AssignedIssueDestroyer
+  class AssignedIssueSweeper
     def call(user)
       destroy_assigned_issues_not_referenced_by_other_users(user)
       destory_assigned_pull_requests_not_referenced_by_other_users(user)

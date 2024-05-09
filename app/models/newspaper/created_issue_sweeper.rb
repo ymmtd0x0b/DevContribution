@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Newspaper
-  class CreatedIssueDestroyer
+  class CreatedIssueSweeper
     def call(user)
       issues_id = user.issues.ids
       other_users_assigned_issues_id = Issue.joins(:assigns).where('assigns.assignable_id in (?) and assigns.user_id != ?', issues_id, user.id).ids
