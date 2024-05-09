@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  validates :login, presence: true
+  has_many :issues # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :assigns, dependent: :destroy
   has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'
@@ -25,9 +25,5 @@ class User < ApplicationRecord
       user.name = name
       user.avatar_url = avatar_url
     end
-  end
-
-  def issues
-    Issue.where(user_id: id)
   end
 end
