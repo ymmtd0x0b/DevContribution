@@ -2,7 +2,7 @@
 
 module Github
   class Issue
-    attr_reader :id, :number
+    attr_reader :id, :number, :labels_id
 
     def initialize(repository_id, issue)
       @id = issue.id
@@ -21,7 +21,7 @@ module Github
         number: @number }
     end
 
-    def labeling_of_hash_list
+    def create_labelings
       @labels_id.map { |label_id| { issue_id: @id, label_id: } }
     end
 

@@ -17,6 +17,10 @@ module Github
         number: @number }
     end
 
+    def create_pseudo_resolutions
+      @issues_number.map { |issue_number| { issue_number:, pull_request_id: @id } }
+    end
+
     class << self
       def assigned_by(repository, user)
         pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr assignee:#{user.login} -label:release")
@@ -25,8 +29,8 @@ module Github
 
       def reviewed_by(repository, user)
         # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
-        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr user-review-requested:#{user.login} -assignee:#{user.login}")
-        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
+        pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr user-review-requested:#{user.login} -assignee:#{user.login}")
+        # pull_requests = Github::Repository.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
         pull_requests.map { |pull_request| Github::PullRequest.new(repository.id, pull_request) }
       end
     end
@@ -38,7 +42,7 @@ module Github
       return [] if issue_section.blank?
 
       issue_urls = issue_section.scan(%r{http.+/issues/\d+|#\d+})
-      issue_urls.map { |issue_url| issue_url.slice(/\d+$/) }.uniq
+      issue_urls.map { |issue_url| issue_url.slice(/\d+$/).to_i }.uniq
     end
   end
 end
