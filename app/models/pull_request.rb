@@ -12,15 +12,6 @@ class PullRequest < ApplicationRecord
   has_many :resolutions, dependent: :destroy
   has_many :issues, through: :resolutions
 
-  # class << self
-  #   def synchronize(pull_requests)
-  #     return nil if pull_requests.empty?
-
-  #     pr_hash_list = pull_requests.map(&:to_h)
-  #     upsert_all pr_hash_list
-  #   end
-  # end
-
   def assignee?(user)
     assignees.include?(user)
   end

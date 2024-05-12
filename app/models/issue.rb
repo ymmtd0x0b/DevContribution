@@ -13,17 +13,6 @@ class Issue < ApplicationRecord
   has_many :resolutions, dependent: :destroy
   has_many :pull_requests, through: :resolutions
 
-  # class << self
-  #   def synchronize(issues, with_labeling: true)
-  #     return nil if issues.empty?
-
-  #     issue_hash_list = issues.map(&:to_h)
-  #     upsert_all issue_hash_list
-
-  #     Labeling.synchronize(issues) if with_labeling
-  #   end
-  # end
-
   def resolves_pull_requests_assignee_of(user)
     PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id, number)
   end
