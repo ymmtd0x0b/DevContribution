@@ -2,10 +2,13 @@
 
 module Git
   class Wiki
+    attr_reader :first_commit_hash
+
     def initialize(repository, user, file_name, file_log)
       @repository_id = repository.id
       @user_id = user.id
       @title = file_name.delete_suffix('.md')
+      @first_commit_hash = file_log.last.sha
       @created_at = file_log.last.author_date
       @updated_at = file_log.first.author_date
     end
@@ -14,6 +17,7 @@ module Git
       { repository_id: @repository_id,
         user_id: @user_id,
         title: @title,
+        first_commit_hash: @first_commit_hash,
         created_at: @created_at,
         updated_at: @updated_at }
     end

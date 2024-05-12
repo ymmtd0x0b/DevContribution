@@ -108,9 +108,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_04_163824) do
     t.bigint "repository_id", null: false
     t.bigint "user_id", null: false
     t.string "title", null: false
+    t.string "first_commit_hash", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["repository_id", "title"], name: "index_wikis_on_repository_id_and_title", unique: true
+    t.index ["repository_id", "first_commit_hash"], name: "index_wikis_on_repository_id_and_first_commit_hash", unique: true
     t.index ["repository_id"], name: "index_wikis_on_repository_id"
     t.index ["user_id"], name: "index_wikis_on_user_id"
   end
