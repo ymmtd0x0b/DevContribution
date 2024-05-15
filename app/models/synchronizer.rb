@@ -20,11 +20,11 @@ module Synchronizer
       Assign.insert_all(hash_list, unique_by: %i[assignable_id user_id]) if hash_list.any?
     end
 
-    def reviews(model_name, items, user)
-      user.reviews.where(reviewable_type: model_name).where.not(reviewable_id: items.map(&:id)).delete_all
+    def reviews(pull_requests, user)
+      user.reviews.where.not(pull_request_id: pull_requests.map(&:id)).delete_all
 
-      hash_list = items.map { |item| { reviewable_type: model_name, reviewable_id: item.id, user_id: user.id } }
-      Review.insert_all(hash_list, unique_by: %i[reviewable_id user_id]) if hash_list.any?
+      hash_list = pull_requests.map { |pull_request| { pull_request_id: pull_request.id, user_id: user.id } }
+      Review.insert_all(hash_list, unique_by: %i[user_id pull_request_id]) if hash_list.any?
     end
 
     def resolutions(issues, pull_requests)

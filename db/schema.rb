@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_04_163824) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_14_061056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,12 +86,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_04_163824) do
 
   create_table "reviews", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "reviewable_type"
-    t.bigint "reviewable_id"
+    t.bigint "pull_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["reviewable_id", "user_id"], name: "index_reviews_on_reviewable_id_and_user_id", unique: true
-    t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
+    t.index ["pull_request_id"], name: "index_reviews_on_pull_request_id"
+    t.index ["user_id", "pull_request_id"], name: "index_reviews_on_user_id_and_pull_request_id", unique: true
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
@@ -124,6 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_04_163824) do
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "resolutions", "issues"
   add_foreign_key "resolutions", "pull_requests"
+  add_foreign_key "reviews", "pull_requests"
   add_foreign_key "reviews", "users"
   add_foreign_key "wikis", "repositories"
   add_foreign_key "wikis", "users"

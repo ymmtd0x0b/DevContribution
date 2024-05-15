@@ -8,8 +8,7 @@ class User < ApplicationRecord
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
 
   has_many :reviews, dependent: :destroy
-  has_many :reviewed_issues, through: :reviews, source: :reviewable, source_type: 'Issue'
-  has_many :reviewed_pull_requests, through: :reviews, source: :reviewable, source_type: 'PullRequest'
+  has_many :reviewed_pull_requests, through: :reviews, source: :pull_request
 
   has_many :wikis, dependent: :destroy
 
@@ -25,5 +24,9 @@ class User < ApplicationRecord
       user.name = name
       user.avatar_url = avatar_url
     end
+  end
+
+  def reviewed_issues
+    Issue.joins(:resolutions).where('resolutions.pull_request_id in (?)', reviewed_pull_requests.ids)
   end
 end

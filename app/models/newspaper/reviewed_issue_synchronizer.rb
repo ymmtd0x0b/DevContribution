@@ -11,11 +11,8 @@ module Newspaper
       issues = Github::Issue.search_numbers(repository, issues_number)
 
       Synchronizer.issues(issues)
-      Synchronizer.reviews('Issue', issues, user)
-
       Synchronizer.pull_requests(pull_requests)
-      Synchronizer.reviews('PullRequest', pull_requests, user)
-
+      Synchronizer.reviews(pull_requests, user)
       Synchronizer.resolutions(issues, pull_requests)
     end
   end

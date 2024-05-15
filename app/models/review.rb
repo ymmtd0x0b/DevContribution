@@ -2,7 +2,7 @@
 
 class Review < ApplicationRecord
   belongs_to :user
-  belongs_to :reviewable, polymorphic: true
+  belongs_to :pull_request
 
   class << self
     def synchronize(model_name, items, user)
