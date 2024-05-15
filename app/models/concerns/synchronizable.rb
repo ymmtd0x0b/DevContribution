@@ -36,7 +36,7 @@ module Synchronizable
   end
 
   def convert_issue_number_to_id(issues, pseudo_resolutions)
-    pseudo_resolutions.map do |pseudo_resolution|
+    pseudo_resolutions.filter_map do |pseudo_resolution|
       found_issue = issues.find { |issue| issue.number == pseudo_resolution[:issue_number] }
       { issue_id: found_issue.id, pull_request_id: pseudo_resolution[:pull_request_id] } if found_issue
     end
