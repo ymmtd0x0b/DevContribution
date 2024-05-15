@@ -11,5 +11,7 @@ AllCops:
 
 Rails/SkipsModelValidations:
   Exclude:
-    - app/models/synchronizer.rb
+    - app/models/concerns/synchronizable.rb
+    - app/models/newspaper/assigned_issue_synchronizer.rb
+    - app/models/newspaper/reviewed_issue_synchronizer.rb
     - app/models/newspaper/wiki_synchronizer.rb
