@@ -6,7 +6,7 @@ class PullRequest < ApplicationRecord
   has_many :assigns, as: :assignable, dependent: :destroy
   has_many :assignees, through: :assigns, source: :user
 
-  has_many :reviews, as: :reviewable, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many :reviewers, through: :reviews, source: :user
 
   has_many :resolutions, dependent: :destroy
