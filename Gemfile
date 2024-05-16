@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.0'
 
+gem 'active_decorator'
 gem 'bootsnap', require: false
 gem 'chroma'
 gem 'dotenv-rails'

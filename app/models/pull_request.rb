@@ -19,8 +19,4 @@ class PullRequest < ApplicationRecord
   def reviewer?(user)
     reviewers.include?(user)
   end
-
-  def url
-    "#{repository.url}/pull/#{number}"
-  end
 end

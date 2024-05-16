@@ -21,10 +21,6 @@ class Issue < ApplicationRecord
     PullRequest.joins(:reviews).where('reviews.user_id = ? and ? = any (issue_numbers)', user.id, number)
   end
 
-  def url
-    "#{repository.url}/issues/#{number}"
-  end
-
   def point
     labels.pluck(:name).map(&:to_i).sum
   end
