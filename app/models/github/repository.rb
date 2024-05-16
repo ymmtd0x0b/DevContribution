@@ -12,7 +12,8 @@ module Github
     end
 
     def to_h
-      { name: @name,
+      { id: @id,
+        name: @name,
         url: @url,
         avatar_url: @avatar_url }
     end
