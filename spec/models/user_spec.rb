@@ -32,4 +32,21 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#reveiwed_issues' do
+    it 'ユーザーがレビューした issue を全て返すこと' do
+      alice = FactoryBot.create(:user, login: 'alice')
+
+      issues_reivewed_by_alice =
+        FactoryBot.create_list(:issue, 2).each do |issue|
+          pull_request = FactoryBot.create(:pull_request) { |pr| alice.reviews.create!(pull_request: pr) }
+          issue.resolutions.create!(pull_request:)
+        end
+
+      issues_not_reviewed_by_alice = FactoryBot.create(:issue)
+
+      expect(alice.reviewed_issues).to include(*issues_reivewed_by_alice)
+      expect(alice.reviewed_issues).not_to include issues_not_reviewed_by_alice
+    end
+  end
 end

@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :issue do
-    sequence(:title) { |n| "issue#{n}" }
+  factory :pull_request do
     sequence(:number)
     association :repository
-    association :user
   end
 end

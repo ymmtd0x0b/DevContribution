@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :user do
-    login { 'tester' }
+    sequence(:login) { |n| "tester#{n}" }
     avatar_url { 'https://example.com/12345.jpg' }
   end
 end
