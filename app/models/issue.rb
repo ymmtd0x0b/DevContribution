@@ -12,16 +12,4 @@ class Issue < ApplicationRecord
 
   has_many :resolutions, dependent: :destroy
   has_many :pull_requests, through: :resolutions
-
-  def resolves_pull_requests_assignee_of(user)
-    PullRequest.joins(:assigns).where('assigns.user_id = ? and ? = any (issue_numbers)', user.id, number)
-  end
-
-  def resolves_pull_requests_reviewer_of(user)
-    PullRequest.joins(:reviews).where('reviews.user_id = ? and ? = any (issue_numbers)', user.id, number)
-  end
-
-  def point
-    labels.pluck(:name).map(&:to_i).sum
-  end
 end
