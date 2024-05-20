@@ -19,13 +19,11 @@ class Users::IssuesController < ApplicationController
   def set_issues
     @issues = case params[:association]
               when 'assigned'
-                @user.assigned_issues
+                User.includes(assigned_issues: %i[repository labels]).find(@user.id).assigned_issues
               when 'reviewed'
                 @user.reviewed_issues
               else
-                @user.issues
+                User.includes(issues: %i[repository labels]).find(@user.id).issues
               end
-
-    @issues.where(repository_id: @repository.id).includes(:repository, :labels).order(:created_at) if @issues.any?
   end
 end

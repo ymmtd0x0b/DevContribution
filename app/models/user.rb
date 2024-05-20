@@ -27,6 +27,8 @@ class User < ApplicationRecord
   end
 
   def reviewed_issues
-    Issue.joins(:resolutions).where('resolutions.pull_request_id in (?)', reviewed_pull_requests.ids)
+    Issue.includes(:repository, :labels)
+         .joins(:resolutions)
+         .where('resolutions.pull_request_id in (?)', reviewed_pull_requests.ids)
   end
 end
