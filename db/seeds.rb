@@ -20,4 +20,4 @@ Label.upsert_all(labels.map(&:to_h), unique_by: %i[repository_id name]) if label
 # あとで削除する
 client = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
 user = client.user 'ymmtd0x0b'
-User.create!(id: user.id, login: user.login)
+User.create!(id: user.id, login: user.login, name: user.name)
