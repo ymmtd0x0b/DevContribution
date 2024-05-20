@@ -7,7 +7,7 @@ class Users::WikisController < ApplicationController
 
   def index
     if @user
-      @wikis = @user.wikis.where(repository_id: @repository.id).order(:created_at)
+      @wikis = Wiki.includes(:repository).where(user_id: @user.id).order(:created_at)
     else
       flash[:error] = 'ユーザーが見つかりませんでした'
       redirect_to root_path
