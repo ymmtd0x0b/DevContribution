@@ -19,9 +19,9 @@ class Users::IssuesController < ApplicationController
   def set_issues
     @issues = case params[:association]
               when 'assigned'
-                User.includes(assigned_issues: %i[repository labels]).find(@user.id).assigned_issues
+                Issue.preload(:repository, :labels).eager_load(:assigns).where('assigns.user_id = ?', @user.id).order(:id)
               when 'reviewed'
-                @user.reviewed_issues
+                Issue.preload(:repository, :labels).eager_load(pull_requests: :reviews).where('reviews.user_id = ?', @user.id).order(:id)
               else
                 User.includes(issues: %i[repository labels]).find(@user.id).issues
               end

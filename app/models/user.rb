@@ -25,10 +25,4 @@ class User < ApplicationRecord
       user.avatar_url = avatar_url
     end
   end
-
-  def reviewed_issues
-    Issue.includes(:repository, :labels)
-         .joins(:resolutions)
-         .where('resolutions.pull_request_id in (?)', reviewed_pull_requests.ids)
-  end
 end
