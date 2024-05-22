@@ -8,8 +8,14 @@ class Users::ContributionsController < ApplicationController
 
   def index
     if @user
-      @assigned_issues = Issue.eager_load(:repository).preload(:labels, pull_requests: %i[repository assignees]).joins(:assigns).where('assigns.user_id = ?', @user.id).order(:id)
-      @reviewed_issues = Issue.eager_load(:repository).preload(:labels, pull_requests: %i[repository reviewers]).joins(pull_requests: :reviews).where('reviews.user_id = ?', @user.id).order(:id)
+      @assigned_issues = Issue.eager_load(:repository)
+                              .preload(:labels, pull_requests: %i[repository assignees])
+                              .joins(:assigns).where('assigns.user_id = ?', @user.id)
+                              .order(:id)
+      @reviewed_issues = Issue.eager_load(:repository)
+                              .preload(:labels, pull_requests: %i[repository reviewers])
+                              .joins(pull_requests: :reviews).where('reviews.user_id = ?', @user.id)
+                              .order(:id)
       @issues = Issue.eager_load(:repository).where(user_id: @user.id).order(:id)
       @wikis = Wiki.eager_load(:repository).where(user_id: @user.id).order(:id)
 

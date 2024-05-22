@@ -21,10 +21,10 @@
           = render 'table', table_header: 'Pull Request', issues: @assigned_issues, user: @user
           = render 'table', table_header: 'Review',       issues: @reviewed_issues, user: @user
 
-          - unless @issues.count.zero? and @wikis.count.zero?
+          - if @issues.any? or @wikis.any?
             h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
               | その他
-            = render 'list', list_header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @issues unless @issues.count.zero?
-            = render 'list', list_header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis unless @wikis.count.zero?
+            = render 'list', list_header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @issues if @issues.any?
+            = render 'list', list_header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis if @wikis.any?
 
   = render 'shared/flash'
