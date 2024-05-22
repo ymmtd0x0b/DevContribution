@@ -8,10 +8,10 @@ class Users::ContributionsController < ApplicationController
 
   def index
     if @user
-      @assigned_issues = @user.assigned_issues.where(repository_id: @repository.id).order(:created_at)
-      @reviewed_issues = @user.reviewed_issues.where(repository_id: @repository.id).order(:created_at)
-      @issues = @user.issues.where(repository_id: @repository.id).order(:created_at)
-      @wikis = @user.wikis.where(repository_id: @repository.id).order(:created_at)
+      @assigned_issues = Issue.eager_load(:repository).preload(:labels, pull_requests: %i[repository assignees]).joins(:assigns).where('assigns.user_id = ?', @user.id).order(:id)
+      @reviewed_issues = Issue.eager_load(:repository).preload(:labels, pull_requests: %i[repository reviewers]).joins(pull_requests: :reviews).where('reviews.user_id = ?', @user.id).order(:id)
+      @issues = Issue.eager_load(:repository).where(user_id: @user.id).order(:id)
+      @wikis = Wiki.eager_load(:repository).where(user_id: @user.id).order(:id)
 
       render :unauthorized_index unless logged_in?
     else
