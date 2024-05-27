@@ -23,17 +23,18 @@ RSpec.describe Github::Issue, type: :model do
   end
 
   describe '.created_by' do
-    context '該当する Issue を取得できた場合' do
+    context '該当する Issue がある場合' do
       it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/created_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
         issues = Github::Issue.created_by(repository, user)
+        expect(issues).not_to be_empty
         expect(issues).to all(be_instance_of(Github::Issue))
       end
     end
 
-    context '該当する Issue を取得できない場合' do
+    context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/created_by_not_found' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'not_exist_user')
@@ -45,17 +46,18 @@ RSpec.describe Github::Issue, type: :model do
   end
 
   describe '.assigned_by' do
-    context '該当する Issue を取得できた場合' do
+    context '該当する Issue がある場合' do
       it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
         issues = Github::Issue.assigned_by(repository, user)
+        expect(issues).not_to be_empty
         expect(issues).to all(be_instance_of(Github::Issue))
       end
     end
 
-    context '該当する Issue を取得できない場合' do
+    context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by_not_found' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'not_exist_user')
@@ -67,17 +69,18 @@ RSpec.describe Github::Issue, type: :model do
   end
 
   describe '.search_numbers' do
-    context '該当する Issue を取得できた場合' do
+    context '該当する Issue がある場合' do
       it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/search_numbers' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         issue_numbers = [1, 2]
 
         issues = Github::Issue.search_numbers(repository, issue_numbers)
+        expect(issues).not_to be_empty
         expect(issues).to all(be_instance_of(Github::Issue))
       end
     end
 
-    context '該当する Issue を取得できない場合' do
+    context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/search_numbers_not_found' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         issue_numbers = [123_45]
