@@ -28,6 +28,21 @@ module Github
       []
     end
 
+    def labels(repository, option = { page: 1, per_page: 100 })
+      labels = []
+      loop do
+        labels_per_page = @client.labels(repository.name, option)
+        labels.concat labels_per_page
+        option[:page] += 1
+        break unless labels_per_page.count == option[:per_page]
+      end
+
+      labels
+    rescue Octokit::Error => e
+      log_error(e)
+      []
+    end
+
     private
 
     def log_error(exception)

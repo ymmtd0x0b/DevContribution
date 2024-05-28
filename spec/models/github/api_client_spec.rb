@@ -66,4 +66,45 @@ RSpec.describe Github::ApiClient, type: :model do
       end
     end
   end
+
+  describe '#labels' do
+    context 'リポジトリに登録されているラベルが１つ以上ある場合' do
+      it 'Sawyer::Resourceオブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/api_client/labels' } do
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
+        labels = @client.labels(repository)
+
+        expect(labels).not_to be_empty
+        expect(labels).to all(be_instance_of(Sawyer::Resource))
+      end
+    end
+
+    context 'リポジトリに登録されているラベルがゼロの場合' do
+      it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_nothing' } do
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
+        labels = @client.labels(repository)
+
+        expect(labels).to be_empty
+      end
+    end
+
+    context 'エラーが発生した場合' do
+      it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_error' } do
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/not_exist_repository')
+        labels = @client.labels(repository)
+
+        expect(labels).to be_empty
+      end
+
+      it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/labels_error' } do
+        log_message = <<~TEXT.delete("\n")
+          [GitHub API] GET https://api.github.com/repos/ymmtd0x0b/not_exist_repository/labels?page=1&per_page=100: 404 - Not Found //
+           See: https://docs.github.com/rest/issues/labels#list-labels-for-a-repository
+        TEXT
+        expect(Rails.logger).to receive(:error).with(log_message)
+
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/not_exist_repository')
+        @client.labels(repository)
+      end
+    end
+  end
 end
