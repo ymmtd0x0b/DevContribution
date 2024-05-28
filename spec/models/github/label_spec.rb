@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe Label, type: :model do
+  describe '#to_h' do
+    it '自身をハッシュ(連想配列)へ変換して返すこと' do
+      label = Github::Label.new(repository_id: 123, label: { id: 222, name: 'bug', color: 'ffffff' })
+      expect(label.to_h).to eq({ repository_id: 123, id: 222, name: 'bug', color: 'ffffff' })
+    end
+  end
+
+  describe '.registered_by' do
+    context 'リポジトリに登録されたラベルがある場合' do
+      it 'Sawyer::Resourceオブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/label/registred_by' } do
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
+        labels = Github::Label.registered_by(repository)
+
+        expect(labels).not_to be_empty
+        expect(labels).to all(be_instance_of(Github::Label))
+      end
+    end
+
+    context 'リポジトリに登録されたラベルがない場合' do
+      it '空の Array を返すこと', vcr: { cassette_name: 'github/label/registred_by_not_found' } do
+        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/hello-world')
+        labels = Github::Label.registered_by(repository)
+
+        expect(labels).to be_empty
+      end
+    end
+  end
+end
