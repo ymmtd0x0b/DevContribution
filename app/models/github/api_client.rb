@@ -28,10 +28,10 @@ module Github
       []
     end
 
-    def labels(repository, option = { page: 1, per_page: 100 })
+    def labels(repository_name, option = { page: 1, per_page: 100 })
       labels = []
       loop do
-        labels_per_page = @client.labels(repository.name, option)
+        labels_per_page = @client.labels(repository_name, option)
         labels.concat labels_per_page
         option[:page] += 1
         break unless labels_per_page.count == option[:per_page]

@@ -60,9 +60,7 @@ RSpec.describe Github::ApiClient, type: :model do
   describe '#labels' do
     context 'リポジトリに登録されているラベルが１つ以上ある場合' do
       it 'Sawyer::Resourceオブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/api_client/labels' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        labels = @client.labels(repository)
-
+        labels = @client.labels('ymmtd0x0b/for_test2')
         expect(labels).not_to be_empty
         expect(labels).to all(be_instance_of(Sawyer::Resource))
       end
@@ -70,25 +68,19 @@ RSpec.describe Github::ApiClient, type: :model do
 
     context 'リポジトリに登録されているラベルがゼロの場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_nothing' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        labels = @client.labels(repository)
-
+        labels = @client.labels('ymmtd0x0b/for_test2')
         expect(labels).to be_empty
       end
     end
 
     context 'エラーが発生した場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_error' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/not_exist_repository')
-        labels = @client.labels(repository)
-
+        labels = @client.labels('ymmtd0x0b/not_exist_repository')
         expect(labels).to be_empty
       end
 
       it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/labels_error' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/not_exist_repository')
-        @client.labels(repository)
-
+        @client.labels('ymmtd0x0b/not_exist_repository')
         expect(Rails.logger).to have_received(:error).with(/[GitHub API] .+/)
       end
     end
