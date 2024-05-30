@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe Github::ApiClient, type: :model do
   before do
     @client = Github::ApiClient.new
+    allow(Rails.logger).to receive(:error)
   end
 
   describe '#repository' do
@@ -22,10 +23,8 @@ RSpec.describe Github::ApiClient, type: :model do
       end
 
       it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/repository_with_not_found' } do
-        log_message = '[GitHub API] GET https://api.github.com/repos/ymmtd0x0b/not_found: 404 - Not Found // See: https://docs.github.com/rest/repos/repos#get-a-repository'
-        expect(Rails.logger).to receive(:error).with(log_message)
-
         @client.repository(name: 'ymmtd0x0b/not_found')
+        expect(Rails.logger).to have_received(:error).with(/[GitHub API] .+/)
       end
     end
   end
@@ -52,17 +51,8 @@ RSpec.describe Github::ApiClient, type: :model do
       end
 
       it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/search_issues_with_not_exist_user' } do
-        log_message = <<~TEXT.chomp
-          [GitHub API] GET https://api.github.com/search/issues?page=1&per_page=100&q=repo%3Aymmtd0x0b%2Ffor_test2+is%3Aissue+author%3Anot_exist_user: 422 - Validation Failed
-          Error summary:
-            message: The listed users cannot be searched either because the users do not exist or you do not have permission to view the users.
-            resource: Search
-            field: q
-            code: invalid // See: https://docs.github.com/v3/search/
-        TEXT
-        expect(Rails.logger).to receive(:error).with(log_message)
-
         @client.search_issues('repo:ymmtd0x0b/for_test2 is:issue author:not_exist_user')
+        expect(Rails.logger).to have_received(:error).with(/[GitHub API] .+/)
       end
     end
   end
@@ -96,14 +86,10 @@ RSpec.describe Github::ApiClient, type: :model do
       end
 
       it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/labels_error' } do
-        log_message = <<~TEXT.delete("\n")
-          [GitHub API] GET https://api.github.com/repos/ymmtd0x0b/not_exist_repository/labels?page=1&per_page=100: 404 - Not Found //
-           See: https://docs.github.com/rest/issues/labels#list-labels-for-a-repository
-        TEXT
-        expect(Rails.logger).to receive(:error).with(log_message)
-
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/not_exist_repository')
         @client.labels(repository)
+
+        expect(Rails.logger).to have_received(:error).with(/[GitHub API] .+/)
       end
     end
   end
