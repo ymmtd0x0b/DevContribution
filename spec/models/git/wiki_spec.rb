@@ -26,12 +26,12 @@ RSpec.describe Git::Wiki, type: :model do
       @tmpdir_realpath = File.realpath tmpdir
 
       Dir.chdir(@tmpdir_realpath) do
-        git = Git.init('repository.wiki.git')
+        git = Git.init('test_repository.wiki.git')
 
         git.config('user.name', 'alice')
         git.config('user.email', 'alice@example.com')
 
-        File.write('repository.wiki.git/test.txt', 'test')
+        File.write('test_repository.wiki.git/test.txt', 'test')
         git.add('test.txt')
         git.commit('first commit')
       end
@@ -43,39 +43,47 @@ RSpec.describe Git::Wiki, type: :model do
 
     context '該当する Wiki がある場合' do
       it 'Git::Wiki オブジェクトを要素に持つ Array を返すこと' do
-        repository = FactoryBot.create(:repository, url: "#{@tmpdir_realpath}/repository")
-        user = FactoryBot.create(:user, login: 'alice')
+        Dir.chdir(@tmpdir_realpath) do
+          repository = FactoryBot.create(:repository, url: 'test_repository')
+          user = FactoryBot.create(:user, login: 'alice')
 
-        wikis = Git::Wiki.created_by(repository, user)
-        expect(wikis).not_to be_empty
-        expect(wikis).to all(be_instance_of(Git::Wiki))
+          wikis = Git::Wiki.created_by(repository, user)
+          expect(wikis).not_to be_empty
+          expect(wikis).to all(be_instance_of(Git::Wiki))
+        end
       end
     end
 
     context '該当する Wiki がない場合' do
       it '空の Array を返すこと' do
-        repository = FactoryBot.create(:repository, url: "#{@tmpdir_realpath}/repository")
-        user = FactoryBot.create(:user, login: 'bob')
+        Dir.chdir(@tmpdir_realpath) do
+          repository = FactoryBot.create(:repository, url: 'test_repository')
+          user = FactoryBot.create(:user, login: 'bob')
 
-        wikis = Git::Wiki.created_by(repository, user)
-        expect(wikis).to be_empty
+          wikis = Git::Wiki.created_by(repository, user)
+          expect(wikis).to be_empty
+        end
       end
     end
 
     context 'エラーが発生した場合' do
       before do
-        @repository = FactoryBot.create(:repository, url: "#{@tmpdir_realpath}/not_exist_repository")
+        @repository = FactoryBot.create(:repository, url: 'not_exist_repository')
         @user = FactoryBot.create(:user, login: 'alice')
       end
 
       it '空の Array を返すこと' do
-        wikis = Git::Wiki.created_by(@repository, @user)
-        expect(wikis).to be_empty
+        Dir.chdir(@tmpdir_realpath) do
+          wikis = Git::Wiki.created_by(@repository, @user)
+          expect(wikis).to be_empty
+        end
       end
 
       it 'ログに出力すること' do
-        expect(Rails.logger).to receive(:error).with("[Git] fatal: リポジトリ '#{@tmpdir_realpath}/not_exist_repository.wiki.git' は存在しません")
-        Git::Wiki.created_by(@repository, @user)
+        Dir.chdir(@tmpdir_realpath) do
+          expect(Rails.logger).to receive(:error).with("[Git] fatal: リポジトリ 'not_exist_repository.wiki.git' は存在しません")
+          Git::Wiki.created_by(@repository, @user)
+        end
       end
     end
   end
