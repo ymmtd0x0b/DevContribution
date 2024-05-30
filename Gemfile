@@ -10,7 +10,7 @@ gem 'bootsnap', require: false
 gem 'chroma'
 gem 'dotenv-rails'
 gem 'font-awesome-sass', '~> 6.4.2'
-gem 'git'
+gem 'git', '~> 2.0'
 gem 'github_api'
 gem 'high_voltage', '~> 3.1'
 gem 'importmap-rails'

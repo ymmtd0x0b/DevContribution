@@ -136,8 +136,10 @@ GEM
     ffi (1.16.3)
     font-awesome-sass (6.4.2)
       sassc (~> 2.0)
-    git (1.19.1)
+    git (2.0.1)
+      activesupport (>= 5.0)
       addressable (~> 2.8)
+      process_executer (~> 1.1)
       rchardet (~> 1.8)
     github_api (0.19.0)
       addressable (~> 2.4)
@@ -224,6 +226,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.6)
+    process_executer (1.1.0)
     psych (5.1.2)
       stringio
     public_suffix (5.0.5)
@@ -395,7 +398,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   font-awesome-sass (~> 6.4.2)
-  git
+  git (~> 2.0)
   github_api
   high_voltage (~> 3.1)
   importmap-rails
