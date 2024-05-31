@@ -12,7 +12,7 @@ RSpec.describe Github::ApiClient, type: :model do
     context 'リポジトリを見つけた場合' do
       it 'Sawyer::Resourceオブジェクトを返すこと', vcr: { cassette_name: 'github/api_client/repository' } do
         actual = @client.repository(name: 'fjordllc/bootcamp')
-        expect(actual).to be_an_instance_of(Sawyer::Resource)
+        expect(actual).to be_instance_of(Sawyer::Resource)
       end
     end
 
@@ -60,23 +60,23 @@ RSpec.describe Github::ApiClient, type: :model do
   describe '#labels' do
     context 'リポジトリに登録されているラベルが１つ以上ある場合' do
       it 'Sawyer::Resourceオブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/api_client/labels' } do
-        labels = @client.labels('ymmtd0x0b/for_test2')
-        expect(labels).not_to be_empty
-        expect(labels).to all(be_instance_of(Sawyer::Resource))
+        actual = @client.labels('ymmtd0x0b/for_test2')
+        expect(actual).not_to be_empty
+        expect(actual).to all(be_instance_of(Sawyer::Resource))
       end
     end
 
     context 'リポジトリに登録されているラベルがゼロの場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_nothing' } do
-        labels = @client.labels('ymmtd0x0b/for_test2')
-        expect(labels).to be_empty
+        actual = @client.labels('ymmtd0x0b/for_test2')
+        expect(actual).to be_empty
       end
     end
 
     context 'エラーが発生した場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/api_client/labels_error' } do
-        labels = @client.labels('ymmtd0x0b/not_exist_repository')
-        expect(labels).to be_empty
+        actual = @client.labels('ymmtd0x0b/not_exist_repository')
+        expect(actual).to be_empty
       end
 
       it 'ログへ出力すること', vcr: { cassette_name: 'github/api_client/labels_error' } do
