@@ -17,8 +17,8 @@ module Github
         number: @number }
     end
 
-    def create_pseudo_resolutions
-      @issues_number.map { |issue_number| { issue_number:, pull_request_id: @id } }
+    def resolutions
+      ::Issue.where(number: @issues_number).pluck(:id).map { |issue_id| { issue_id:, pull_request_id: @id } }
     end
 
     class << self
