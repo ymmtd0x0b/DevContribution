@@ -2,9 +2,8 @@
 
 module Newspaper
   class LabelSynchronizer
-    def call(_)
-      repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
-      Label.synchronize_with_github_by(repository)
+    def call(payload)
+      Label.synchronize_with_github_by(payload[:repository])
     end
   end
 end

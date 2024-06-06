@@ -2,14 +2,13 @@
 
 module Newspaper
   class AssignedIssueSynchronizer
-    include Synchronizable
-
-    def call(user)
-      repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
+    def call(payload)
+      repository = payload[:repository]
+      user = payload[:user]
 
       issues = Github::Issue.assigned_by(repository, user)
-      synchronize_issues(issues)
-      synchronize_assigns('Issue', issues, user)
+      Synchronizer.synchronize_issues(issues)
+      Synchronizer.synchronize_assigns('Issue', issues, user)
     end
   end
 end

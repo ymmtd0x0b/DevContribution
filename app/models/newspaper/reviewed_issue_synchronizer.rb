@@ -2,10 +2,9 @@
 
 module Newspaper
   class ReviewedIssueSynchronizer
-    include Synchronizable
-
-    def call(user)
-      repository = Repository.find_by(id: ENV['FJORD_BOOTCAMP_REPOSITORY_ID'])
+    def call(payload)
+      repository = payload[:repository]
+      user = payload[:user]
 
       pull_requests = Github::PullRequest.reviewed_by(repository, user)
 
