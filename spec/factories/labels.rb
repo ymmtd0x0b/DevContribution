@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :label do
     sequence(:id) { |n| n }
-    name { 'bug' }
+    sequence(:name) { |n| "bug#{n}" }
     color { 'FF0000' }
     association :repository
   end
