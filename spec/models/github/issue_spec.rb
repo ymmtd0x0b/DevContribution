@@ -68,24 +68,24 @@ RSpec.describe Github::Issue, type: :model do
     end
   end
 
-  describe '.search_numbers' do
+  describe '.reviewed_by' do
     context '該当する Issue がある場合' do
-      it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/search_numbers' } do
+      it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        issue_numbers = [1, 2]
+        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
-        issues = Github::Issue.search_numbers(repository, issue_numbers)
+        issues = Github::Issue.reviewed_by(repository, user)
         expect(issues).not_to be_empty
         expect(issues).to all(be_instance_of(Github::Issue))
       end
     end
 
     context '該当する Issue がない場合' do
-      it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/search_numbers_not_found' } do
+      it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by_not_found' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        issue_numbers = [123_45]
+        user = FactoryBot.create(:user, login: 'not_exist_user')
 
-        issues = Github::Issue.search_numbers(repository, issue_numbers)
+        issues = Github::Issue.reviewed_by(repository, user)
         expect(issues).to be_empty
       end
     end
