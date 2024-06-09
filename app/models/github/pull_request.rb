@@ -31,8 +31,8 @@ module Github
       def reviewed_by(repository, user)
         client = Github::ApiClient.new
         # pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
-        pull_requests = client.search_issues("repo:#{repository.name} is:pr user-review-requested:#{user.login} -assignee:#{user.login}")
-        # pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
+        # pull_requests = client.search_issues("repo:#{repository.name} is:pr user-review-requested:#{user.login}")
+        pull_requests = client.search_issues("repo:#{repository.name} is:pr reviewed-by:#{user.login} review:approved -assignee:#{user.login}")
         pull_requests.map { |pull_request| Github::PullRequest.new(repository_id: repository.id, pull_request: convert_to_hash(pull_request)) }
       end
 

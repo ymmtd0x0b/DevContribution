@@ -38,9 +38,13 @@ module Github
         issues.map { |issue| new(repository_id: repository.id, issue: convert_to_hash(issue)) }
       end
 
-      def search_numbers(repository, numbers)
+      def reviewed_by(repository, user)
+        pull_requests = Github::PullRequest.reviewed_by(repository, user)
+        issues_number = pull_requests.flat_map(&:issues_number)
+        return [] if issues_number.empty?
+
         client = Github::ApiClient.new
-        issues = client.search_issues("repo:#{repository.name} is:issue #{numbers.join(' ')}")
+        issues = client.search_issues("repo:#{repository.name} is:issue #{issues_number.join(' ')}")
         issues.map { |issue| new(repository_id: repository.id, issue: convert_to_hash(issue)) }
       end
 
