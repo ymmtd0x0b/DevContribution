@@ -7,7 +7,7 @@ module Newspaper
       user = payload[:user]
 
       pull_requests = Github::PullRequest.assigned_by(repository, user)
-      Synchronizer.synchronize_pull_requests(pull_requests)
+      PullRequest.synchronize(pull_requests)
       Synchronizer.synchronize_assigns('PullRequest', pull_requests, user)
       Synchronizer.synchronize_resolutions(pull_requests)
     end

@@ -2,11 +2,6 @@
 
 module Newspaper::Synchronizer
   class << self
-    def synchronize_pull_requests(new_pull_requests)
-      hash_list = new_pull_requests.map(&:to_h)
-      PullRequest.upsert_all(hash_list) if hash_list.any?
-    end
-
     def synchronize_resolutions(pull_requests)
       issues_id = Issue.where(number: pull_requests.flat_map(&:issues_number)).pluck(:id)
       Resolution.where(pull_request_id: pull_requests.map(&:id))

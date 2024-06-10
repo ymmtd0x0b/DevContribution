@@ -12,6 +12,13 @@ class PullRequest < ApplicationRecord
   has_many :resolutions, dependent: :destroy
   has_many :issues, through: :resolutions
 
+  class << self
+    def synchronize(pull_requests_on_github_api)
+      hash_list = pull_requests_on_github_api.map(&:to_h)
+      upsert_all(hash_list) if hash_list.any?
+    end
+  end
+
   def assignee?(user)
     assignees.include?(user)
   end
