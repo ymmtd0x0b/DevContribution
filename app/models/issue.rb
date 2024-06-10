@@ -12,4 +12,13 @@ class Issue < ApplicationRecord
 
   has_many :resolutions, dependent: :destroy
   has_many :pull_requests, through: :resolutions
+
+  class << self
+    def synchronize(issues)
+      hash_list = issues.map(&:to_h)
+      upsert_all(hash_list) if hash_list.any?
+
+      Labeling.synchronize(issues)
+    end
+  end
 end

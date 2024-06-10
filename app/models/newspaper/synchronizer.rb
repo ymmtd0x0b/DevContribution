@@ -2,12 +2,6 @@
 
 module Newspaper::Synchronizer
   class << self
-    def synchronize_issues(new_issues)
-      hash_list = new_issues.map(&:to_h)
-      Issue.upsert_all(hash_list) if hash_list.any?
-      synchronize_labelings(new_issues)
-    end
-
     def synchronize_pull_requests(new_pull_requests)
       hash_list = new_pull_requests.map(&:to_h)
       PullRequest.upsert_all(hash_list) if hash_list.any?
@@ -35,17 +29,6 @@ module Newspaper::Synchronizer
 
       hash_list = pull_requests.map { |pull_request| { pull_request_id: pull_request.id, user_id: user.id } }
       Review.insert_all(hash_list, unique_by: %i[user_id pull_request_id]) if hash_list.any?
-    end
-
-    private
-
-    def synchronize_labelings(issues)
-      Labeling.where(issue_id: issues.map(&:id))
-              .where.not(label_id: issues.flat_map(&:labels_id))
-              .delete_all
-
-      hash_list = issues.flat_map(&:create_labelings)
-      Labeling.upsert_all(hash_list, unique_by: %i[issue_id label_id]) if hash_list.any?
     end
   end
 end

@@ -7,7 +7,7 @@ module Newspaper
       user = payload[:user]
 
       issues = Github::Issue.created_by(repository, user)
-      synchronize_issues(issues)
+      Issue.synchronize(issues)
     end
   end
 end
