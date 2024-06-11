@@ -8,7 +8,7 @@ module Newspaper
 
       issues = Github::Issue.assigned_by(repository, user)
       Issue.synchronize_issues(issues)
-      Synchronizer.synchronize_assigns('Issue', issues, user)
+      Assign.syncrhonize('Issue', issues, user)
     end
   end
 end
