@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module Newspaper
-  class ReviewedIssueSynchronizer
+module Synchronizer
+  class CreatedIssue
     def call(payload)
       repository = payload[:repository]
       user = payload[:user]
 
-      issues = Github::Issue.reviewed_by(repository, user)
+      issues = Github::Issue.created_by(repository, user)
       Issue.synchronize(issues)
     end
   end

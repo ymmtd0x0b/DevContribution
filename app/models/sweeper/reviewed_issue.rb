@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Newspaper
-  class ReviewedIssueSweeper
+module Sweeper
+  class ReviewedIssue
     def call(user)
       destroy_reviewed_issues_not_referenced_by_other_users(user)
       destory_reviewed_pull_requests_not_referenced_by_other_users(user)
