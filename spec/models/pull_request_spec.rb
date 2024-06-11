@@ -11,6 +11,7 @@ RSpec.describe PullRequest, type: :model do
   describe '.synchronize' do
     before do
       FactoryBot.create(:repository, id: 1)
+      allow(Resolution).to receive(:synchronize)
     end
 
     context '引数に渡されたデータの中に「未登録のPullRequest」がある場合' do
@@ -38,6 +39,14 @@ RSpec.describe PullRequest, type: :model do
           PullRequest.synchronize(pull_requests_collected_by_the_github_api)
         end.to change { pull_request.reload.number }.from(100).to(999)
       end
+    end
+
+    it 'PullRequest の description にリンクされた Issue とのアソシエーションを同期させる(メソッドを呼び出す)こと' do
+      pull_requests_collected_by_the_github_api = [
+        Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 999, issues_number: [123] })
+      ]
+      PullRequest.synchronize(pull_requests_collected_by_the_github_api)
+      expect(Resolution).to have_received(:synchronize)
     end
   end
 

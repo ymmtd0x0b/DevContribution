@@ -16,6 +16,8 @@ class PullRequest < ApplicationRecord
     def synchronize(pull_requests_on_github_api)
       hash_list = pull_requests_on_github_api.map(&:to_h)
       upsert_all(hash_list) if hash_list.any?
+
+      Resolution.synchronize(pull_requests_on_github_api)
     end
   end
 
