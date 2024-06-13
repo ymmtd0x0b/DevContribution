@@ -3,7 +3,10 @@
 module Synchronizer
   class Label
     def call(payload)
-      Label.synchronize_with_github_by(payload[:repository])
+      repository = payload[:repository]
+
+      labels = Github::Label.registered_by(repository)
+      ::Label.synchronize(repository, labels)
     end
   end
 end

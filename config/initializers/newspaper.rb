@@ -1,4 +1,5 @@
 Rails.configuration.to_prepare do
+  Newspaper.subscribe(:user_create, Synchronizer::Label.new)
   Newspaper.subscribe(:user_create, Synchronizer::AssignedIssue.new)
   Newspaper.subscribe(:user_create, Synchronizer::AssignedPullRequest.new)
   Newspaper.subscribe(:user_create, Synchronizer::ReviewedIssue.new)
