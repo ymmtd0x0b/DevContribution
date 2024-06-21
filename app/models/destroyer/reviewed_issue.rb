@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Sweeper
+module Destroyer
   class ReviewedIssue
     def call(user)
       destroy_reviewed_issues_not_referenced_by_other_users(user)

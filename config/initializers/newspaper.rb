@@ -15,8 +15,8 @@ Rails.configuration.to_prepare do
   Newspaper.subscribe(:repository_update, Synchronizer::CreatedIssue.new)
   Newspaper.subscribe(:repository_update, Synchronizer::CreatedWiki.new)
 
-  Newspaper.subscribe(:user_destroy, Sweeper::AssignedIssue.new)
-  Newspaper.subscribe(:user_destroy, Sweeper::ReviewedIssue.new)
-  Newspaper.subscribe(:user_destroy, Sweeper::CreatedIssue.new)
-  Newspaper.subscribe(:user_destroy, Sweeper::Wiki.new)
+  Newspaper.subscribe(:user_destroy, Destroyer::AssignedIssue.new)
+  Newspaper.subscribe(:user_destroy, Destroyer::ReviewedIssue.new)
+  Newspaper.subscribe(:user_destroy, Destroyer::CreatedIssue.new)
+  Newspaper.subscribe(:user_destroy, Destroyer::Wiki.new)
 end

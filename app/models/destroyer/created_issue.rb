@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Sweeper
+module Destroyer
   class CreatedIssue
     def call(user)
       issues_id = user.issues.ids
