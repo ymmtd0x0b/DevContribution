@@ -2,13 +2,12 @@
 
 class Issue < ApplicationRecord
   belongs_to :repository
-  belongs_to :user
+  belongs_to :user, optional: true
 
   has_many :labelings, dependent: :destroy
   has_many :labels, through: :labelings
 
   has_many :assigns, as: :assignable, dependent: :destroy
-  has_many :reviews, as: :reviewable, dependent: :destroy
 
   has_many :resolutions, dependent: :destroy
   has_many :pull_requests, through: :resolutions
