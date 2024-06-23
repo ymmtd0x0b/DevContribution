@@ -3,30 +3,38 @@
 module Destroyer
   class ReviewedIssue
     def call(user)
-      destroy_reviewed_issues_not_referenced_by_other_users(user)
-      destory_reviewed_pull_requests_not_referenced_by_other_users(user)
-    end
-
-    private
-
-    def destroy_reviewed_issues_not_referenced_by_other_users(user)
       issues_id = user.reviewed_issues.ids
       issues_id_referenced_by_other_users =
-        Issue.joins(:reviews, :assigns)
-             .where('reviews.reviewable_id in (?) and reviews.user_id != ? or assigns.assignable_id in (?)', issues_id, user.id, issues_id)
-             .ids
+        filter_issues_assigned_by_other_users_from(issues_id, user.id) +
+        filter_issues_referring_pull_requests_assigned_by_other_users_from(issues_id, user.id) +
+        filter_issues_referring_pull_requests_reviewed_by_other_users_from(issues_id, user.id) +
+        filter_issues_created_by_other_users_that_exist_in_database_from(issues_id, user.id)
 
       user.reviewed_issues.where.not(id: issues_id_referenced_by_other_users).destroy_all
     end
 
-    def destory_reviewed_pull_requests_not_referenced_by_other_users(user)
-      pull_requests_id = user.reviewed_pull_requests.ids
-      pull_requests_id_referenced_by_other_users =
-        PullRequest.joins(:reviews, :assigns)
-                   .where('reviews.reviewable_id in (?) and reviews.user_id != ? or assigns.assignable_id in (?)', pull_requests_id, user.id, pull_requests_id)
-                   .ids
+    private
 
-      user.reviewed_pull_requests.where.not(id: pull_requests_id_referenced_by_other_users).destroy_all
+    def filter_issues_assigned_by_other_users_from(issues_id, user_id)
+      Issue.joins(:assigns).where(id: issues_id).where('assigns.user_id != ?', user_id).ids
+    end
+
+    def filter_issues_referring_pull_requests_assigned_by_other_users_from(issues_id, user_id)
+      Issue.joins(pull_requests: :assigns)
+           .where(id: issues_id)
+           .where('assigns.assignable_type = ? AND assigns.user_id != ?', 'PullRequest', user_id)
+           .ids
+    end
+
+    def filter_issues_referring_pull_requests_reviewed_by_other_users_from(issues_id, user_id)
+      Issue.joins(pull_requests: :reviews)
+           .where(id: issues_id)
+           .where('reviews.user_id != ?', user_id)
+           .ids
+    end
+
+    def filter_issues_created_by_other_users_that_exist_in_database_from(issues_id, user_id)
+      Issue.joins(:user).where(id: issues_id).where('issues.user_id != ?', user_id).ids
     end
   end
 end
