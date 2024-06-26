@@ -9,51 +9,38 @@ RSpec.describe Destroyer::CreatedIssue, type: :model do
     let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
     it 'ユーザーが作成者である Issue 内、「他のユーザーが参照していないもの」は「削除する」こと' do
-      FactoryBot.create(:issue, id: 100, user: alice, title: 'アリスが作成者である Issue')
+      FactoryBot.create(:issue, user: alice, title: 'アリスが作成者である Issue')
 
-      FactoryBot.create(:issue, id: 200, user: alice, title: 'アリスが作成者である Issue + アリスがアサインしている') do |issue|
+      FactoryBot.create(:issue, user: alice, title: 'Issue にアリスがアサインしている') do |issue|
         issue.assigns.create!(user: alice)
       end
 
-      FactoryBot.create(:issue, id: 300, user: alice, title: 'アリスが作成者である Issue + 関連する PR にアリスがアサインしている') do |issue|
-        FactoryBot.create(:pull_request) do |pull_request|
-          pull_request.assigns.create!(user: alice)
-          pull_request.resolutions.create!(issue:)
-        end
+      FactoryBot.create(:issue, user: alice, title: '関連する PullRequest にアリスがアサインしている') do |issue|
+        issue.resolutions.create!(pull_request: FactoryBot.create(:pull_request) { |pr| pr.assigns.create!(user: alice) })
       end
 
-      FactoryBot.create(:issue, id: 400, user: alice, title: 'アリスが作成者である Issue + 関連する PR をアリスがレビューしている') do |issue|
-        FactoryBot.create(:pull_request) do |pull_request|
-          pull_request.reviews.create!(user: alice)
-          pull_request.resolutions.create!(issue:)
-        end
+      FactoryBot.create(:issue, user: alice, title: '関連する PullRequest をアリスがレビューしている') do |issue|
+        issue.resolutions.create!(pull_request: FactoryBot.create(:pull_request) { |pr| pr.reviews.create!(user: alice) })
       end
 
-      expect { created_issue_destroyer.call(alice) }.to change { alice.issues.ids }.from([100, 200, 300, 400]).to([])
+      expect { created_issue_destroyer.call(alice) }.to change { alice.issues.count }.from(4).to(0)
                                                     .and change { Issue.count }.by(-4)
     end
 
     it 'ユーザーが作成者である Issue 内、「他のユーザーが参照しているもの」は「削除しない」こと' do
-      FactoryBot.create(:issue, id: 100, user: alice, title: 'アリスが作成者である Issue + ボブがアサインしている') do |issue|
+      FactoryBot.create(:issue, user: alice, title: 'Issue にボブがアサインしている') do |issue|
         issue.assigns.create!(user: bob)
       end
 
-      FactoryBot.create(:issue, id: 200, user: alice, title: 'アリスが作成者である Issue + 関連する PR にボブがアサインしている') do |issue|
-        FactoryBot.create(:pull_request) do |pull_request|
-          pull_request.assigns.create!(user: bob)
-          pull_request.resolutions.create!(issue:)
-        end
+      FactoryBot.create(:issue, user: alice, title: '関連する PullRequest にボブがアサインしている') do |issue|
+        issue.resolutions.create!(pull_request: FactoryBot.create(:pull_request) { |pr| pr.assigns.create!(user: bob) })
       end
 
-      FactoryBot.create(:issue, id: 300, user: alice, title: 'アリスが作成者である Issue + 関連する PR をボブがレビューしている') do |issue|
-        FactoryBot.create(:pull_request) do |pull_request|
-          pull_request.reviews.create!(user: bob)
-          pull_request.resolutions.create!(issue:)
-        end
+      FactoryBot.create(:issue, user: alice, title: '関連する PullRequest をボブがレビューしている') do |issue|
+        issue.resolutions.create!(pull_request: FactoryBot.create(:pull_request) { |pr| pr.reviews.create!(user: bob) })
       end
 
-      expect { created_issue_destroyer.call(alice) }.to not_change { alice.issues.ids }.from([100, 200, 300])
-                                                    .and not_change { Issue.count }.from(3)
+      expect { created_issue_destroyer.call(alice) }.not_to change { alice.issues.count }.from(3)
     end
   end
 end
