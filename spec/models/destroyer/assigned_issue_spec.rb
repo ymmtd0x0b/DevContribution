@@ -8,7 +8,7 @@ RSpec.describe Destroyer::AssignedIssue, type: :model do
     let(:alice) { FactoryBot.create(:user, login: 'alice') }
     let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
-    it 'ユーザーがアサインしている Issue 内、「他のユーザーが参照していないもの」は「削除する」こと' do
+    it 'ユーザーがアサインしている Issue 内、「他のユーザーが参照していないもの」は「全て削除する」こと' do
       FactoryBot.create(:issue, title: 'Issue の作成者がデータベース上に存在しない') do |issue|
         issue.assigns.create!(user: alice)
       end

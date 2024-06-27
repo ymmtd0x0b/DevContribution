@@ -8,7 +8,7 @@ RSpec.describe Destroyer::AssignedPullRequest, type: :model do
     let(:alice) { FactoryBot.create(:user, login: 'alice') }
     let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
-    it 'ユーザーがアサインしている PullRequest の内、「他のユーザーが参照していないもの」は「削除する」こと' do
+    it 'ユーザーがアサインしている PullRequest の内、「他のユーザーが参照していないもの」は「全て削除する」こと' do
       FactoryBot.create(:pull_request) { |pull_request| pull_request.assigns.create!(user: alice) }
       FactoryBot.create(:pull_request) do |pull_request|
         pull_request.assigns.create!(user: alice)

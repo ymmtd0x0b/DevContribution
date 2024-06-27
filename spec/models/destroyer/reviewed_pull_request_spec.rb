@@ -7,7 +7,7 @@ RSpec.describe Destroyer::ReviewedPullRequest, type: :model do
     let(:alice) { FactoryBot.create(:user, login: 'alice') }
     let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
-    it 'ユーザーがレビューしている PullRequest の内、「他のユーザーが参照していないもの」は「削除する」こと' do
+    it 'ユーザーがレビューしている PullRequest の内、「他のユーザーが参照していないもの」は「全て削除する」こと' do
       FactoryBot.create(:pull_request) { |pr| pr.reviews.create!(user: alice) }
 
       FactoryBot.create(:pull_request) do |pr| # ユーザー本人がアサインしている
