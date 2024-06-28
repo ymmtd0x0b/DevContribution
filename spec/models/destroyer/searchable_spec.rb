@@ -65,4 +65,24 @@ RSpec.describe Destroyer::Searchable, type: :model do
       expect(actual).to eq [200]
     end
   end
+
+  describe 'filter_pull_requests_assigned_by_other_users_from' do
+    it '引数に渡した PullRequest ID の内、引数で指定されたユーザー以外がアサインしているものを返すこと' do
+      FactoryBot.create(:pull_request, id: 100) { |pr| pr.assigns.create!(user: alice) }
+      FactoryBot.create(:pull_request, id: 200) { |pr| pr.assigns.create!(user: bob) }
+
+      actual = filter_pull_requests_assigned_by_other_users_from(PullRequest.ids, alice.id)
+      expect(actual).to eq [200]
+    end
+  end
+
+  describe 'filter_pull_requests_reviewed_by_other_users_from' do
+    it '引数に渡した PullRequest ID の内、引数で指定されたユーザー以外がレビューしているものを返すこと' do
+      FactoryBot.create(:pull_request, id: 100) { |pr| pr.reviews.create!(user: alice) }
+      FactoryBot.create(:pull_request, id: 200) { |pr| pr.reviews.create!(user: bob) }
+
+      actual = filter_pull_requests_reviewed_by_other_users_from(PullRequest.ids, alice.id)
+      expect(actual).to eq [200]
+    end
+  end
 end

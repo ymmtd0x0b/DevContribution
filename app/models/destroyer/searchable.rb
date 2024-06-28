@@ -22,4 +22,12 @@ module Destroyer::Searchable
   def filter_issues_created_by_other_users_that_exist_in_database_from(issues_id, user_id)
     Issue.joins(:user).where(id: issues_id).where('issues.user_id != ?', user_id).ids
   end
+
+  def filter_pull_requests_assigned_by_other_users_from(pull_requests_id, user_id)
+    PullRequest.joins(:assigns).where('pull_requests.id in (?) and assigns.user_id != ?', pull_requests_id, user_id).ids
+  end
+
+  def filter_pull_requests_reviewed_by_other_users_from(pull_requests_id, user_id)
+    PullRequest.joins(:reviews).where('pull_requests.id in (?) and reviews.user_id != ?', pull_requests_id, user_id).ids
+  end
 end
