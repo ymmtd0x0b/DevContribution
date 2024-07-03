@@ -5,16 +5,6 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
   resource :retirement, only: %i[create], controller: 'retirement'
   resource :repository, only: %i[update]
-  # resources :users, only: [] do
-  #   resources :issues,  only: %i[index]
-  #   resources :wikis, only: %i[index]
-  #   resources :contributions, only: %i[index]
-  # end
-  # namespace :current_user do
-  #   resources :issues,  only: %i[index]
-  #   resources :wikis, only: %i[index]
-  #   resources :contributions, only: %i[index]
-  # end
   namespace :users, path: '/:user_login' do
     resources :issues,  only: %i[index]
     resources :wikis, only: %i[index]
