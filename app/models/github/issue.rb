@@ -54,7 +54,7 @@ module Github
         { id: issue.id,
           user_id: issue.user.id,
           title: issue.title,
-          number: issue.html_url.slice(/\d+$/).to_i,
+          number: issue.number,
           labels_id: issue.labels.map(&:id) }
       end
     end
