@@ -5,7 +5,7 @@ class RetirementController < ApplicationController
   before_action :set_repository, only: %i[create]
 
   def create
-    Newspaper.publish(:user_destroy, { repository: @repository, user: current_user })
+    Newspaper.publish(:user_destroy, current_user)
     current_user.destroy!
     reset_session
     flash[:success] = 'アカウントの連携を解除しました'

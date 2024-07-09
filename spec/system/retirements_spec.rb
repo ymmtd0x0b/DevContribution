@@ -7,20 +7,12 @@ RSpec.describe 'Retirements', type: :system do
     FactoryBot.create(:repository, id: 123)
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('123')
-
-    FactoryBot.create(:user, id: 123_45, login: 'alice')
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github',
-                                                                  uid: 123_45,
-                                                                  info: { nickname: 'alice',
-                                                                          name: 'アリス',
-                                                                          image: 'https://example.com/avatar.jpg' } })
-    allow(Newspaper).to receive(:publish)
   end
 
   scenario '退会できること' do
-    visit root_path
-    click_button 'ログイン'
-    expect(page).to have_content 'ログインしました'
+    alice = FactoryBot.create(:user, login: 'alice')
+
+    visit_with_onmiauth(path: root_path, user: alice)
 
     expect do
       click_button 'alice'
