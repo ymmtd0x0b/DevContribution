@@ -2,6 +2,7 @@
 
 module PullRequestDecorator
   def url
-    "#{repository.url}/pull/#{number}"
+    base_url = ENV['GITHUB_URL']
+    "#{base_url}/#{repository.name}/pull/#{number}"
   end
 end

@@ -2,7 +2,8 @@
 
 module IssueDecorator
   def url
-    "#{repository.url}/issues/#{number}"
+    base_url = ENV['GITHUB_URL']
+    "#{base_url}/#{repository.name}/issues/#{number}"
   end
 
   def point

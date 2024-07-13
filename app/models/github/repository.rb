@@ -2,17 +2,15 @@
 
 module Github
   class Repository
-    def initialize(id:, name:, url:, avatar_url:)
+    def initialize(id:, name:, avatar_url:)
       @id = id
       @name = name
-      @url = url
       @avatar_url = avatar_url
     end
 
     def to_h
       { id: @id,
         name: @name,
-        url: @url,
         avatar_url: @avatar_url }
     end
 
@@ -22,7 +20,7 @@ module Github
         repo = client.repository(id:, name:)
         return nil if repo.nil?
 
-        new(id: repo.id, name: repo.full_name, url: repo.html_url, avatar_url: repo.owner.avatar_url)
+        new(id: repo.id, name: repo.full_name, avatar_url: repo.owner.avatar_url)
       end
     end
   end

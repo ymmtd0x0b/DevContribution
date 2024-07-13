@@ -2,6 +2,7 @@
 
 module WikiDecorator
   def url
-    "#{repository.url}/wiki/#{title}"
+    base_url = ENV['GITHUB_URL']
+    "#{base_url}/#{repository.name}/wiki/#{title}"
   end
 end
