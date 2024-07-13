@@ -2,6 +2,9 @@
 
 module Git
   class Wiki
+    include ActiveSupport::Configurable
+    config_accessor :github_url, instance_accessor: false
+
     attr_reader :first_commit_hash
 
     def initialize(repository_id:, file_data: { user_id:, title:, first_commit_hash:, created_at:, updated_at: })
@@ -25,7 +28,7 @@ module Git
     class << self
       def created_by(repository, user)
         Dir.mktmpdir do |dir|
-          Git.clone("#{repository.url}.wiki.git", dir)
+          Git.clone("#{github_url}/#{repository.name}.wiki.git", dir)
 
           git = Git.open dir
           wikis = git.lib.ls_files
