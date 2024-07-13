@@ -8,13 +8,13 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# repository = Github::Repository.find_by(name: 'fjordllc/bootcamp')
+repo = Github::Repository.find_by(name: 'fjordllc/bootcamp')
 # Repository.find_and_create_by_octokit(name: 'ymmtd0x0b/for_test2', with_label: true)
 
-repository = Github::Repository.find_by(name: 'ymmtd0x0b/for_test2')
-Repository.create!(repository.to_h)
+# repository = Github::Repository.find_by(name: 'ymmtd0x0b/for_test2')
+repository = Repository.create!(repo.to_h)
 
-labels = Github::Label.find_by(repository)
+labels = Github::Label.registered_by(repository)
 Label.upsert_all(labels.map(&:to_h), unique_by: %i[repository_id name]) if labels.any?
 
 # あとで削除する
