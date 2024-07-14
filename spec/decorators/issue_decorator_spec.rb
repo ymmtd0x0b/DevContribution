@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe IssueDecorator do
   describe '#url' do
     it '「リポジトリのURL / issues / Issueのナンバー」に変換したURLを返すこと' do
-      issue = FactoryBot.create(:issue, number: 123, repository: FactoryBot.create(:repository, url: 'https://example.com/test_repository'))
+      issue = FactoryBot.create(:issue, number: 123, repository: FactoryBot.create(:repository, name: 'test/repository'))
       decorator_issue = ActiveDecorator::Decorator.instance.decorate(issue)
 
-      expect(decorator_issue.url).to eq 'https://example.com/test_repository/issues/123'
+      expect(decorator_issue.url).to eq 'https://github.com/test/repository/issues/123'
     end
   end
 

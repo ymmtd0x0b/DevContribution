@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/search/issues?page=1&per_page=100&q=repo:ymmtd0x0b/for_test2%20is:pr%20user-review-requested:ymmtd0x0b%20-assignee:ymmtd0x0b
+    uri: https://api.github.com/search/issues?page=1&per_page=100&q=repo:ymmtd0x0b/for_test2%20is:pr%20reviewed-by:ymmtd0x0b%20review:approved%20-assignee:ymmtd0x0b
     body:
       encoding: US-ASCII
       string: ''

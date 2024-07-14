@@ -4,15 +4,13 @@ require 'rails_helper'
 
 RSpec.describe Github::Repository, type: :model do
   describe '#to_h' do
-    it 'id, name, url, avatar_url をキーに持つハッシュ(連想配列)を返すこと' do
+    it 'id, name, avatar_url をキーに持つハッシュ(連想配列)を返すこと' do
       repository = Github::Repository.new(id: 123,
                                           name: 'test_repository',
-                                          url: 'https://example.com/test_repository',
                                           avatar_url: 'https://example.com/test_repository/avatar.jpg')
 
       expect(repository.to_h).to eq({ id: 123,
                                       name: 'test_repository',
-                                      url: 'https://example.com/test_repository',
                                       avatar_url: 'https://example.com/test_repository/avatar.jpg' })
     end
   end

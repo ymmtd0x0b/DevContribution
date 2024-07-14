@@ -12,16 +12,6 @@ RSpec.describe Github::PullRequest, type: :model do
     end
   end
 
-  describe '#create_pseudo_resolutions' do
-    it 'PullRequest ID と Issue Number をハッシュとして要素に持つ Array を返す' do
-      pull_request_data = { id: 111, number: 222, issues_number: [333, 444] }
-      pull_request = Github::PullRequest.new(repository_id: 123, pull_request: pull_request_data)
-
-      expect(pull_request.create_pseudo_resolutions).to eq([{ pull_request_id: 111, issue_number: 333 },
-                                                            { pull_request_id: 111, issue_number: 444 }])
-    end
-  end
-
   describe '.assigned_by' do
     context '該当する PullRequest がある場合' do
       it 'Github::PullRequest オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/pull_request/assigned_by' } do

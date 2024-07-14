@@ -42,17 +42,17 @@ RSpec.describe Wiki, type: :model do
 
     context '登録済みの Wiki が引数に渡されたデータの中に存在しない場合' do
       it '該当 Wiki のデータを削除すること' do
-        FactoryBot.create(:wiki, title: 'Wiki#100', first_commit_hash: 'aaa', repository_id: 1)
-        FactoryBot.create(:wiki, title: 'Wiki#200', first_commit_hash: 'bbb', repository_id: 1)
+        FactoryBot.create(:wiki, title: 'Wiki#100', first_commit_hash: 'aaa', repository_id: 1, user_id: 1)
+        FactoryBot.create(:wiki, title: 'Wiki#200', first_commit_hash: 'bbb', repository_id: 1, user_id: 1)
 
         expect do
           current = Time.zone.now
           wikis_collected_by_the_github_api = [
-            Git::Wiki.new(repository_id: 1, file_data: { user_id: 1, title: 'Wiki#100!', first_commit_hash: 'aaa', created_at: current, updated_at: current })
+            Git::Wiki.new(repository_id: 1, file_data: { user_id: 1, title: 'Wiki#100', first_commit_hash: 'aaa', created_at: current, updated_at: current })
           ]
           user = User.find(1)
           Wiki.synchronize(user, wikis_collected_by_the_github_api)
-        end.to change { Wiki.all.pluck(:title) }.from(['Wiki#100']).to(['Wiki#100', 'Wiki#200'])
+        end.to change { Wiki.all.pluck(:title) }.from(['Wiki#100', 'Wiki#200']).to(['Wiki#100'])
       end
     end
   end
