@@ -9,14 +9,14 @@ RSpec.describe 'Login And Logout', type: :system do
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('123')
 
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github',
-                                                                  uid: 123,
+                                                                  uid: 456,
                                                                   info: { nickname: 'alice',
                                                                           name: '',
                                                                           image: '' } })
   end
 
   scenario 'ログインに成功すること' do
-    FactoryBot.create(:user, id: 123, login: 'alice')
+    FactoryBot.create(:user, id: 456, login: 'alice')
 
     visit root_path
     click_button 'ログイン'
@@ -26,7 +26,7 @@ RSpec.describe 'Login And Logout', type: :system do
 
   context 'ユーザーとして、アカウント登録ボタンをクリックした場合' do
     scenario 'ログインに成功すること' do
-      FactoryBot.create(:user, id: 123, login: 'alice')
+      FactoryBot.create(:user, id: 456, login: 'alice')
 
       visit root_path
       expect do
@@ -38,7 +38,7 @@ RSpec.describe 'Login And Logout', type: :system do
   end
 
   scenario 'ログアウトに成功すること' do
-    FactoryBot.create(:user, id: 123, login: 'alice')
+    FactoryBot.create(:user, id: 456, login: 'alice')
 
     visit root_path
     click_button 'ログイン'
