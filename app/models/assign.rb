@@ -9,7 +9,7 @@ class Assign < ApplicationRecord
       user.assigns.where(assignable_type: model_name).where.not(assignable_id: items.map(&:id)).delete_all
 
       hash_list = items.map { |item| { assignable_type: model_name, assignable_id: item.id, user_id: user.id } }
-      insert_all(hash_list, unique_by: %i[assignable_id user_id]) if hash_list.any?
+      insert_all(hash_list, unique_by: %i[assignable_type assignable_id user_id]) if hash_list.any?
     end
   end
 end
