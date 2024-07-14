@@ -4,8 +4,10 @@ require 'rails_helper'
 
 RSpec.describe 'User::Wikis', type: :system do
   before do
+    FactoryBot.create(:repository, id: 101, name: 'test/repository')
+
     @tmpdir_realpath = setup_dummpy_repository_wiki
-    FactoryBot.create(:repository, id: 101, name: 'test/repository', url: "#{@tmpdir_realpath}/test_repository")
+    allow(Git::Wiki).to receive(:github_url).and_return(@tmpdir_realpath)
 
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
@@ -26,16 +28,18 @@ RSpec.describe 'User::Wikis', type: :system do
     tmpdir_realpath = File.realpath tmpdir
 
     Dir.chdir(tmpdir_realpath) do
-      git = Git.init('test_repository.wiki.git')
+      git = Git.init('test/repository.wiki.git')
       git.config('user.name', 'alice')
 
-      File.write('test_repository.wiki.git/議事録01.md', 'test')
-      git.add('議事録01.md')
-      git.commit('議事録の作成')
+      git.chdir do
+        File.write('議事録01.md', 'test')
+        git.add('議事録01.md')
+        git.commit('議事録の作成')
 
-      File.write('test_repository.wiki.git/議事録02.md', 'test')
-      git.add('議事録02.md')
-      git.commit('議事録の作成')
+        File.write('議事録02.md', 'test')
+        git.add('議事録02.md')
+        git.commit('議事録の作成')
+      end
     end
 
     tmpdir_realpath
