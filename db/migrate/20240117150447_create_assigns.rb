@@ -6,6 +6,6 @@ class CreateAssigns < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :assigns, %i[assignable_id user_id], unique: true
+    add_index :assigns, %i[assignable_type assignable_id user_id], unique: true
   end
 end
