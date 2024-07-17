@@ -8,6 +8,7 @@ class Issue < ApplicationRecord
   has_many :labels, through: :labelings
 
   has_many :assigns, as: :assignable, dependent: :destroy
+  has_many :assignee, through: :assigns, source: :user
 
   has_many :resolutions, dependent: :destroy
   has_many :pull_requests, through: :resolutions
