@@ -15,8 +15,10 @@ RSpec.describe 'Retirements', type: :system do
 
     login_as alice
     expect do
-      click_button 'alice'
-      click_link 'アカウントを削除'
+      using_wait_time(5) do # フラッシュメッセージとログアウトボタンが重なるので、メッセージが閉じるまで待つ
+        click_button 'alice'
+        click_link 'アカウントを削除'
+      end
       click_button 'OK', class: 'swal2-confirm'
 
       expect(page).to have_current_path '/'
