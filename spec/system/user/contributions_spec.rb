@@ -25,7 +25,7 @@ RSpec.describe 'User::Contributions', type: :system do
     FactoryBot.create(:issue, title: 'アリスが作成した Issue', user: alice)
     FactoryBot.create(:wiki, title: 'アリスが作成した Wiki', user: alice)
 
-    visit_with_onmiauth(path: users_contributions_path('alice'), user: alice)
+    visit_with_omniauth(path: users_contributions_path('alice'), user: alice)
     expect(page).to have_button('Copy')
     expect(page).to have_link('アリスが担当した Issue')
     expect(page).to have_link('#111')

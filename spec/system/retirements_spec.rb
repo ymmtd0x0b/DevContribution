@@ -12,7 +12,7 @@ RSpec.describe 'Retirements', type: :system do
   scenario '退会できること' do
     alice = FactoryBot.create(:user, login: 'alice')
 
-    visit_with_onmiauth(path: root_path, user: alice)
+    visit_with_omniauth(path: root_path, user: alice)
 
     expect do
       click_button 'alice'

@@ -3,7 +3,7 @@
 require 'omniauth'
 OmniAuth.config.test_mode = true
 
-def visit_with_onmiauth(path:, user:)
+def visit_with_omniauth(path:, user:)
   OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github',
                                                                 uid: user.id,
                                                                 info: { nickname: user.login,
