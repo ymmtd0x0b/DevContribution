@@ -4,31 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'Sign up', type: :system do
   before do
-    FactoryBot.create(:repository, id: 101, name: 'test/repository')
-
-    @tmpdir_realpath = setup_dummpy_repository_wiki
-    allow(Git::Wiki).to receive(:github_url).and_return(@tmpdir_realpath)
-
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
+    allow(Git::Wiki).to receive(:created_by).and_return([])
 
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github',
-                                                                  uid: 501,
-                                                                  info: { nickname: 'alice',
-                                                                          name: 'アリス',
-                                                                          image: '' } })
-  end
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github', uid: 501, info: { nickname: 'alice', name: '', image: '' } })
 
-  after do
-    FileUtils.remove_entry_secure @tmpdir_realpath if Dir.exist?(@tmpdir_realpath)
-  end
-
-  def setup_dummpy_repository_wiki
-    tmpdir = Dir.mktmpdir
-    tmpdir_realpath = File.realpath tmpdir
-    Dir.chdir(tmpdir_realpath) { Git.init('test_repository.wiki.git') }
-
-    tmpdir_realpath
+    FactoryBot.create(:repository, id: 101, name: 'test/repository')
   end
 
   scenario 'ユーザー登録できること', vcr: { cassette_name: 'system/sign_up' } do
