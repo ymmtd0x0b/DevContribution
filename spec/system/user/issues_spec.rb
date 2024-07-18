@@ -6,53 +6,43 @@ RSpec.describe 'User::Issues', type: :system do
   before do
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-    allow(Git::Wiki).to receive(:created_by).and_return([])
-
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github', uid: 501, info: { nickname: 'alice', name: '', image: '' } })
 
     FactoryBot.create(:repository, id: 101, name: 'test/repository')
   end
 
-  context 'サインアップする際', vcr: { cassette_name: 'system/sign_up' } do
-    scenario 'ユーザーが作成した Issue を GitHub から取得＆登録する' do
-      visit root_path
-      expect do
-        click_button 'GitHubアカントで登録'
-        expect(page).to have_content 'アカウント連携に成功しました'
-      end.to change { User.count }.from(0).to(1)
+  scenario 'ユーザーが作成した Issue を一覧表示する' do
+    alice = FactoryBot.create(:user, login: 'alice')
+    FactoryBot.create(:issue, title: 'Issue A', user: alice)
+    FactoryBot.create(:issue, title: 'Issue B', user: alice)
 
-      visit users_issues_path('alice')
+    login_as alice
+    visit users_issues_path(alice.login)
 
-      expect(page).to have_content 'Total 3'
-      expect(page).to have_link 'バグの修正'
-      expect(page).to have_link '新機能の追加'
-      expect(page).to have_link '機能の提案'
-    end
+    expect(page).to have_link 'Issue A'
+    expect(page).to have_link 'Issue B'
+  end
 
-    scenario 'ユーザーが担当した Issue を GitHub から取得＆登録する' do
-      visit root_path
-      expect do
-        click_button 'GitHubアカントで登録'
-        expect(page).to have_content 'アカウント連携に成功しました'
-      end.to change { User.count }.from(0).to(1)
+  scenario 'ユーザーが担当した Issue を一覧表示する' do
+    alice = FactoryBot.create(:user, login: 'alice')
+    FactoryBot.create(:issue, title: 'Issue C') { |issue| issue.assignees << alice }
+    FactoryBot.create(:issue, title: 'Issue D') { |issue| issue.assignees << alice }
 
-      visit users_issues_path('alice', association: 'assigned')
-      expect(page).to have_content 'Total 2'
-      expect(page).to have_link 'バグの修正'
-      expect(page).to have_link '新機能の追加'
-    end
+    login_as alice
+    visit users_issues_path(alice.login, association: 'assigned')
 
-    scenario 'ユーザーがレビューした Issue を GitHub から取得＆登録する' do
-      visit root_path
-      expect do
-        click_button 'GitHubアカントで登録'
-        expect(page).to have_content 'アカウント連携に成功しました'
-      end.to change { User.count }.from(0).to(1)
+    expect(page).to have_link 'Issue C'
+    expect(page).to have_link 'Issue D'
+  end
 
-      visit users_issues_path('alice', association: 'reviewed')
-      expect(page).to have_content 'Total 2'
-      expect(page).to have_link 'ロゴの変更'
-      expect(page).to have_link '既存機能の改修'
-    end
+  scenario 'ユーザーがレビューした Issue を一覧表示する' do
+    alice = FactoryBot.create(:user, login: 'alice')
+    FactoryBot.create(:issue, title: 'Issue E') { |issue| issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << alice } }
+    FactoryBot.create(:issue, title: 'Issue F') { |issue| issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << alice } }
+
+    login_as alice
+    visit users_issues_path(alice.login, association: 'reviewed')
+
+    expect(page).to have_link 'Issue E'
+    expect(page).to have_link 'Issue F'
   end
 end

@@ -14,7 +14,7 @@ RSpec.describe 'User::Contributions', type: :system do
     alice = FactoryBot.create(:user, id: 456, login: 'alice')
 
     FactoryBot.create(:issue, title: 'アリスが担当した Issue') do |issue|
-      issue.assignee << alice
+      issue.assignees << alice
       issue.pull_requests << FactoryBot.create(:pull_request, number: 111) { |pr| pr.assignees << alice }
     end
 
