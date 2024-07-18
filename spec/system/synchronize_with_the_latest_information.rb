@@ -28,7 +28,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     scenario 'リポジトリのラベル情報を同期すること' do
       FactoryBot.create(:issue, id: 301, title: 'バグの修正') do |issue|
         issue.labels << FactoryBot.create(:label, id: 201, name: 'バグ', repository_id: 101)
-        issue.assignee << alice
+        issue.assignees << alice
       end
 
       login_as alice
