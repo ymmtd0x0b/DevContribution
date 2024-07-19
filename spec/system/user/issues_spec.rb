@@ -18,6 +18,7 @@ RSpec.describe 'User::Issues', type: :system do
     login_as alice
     visit users_issues_path(alice.login)
 
+    expect(page).to have_content 'Total 2'
     expect(page).to have_link 'Issue A'
     expect(page).to have_link 'Issue B'
   end
@@ -44,5 +45,28 @@ RSpec.describe 'User::Issues', type: :system do
 
     expect(page).to have_link 'Issue E'
     expect(page).to have_link 'Issue F'
+  end
+
+  context 'Issue にラベルが付与されている場合' do
+    scenario 'Issue と共に一覧に表示する' do
+      alice = FactoryBot.create(:user, login: 'alice')
+      FactoryBot.create(:issue, title: 'Issue G', user: alice) do |issue|
+        issue.labels << FactoryBot.create(:label, name: '1')
+      end
+      FactoryBot.create(:issue, title: 'Issue H', user: alice) do |issue|
+        issue.labels << FactoryBot.create(:label, name: '2')
+        issue.labels << FactoryBot.create(:label, name: 'bug')
+      end
+
+      login_as alice
+      visit users_issues_path(alice.login)
+
+      expect(page).to have_content 'Total 2'
+      expect(page).to have_link 'Issue G'
+      expect(page).to have_content '1'
+      expect(page).to have_link 'Issue H'
+      expect(page).to have_content '2'
+      expect(page).to have_content 'bug'
+    end
   end
 end
