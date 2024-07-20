@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root to: 'home#index'
-  get '/pages/*id', to: 'pages#show', as: :page, format: false
   get 'auth/github/callback', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
   resource :retirement, only: %i[create], controller: 'retirement'
@@ -11,4 +10,5 @@ Rails.application.routes.draw do
     resources :contributions, only: %i[index]
     get 'loading', to: 'loading#show'
   end
+  get '/*id', to: 'pages#show', as: :page, format: false
 end
