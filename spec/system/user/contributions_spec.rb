@@ -10,7 +10,7 @@ RSpec.describe 'User::Contributions', type: :system do
     FactoryBot.create(:repository, id: 123, name: 'test/repository')
   end
 
-  scenario 'ユーザーの 作成/担当/レビューした Issue とそれと紐付いた PullRequest 、Wiki を一覧表示すること' do
+  scenario 'ユーザーの 作成/担当/レビューした Issue とそれと紐付いた PullRequest 、Wiki を一覧表示する' do
     alice = FactoryBot.create(:user, id: 456, login: 'alice')
 
     FactoryBot.create(:issue, title: 'アリスが担当した Issue') do |issue|
@@ -35,5 +35,15 @@ RSpec.describe 'User::Contributions', type: :system do
     expect(page).to have_link('#222')
     expect(page).to have_link('アリスが作成した Issue')
     expect(page).to have_link('アリスが作成した Wiki')
+  end
+
+  context 'ゲストとしてアクセスした場合' do
+    scenario '見出しを変更し、コピーボタン無しで表示する' do
+      FactoryBot.create(:user, id: 456, login: 'alice')
+
+      visit users_contributions_path('alice')
+      expect(page).to have_element('h1', text: 'チーム開発プラクティスでのaliceさんの取り組み')
+      expect(page).not_to have_button('Copy')
+    end
   end
 end

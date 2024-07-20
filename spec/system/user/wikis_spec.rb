@@ -23,4 +23,14 @@ RSpec.describe 'User::Wikis', type: :system do
     expect(page).to have_link '議事録02'
     expect(page).to have_link '議事録03'
   end
+
+  context 'ゲストとしてアクセスした場合' do
+    scenario 'トップページへリダイレクトされる' do
+      FactoryBot.create(:user, login: 'alice')
+
+      visit users_wikis_path('alice')
+      expect(page).to have_content 'ログインしてください'
+      expect(page).to have_current_path '/'
+    end
+  end
 end

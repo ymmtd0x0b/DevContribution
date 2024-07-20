@@ -69,4 +69,22 @@ RSpec.describe 'User::Issues', type: :system do
       expect(page).to have_content 'bug'
     end
   end
+
+  context 'ゲストとしてアクセスした場合' do
+    scenario 'トップページへリダイレクトされる' do
+      FactoryBot.create(:user, login: 'alice')
+
+      visit users_issues_path('alice')
+      expect(page).to have_content 'ログインしてください'
+      expect(page).to have_current_path '/'
+
+      visit users_issues_path('alice', association: 'assigned')
+      expect(page).to have_content 'ログインしてください'
+      expect(page).to have_current_path '/'
+
+      visit users_issues_path('alice', association: 'reviewed')
+      expect(page).to have_content 'ログインしてください'
+      expect(page).to have_current_path '/'
+    end
+  end
 end
