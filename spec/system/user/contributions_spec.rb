@@ -11,7 +11,7 @@ RSpec.describe 'User::Contributions', type: :system do
   end
 
   scenario 'ユーザーの 作成/担当/レビューした Issue とそれと紐付いた PullRequest 、Wiki を一覧表示する' do
-    alice = FactoryBot.create(:user, id: 456, login: 'alice')
+    alice = FactoryBot.create(:user, login: 'alice')
 
     FactoryBot.create(:issue, title: 'アリスが担当した Issue') do |issue|
       issue.assignees << alice
@@ -39,7 +39,7 @@ RSpec.describe 'User::Contributions', type: :system do
 
   context 'ゲストとしてアクセスした場合' do
     scenario '見出しを変更し、コピーボタン無しで表示する' do
-      FactoryBot.create(:user, id: 456, login: 'alice')
+      FactoryBot.create(:user, login: 'alice')
 
       visit users_contributions_path('alice')
       expect(page).to have_element('h1', text: 'チーム開発プラクティスでのaliceさんの取り組み')
