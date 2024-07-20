@@ -5,6 +5,9 @@ FactoryBot.define do
     sequence(:id) { |n| n }
     sequence(:name) { |n| "bug#{n}" }
     color { 'FF0000' }
-    association :repository
+
+    trait :with_repository do
+      association :repository
+    end
   end
 end

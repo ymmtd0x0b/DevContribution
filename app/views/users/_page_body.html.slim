@@ -20,10 +20,6 @@
                   .px-2.text-sm.font-medium.text-slate-500
                     = "##{item.number}"
                   - item.labels.each do |label|
-                    ruby:
-                      # そのままの色では見づらいので調整を行う
-                      border_color = "##{label.color}".paint.darken(5)
-                      font_color = "##{label.color}".paint.dark? ? "#FFFFFF" :"#333333"
-                    .flex.items-center.px-2.text-xs.font-semibold.rounded-full(style="background-color: ##{label.color}; color: #{font_color}; border: 1px solid #{border_color}")
+                    .flex.items-center.px-2.text-xs.font-semibold.rounded-full(style="background-color: ##{label.color}; color: #{label.font_color}; border: 1px solid #{label.border_color}")
                       = label.name
 
