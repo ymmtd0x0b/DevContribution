@@ -4,11 +4,15 @@ import Swal from 'sweetalert2'
 
 // Connects to data-controller="copy-to-clipboard"
 export default class extends Controller {
-  static targets = ['allIssuesTable', 'defaultMessage', 'successMessage']
+  static targets = [
+    'allIssuesTable',
+    'markdownButtonMessage',
+    'markdownButtonSuccessMessage',
+    'urlButtonMessage',
+    'urlButtonSuccessMessage',
+  ]
 
-  connect() {}
-
-  copy() {
+  markdownCopy() {
     if (!navigator.clipboard) {
       Swal.fire({
         title: 'エラー',
@@ -23,13 +27,35 @@ export default class extends Controller {
       { bulletMarker: '-' }
     )
     navigator.clipboard.writeText(markdonwText).then(() => {
-      this.defaultMessageTarget.classList.add('hidden')
-      this.successMessageTarget.classList.remove('hidden')
+      this.markdownButtonMessageTarget.classList.add('hidden')
+      this.markdownButtonSuccessMessageTarget.classList.remove('hidden')
 
       // reset to default state
       setTimeout(() => {
-        this.defaultMessageTarget.classList.remove('hidden')
-        this.successMessageTarget.classList.add('hidden')
+        this.markdownButtonMessageTarget.classList.remove('hidden')
+        this.markdownButtonSuccessMessageTarget.classList.add('hidden')
+      }, 2000)
+    })
+  }
+
+  urlCopy() {
+    if (!navigator.clipboard) {
+      Swal.fire({
+        title: 'エラー',
+        text: 'クリップボードへのコピー機能を利用できません',
+        icon: 'error'
+      })
+      return
+    }
+
+    navigator.clipboard.writeText(document.location.href).then(() => {
+      this.urlButtonMessageTarget.classList.add('hidden')
+      this.urlButtonSuccessMessageTarget.classList.remove('hidden')
+
+      // reset to default state
+      setTimeout(() => {
+        this.urlButtonMessageTarget.classList.remove('hidden')
+        this.urlButtonSuccessMessageTarget.classList.add('hidden')
       }, 2000)
     })
   }

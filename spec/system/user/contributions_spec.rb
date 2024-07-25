@@ -28,7 +28,8 @@ RSpec.describe 'User::Contributions', type: :system do
     login_as alice
     visit users_contributions_path alice.login
 
-    expect(page).to have_button('Copy')
+    expect(page).to have_button('Markdownをコピー')
+    expect(page).to have_button('URLをコピー')
     expect(page).to have_link('アリスが担当した Issue')
     expect(page).to have_link('#111')
     expect(page).to have_link('アリスがレビューした Issue')
@@ -42,8 +43,10 @@ RSpec.describe 'User::Contributions', type: :system do
       FactoryBot.create(:user, login: 'alice')
 
       visit users_contributions_path('alice')
+
       expect(page).to have_element('h1', text: 'チーム開発プラクティスでのaliceさんの取り組み')
-      expect(page).not_to have_button('Copy')
+      expect(page).not_to have_button('Markdownをコピー')
+      expect(page).not_to have_button('URLをコピー')
     end
   end
 end
