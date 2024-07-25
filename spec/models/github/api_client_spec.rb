@@ -11,7 +11,7 @@ RSpec.describe GitHub::ApiClient, type: :model do
   describe '#repository' do
     context 'リポジトリを見つけた場合' do
       it 'Sawyer::Resourceオブジェクトを返すこと', vcr: { cassette_name: 'github/api_client/repository' } do
-        actual = @client.repository(name: 'fjordllc/bootcamp')
+        actual = @client.repository(name: 'test/repository')
         expect(actual).to be_instance_of(Sawyer::Resource)
       end
     end

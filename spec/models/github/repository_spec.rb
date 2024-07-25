@@ -20,7 +20,7 @@ RSpec.describe GitHub::Repository, type: :model do
     # カセットに機密情報が記録されないように設定を追加する
     context 'リポジトリを見つけた場合' do
       it 'GitHub::Resitoryオブジェクトのインスタンスを返すこと', vcr: { cassette_name: 'github/api_client/repository' } do
-        actual = GitHub::Repository.find_by(name: 'fjordllc/bootcamp')
+        actual = GitHub::Repository.find_by(name: 'test/repository')
         expect(actual).to be_an_instance_of(GitHub::Repository)
       end
     end
