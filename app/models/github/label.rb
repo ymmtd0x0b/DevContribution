@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Github
+module GitHub
   class Label
     attr_reader :id
 
@@ -20,7 +20,7 @@ module Github
 
     class << self
       def registered_by(repository)
-        client = Github::ApiClient.new
+        client = GitHub::ApiClient.new
         labels = client.labels(repository.name)
         labels.map { |label| new(repository_id: repository.id, label: { id: label.id, name: label.name, color: label.color }) }
       end

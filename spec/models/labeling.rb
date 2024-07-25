@@ -16,7 +16,7 @@ RSpec.describe Labeling, type: :model do
         FactoryBot.create(:issue, id: 100) { |created_issue| created_issue.labelings.create!(label_id: 123) }
 
         expect do
-          issues_collected_by_the_github_api = [Github::Issue.new(repository_id: 1, issue: { id: 100, labels_id: [123, 456] })]
+          issues_collected_by_the_github_api = [GitHub::Issue.new(repository_id: 1, issue: { id: 100, labels_id: [123, 456] })]
           Labeling.synchronize(issues_collected_by_the_github_api)
         end.to change { Labeling.where(issue_id: 100).pluck(:label_id) }.from([123]).to([123, 456])
       end
@@ -30,7 +30,7 @@ RSpec.describe Labeling, type: :model do
         end
 
         expect do
-          issues_collected_by_the_github_api = [Github::Issue.new(repository_id: 1, issue: { id: 100, labels_id: [123] })]
+          issues_collected_by_the_github_api = [GitHub::Issue.new(repository_id: 1, issue: { id: 100, labels_id: [123] })]
           Labeling.synchronize(issues_collected_by_the_github_api)
         end.to change { Labeling.where(issue_id: 100).pluck(:label_id) }.from([123, 456]).to([123])
       end

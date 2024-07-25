@@ -5,7 +5,7 @@ module Synchronizer
     def call(payload)
       repository = payload[:repository]
 
-      labels = Github::Label.registered_by(repository)
+      labels = GitHub::Label.registered_by(repository)
       ::Label.synchronize(repository, labels)
     end
   end

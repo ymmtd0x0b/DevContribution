@@ -6,7 +6,7 @@ module Synchronizer
       repository = payload[:repository]
       user = payload[:user]
 
-      issues = Github::Issue.assigned_by(repository, user)
+      issues = GitHub::Issue.assigned_by(repository, user)
       Issue.synchronize(issues)
       Assign.synchronize('Issue', issues, user)
     end

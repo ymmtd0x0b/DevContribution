@@ -20,8 +20,8 @@ RSpec.describe PullRequest, type: :model do
 
         expect do
           pull_requests_collected_by_the_github_api = [
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] }),
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [] })
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] }),
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [] })
           ]
           PullRequest.synchronize(pull_requests_collected_by_the_github_api)
         end.to change { PullRequest.ids }.from([100]).to([100, 200])
@@ -34,7 +34,7 @@ RSpec.describe PullRequest, type: :model do
 
         expect do
           pull_requests_collected_by_the_github_api = [
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 999, issues_number: [] })
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 999, issues_number: [] })
           ]
           PullRequest.synchronize(pull_requests_collected_by_the_github_api)
         end.to change { pull_request.reload.number }.from(100).to(999)
@@ -43,7 +43,7 @@ RSpec.describe PullRequest, type: :model do
 
     it 'PullRequest の description にリンクされた Issue とのアソシエーションを同期させる(メソッドを呼び出す)こと' do
       pull_requests_collected_by_the_github_api = [
-        Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 999, issues_number: [123] })
+        GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 999, issues_number: [123] })
       ]
       PullRequest.synchronize(pull_requests_collected_by_the_github_api)
       expect(Resolution).to have_received(:synchronize)

@@ -13,7 +13,7 @@ RSpec.describe Resolution, type: :model do
 
           expect do
             pull_requests_collected_by_the_github_api = [
-              Github::PullRequest.new(repository_id: 1, pull_request: { id: 300, number: 300, issues_number: [100, 200] })
+              GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 300, number: 300, issues_number: [100, 200] })
             ]
             Resolution.synchronize(pull_requests_collected_by_the_github_api)
           end.to change { pull_request.issues.pluck(:id) }.from([]).to([100, 200])
@@ -27,7 +27,7 @@ RSpec.describe Resolution, type: :model do
 
           expect do
             pull_requests_collected_by_the_github_api = [
-              Github::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [100, 999] })
+              GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [100, 999] })
             ]
             Resolution.synchronize(pull_requests_collected_by_the_github_api)
           end.to change { pull_request.issues.pluck(:id) }.from([]).to([100])
@@ -43,7 +43,7 @@ RSpec.describe Resolution, type: :model do
 
           expect do
             pull_requests_collected_by_the_github_api = [
-              Github::PullRequest.new(repository_id: 123, pull_request: { id: 300, number: 300, issues_number: [100] })
+              GitHub::PullRequest.new(repository_id: 123, pull_request: { id: 300, number: 300, issues_number: [100] })
             ]
             Resolution.synchronize(pull_requests_collected_by_the_github_api)
           end.to change { pull_request.issues.pluck(:id) }.from([100, 200]).to([100])
@@ -60,7 +60,7 @@ RSpec.describe Resolution, type: :model do
 
         expect do
           pull_requests_collected_by_the_github_api = [
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] })
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] })
           ]
           Resolution.synchronize(pull_requests_collected_by_the_github_api)
         end.to change { pull_request.issues.ids }.from([123, 456]).to([])

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Github
+module GitHub
   class Repository
     def initialize(id:, name:, avatar_url:)
       @id = id
@@ -16,7 +16,7 @@ module Github
 
     class << self
       def find_by(id: nil, name: nil)
-        client = Github::ApiClient.new
+        client = GitHub::ApiClient.new
         repo = client.repository(id:, name:)
         return nil if repo.nil?
 

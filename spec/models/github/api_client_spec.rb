@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe Github::ApiClient, type: :model do
+RSpec.describe GitHub::ApiClient, type: :model do
   before do
-    @client = Github::ApiClient.new
+    @client = GitHub::ApiClient.new
     allow(Rails.logger).to receive(:error)
   end
 

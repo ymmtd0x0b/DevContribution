@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Synchronizer::ReviewedPullRequest, type: :model do
   describe '#call' do
     before do
-      allow(Github::PullRequest).to receive(:reviewed_by)
+      allow(GitHub::PullRequest).to receive(:reviewed_by)
       allow(PullRequest).to receive(:synchronize)
       allow(Review).to receive(:synchronize)
     end
@@ -14,7 +14,7 @@ RSpec.describe Synchronizer::ReviewedPullRequest, type: :model do
 
     it 'GitHubから対象の PullRequest を取得する(処理を呼び出す)こと' do
       synchronizer.call({ repository:, user: })
-      expect(Github::PullRequest).to have_received(:reviewed_by)
+      expect(GitHub::PullRequest).to have_received(:reviewed_by)
     end
 
     it '取得したデータをデータベースへ同期させる(処理を呼び出す)こと' do

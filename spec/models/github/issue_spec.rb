@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe Github::Issue, type: :model do
+RSpec.describe GitHub::Issue, type: :model do
   describe '#to_h' do
     it '自身をハッシュ(連想配列)へ変換して返すこと( labels_id は含まない )' do
       issue_data = { id: 111, user_id: 222, title: 'bug fix', number: 333, labels_id: [444, 555] }
-      issue = Github::Issue.new(repository_id: 123, issue: issue_data)
+      issue = GitHub::Issue.new(repository_id: 123, issue: issue_data)
 
       expect(issue.to_h).to eq({ id: 111, repository_id: 123, user_id: 222, title: 'bug fix', number: 333 })
     end
@@ -15,7 +15,7 @@ RSpec.describe Github::Issue, type: :model do
   describe '#create_labelings' do
     it 'Issue と Label の ID をハッシュとして要素に持つ Array で返すこと' do
       issue_data = { id: 111, user_id: 222, title: 'bug fix', number: 333, labels_id: [444, 555] }
-      issue = Github::Issue.new(repository_id: 123, issue: issue_data)
+      issue = GitHub::Issue.new(repository_id: 123, issue: issue_data)
 
       expect(issue.create_labelings).to eq([{ issue_id: 111, label_id: 444 },
                                             { issue_id: 111, label_id: 555 }])
@@ -24,13 +24,13 @@ RSpec.describe Github::Issue, type: :model do
 
   describe '.created_by' do
     context '該当する Issue がある場合' do
-      it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/created_by' } do
+      it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/created_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
-        issues = Github::Issue.created_by(repository, user)
+        issues = GitHub::Issue.created_by(repository, user)
         expect(issues).not_to be_empty
-        expect(issues).to all(be_instance_of(Github::Issue))
+        expect(issues).to all(be_instance_of(GitHub::Issue))
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe Github::Issue, type: :model do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'not_exist_user')
 
-        issues = Github::Issue.created_by(repository, user)
+        issues = GitHub::Issue.created_by(repository, user)
         expect(issues).to be_empty
       end
     end
@@ -47,13 +47,13 @@ RSpec.describe Github::Issue, type: :model do
 
   describe '.assigned_by' do
     context '該当する Issue がある場合' do
-      it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by' } do
+      it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
-        issues = Github::Issue.assigned_by(repository, user)
+        issues = GitHub::Issue.assigned_by(repository, user)
         expect(issues).not_to be_empty
-        expect(issues).to all(be_instance_of(Github::Issue))
+        expect(issues).to all(be_instance_of(GitHub::Issue))
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe Github::Issue, type: :model do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'not_exist_user')
 
-        issues = Github::Issue.assigned_by(repository, user)
+        issues = GitHub::Issue.assigned_by(repository, user)
         expect(issues).to be_empty
       end
     end
@@ -70,13 +70,13 @@ RSpec.describe Github::Issue, type: :model do
 
   describe '.reviewed_by' do
     context '該当する Issue がある場合' do
-      it ' Github::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by' } do
+      it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by' } do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'ymmtd0x0b')
 
-        issues = Github::Issue.reviewed_by(repository, user)
+        issues = GitHub::Issue.reviewed_by(repository, user)
         expect(issues).not_to be_empty
-        expect(issues).to all(be_instance_of(Github::Issue))
+        expect(issues).to all(be_instance_of(GitHub::Issue))
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe Github::Issue, type: :model do
         repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
         user = FactoryBot.create(:user, login: 'not_exist_user')
 
-        issues = Github::Issue.reviewed_by(repository, user)
+        issues = GitHub::Issue.reviewed_by(repository, user)
         expect(issues).to be_empty
       end
     end

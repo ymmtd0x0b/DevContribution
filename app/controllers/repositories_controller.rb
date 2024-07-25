@@ -5,7 +5,7 @@ class RepositoriesController < ApplicationController
   before_action :set_repository, only: %i[update]
 
   def update
-    newest_repository = Github::Repository.find_by(id: @repository.id)
+    newest_repository = GitHub::Repository.find_by(id: @repository.id)
     if newest_repository && @repository.update(newest_repository.to_h)
       Newspaper.publish(:repository_update, { repository: @repository, user: current_user })
       flash[:success] = '更新に成功しました'

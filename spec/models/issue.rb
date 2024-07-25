@@ -20,8 +20,8 @@ RSpec.describe Issue, type: :model do
 
         expect do
           issues_collected_by_the_github_api = [
-            Github::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'issue#100', number: 100, labels_id: [] }),
-            Github::Issue.new(repository_id: 1, issue: { id: 200, user_id: 1, title: 'issue#200', number: 200, labels_id: [] })
+            GitHub::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'issue#100', number: 100, labels_id: [] }),
+            GitHub::Issue.new(repository_id: 1, issue: { id: 200, user_id: 1, title: 'issue#200', number: 200, labels_id: [] })
           ]
           Issue.synchronize(issues_collected_by_the_github_api)
         end.to change { Issue.count }.from(1).to(2)
@@ -34,7 +34,7 @@ RSpec.describe Issue, type: :model do
 
         expect do
           issues_collected_by_the_github_api = [
-            Github::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'updated!', number: 100, labels_id: [] })
+            GitHub::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'updated!', number: 100, labels_id: [] })
           ]
           Issue.synchronize(issues_collected_by_the_github_api)
         end.to change { issue.reload.title }.from('before update...').to('updated!')
@@ -43,7 +43,7 @@ RSpec.describe Issue, type: :model do
 
     it 'Issue のラベリングを同期させる(メソッドを呼び出す)こと' do
       issues_collected_by_the_github_api = [
-        Github::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'issue#100', number: 100, labels_id: [123] })
+        GitHub::Issue.new(repository_id: 1, issue: { id: 100, user_id: 1, title: 'issue#100', number: 100, labels_id: [123] })
       ]
       Issue.synchronize(issues_collected_by_the_github_api)
 

@@ -13,8 +13,8 @@ RSpec.describe Review, type: :model do
 
         expect do
           pull_requests_collected_by_the_github_api = [
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] }),
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [] })
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] }),
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 200, number: 200, issues_number: [] })
           ]
           Review.synchronize(pull_requests_collected_by_the_github_api, user)
         end.to change { user.reviewed_pull_requests.pluck(:id) }.from([100]).to([100, 200])
@@ -33,7 +33,7 @@ RSpec.describe Review, type: :model do
 
         expect do
           pull_requests_collected_by_the_github_api = [
-            Github::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] })
+            GitHub::PullRequest.new(repository_id: 1, pull_request: { id: 100, number: 100, issues_number: [] })
           ]
           Review.synchronize(pull_requests_collected_by_the_github_api, user)
         end.to change { user.reviewed_pull_requests.pluck(:id) }.from([100, 200]).to([100])
