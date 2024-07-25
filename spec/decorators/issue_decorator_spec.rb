@@ -13,6 +13,8 @@ RSpec.describe IssueDecorator do
   end
 
   describe '#point' do
+    let(:repository) { FactoryBot.create(:repository) }
+
     context 'ラベルが貼られていない場合' do
       it 'ゼロを返すこと' do
         decorator_issue = ActiveDecorator::Decorator.instance.decorate(FactoryBot.create(:issue))
@@ -23,8 +25,8 @@ RSpec.describe IssueDecorator do
     context 'ラベルが貼られている場合' do
       it 'ストーリーポイントとなるラベルがあれば、そのポイントを返すこと' do
         issue = FactoryBot.create(:issue) do |created_issue|
-          created_issue.labelings.create!(label: FactoryBot.create(:label, name: '1'))
-          created_issue.labelings.create!(label: FactoryBot.create(:label, name: 'good first issue'))
+          created_issue.labelings.create!(label: FactoryBot.create(:label, :with_repository, repository:, name: '1'))
+          created_issue.labelings.create!(label: FactoryBot.create(:label, :with_repository, repository:, name: 'good first issue'))
         end
         decorator_issue = ActiveDecorator::Decorator.instance.decorate(issue)
 
@@ -33,7 +35,7 @@ RSpec.describe IssueDecorator do
 
       it 'ストーリーポイントとなるラベルがなけれが、ゼロを返すこと' do
         issue = FactoryBot.create(:issue) do |created_issue|
-          created_issue.labelings.create!(label: FactoryBot.create(:label, name: 'good first issue'))
+          created_issue.labelings.create!(label: FactoryBot.create(:label, :with_repository, repository:, name: 'good first issue'))
         end
         decorator_issue = ActiveDecorator::Decorator.instance.decorate(issue)
 

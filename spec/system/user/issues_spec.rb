@@ -7,7 +7,7 @@ RSpec.describe 'User::Issues', type: :system do
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
 
-    FactoryBot.create(:repository, id: 101, name: 'test/repository')
+    @repository = FactoryBot.create(:repository, id: 101, name: 'test/repository')
   end
 
   scenario 'ユーザーが作成した Issue を一覧表示する' do
@@ -51,11 +51,11 @@ RSpec.describe 'User::Issues', type: :system do
     scenario 'Issue と共に一覧に表示する' do
       alice = FactoryBot.create(:user, login: 'alice')
       FactoryBot.create(:issue, title: 'Issue G', user: alice) do |issue|
-        issue.labels << FactoryBot.create(:label, name: '1')
+        issue.labels << FactoryBot.create(:label, :with_repository, repository: @repository, name: '1')
       end
       FactoryBot.create(:issue, title: 'Issue H', user: alice) do |issue|
-        issue.labels << FactoryBot.create(:label, name: '2')
-        issue.labels << FactoryBot.create(:label, name: 'bug')
+        issue.labels << FactoryBot.create(:label, :with_repository, repository: @repository, name: '2')
+        issue.labels << FactoryBot.create(:label, :with_repository, repository: @repository, name: 'bug')
       end
 
       login_as alice

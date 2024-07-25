@@ -8,7 +8,7 @@ RSpec.describe Label, type: :model do
 
     context '引数に渡されたデータの中に「未登録のラベル」がある場合' do
       it '新たに登録すること' do
-        FactoryBot.create(:label, id: 100, name: 'label#100')
+        FactoryBot.create(:label, :with_repository, repository:, id: 100, name: 'label#100')
 
         expect do
           issues_collected_by_the_github_api = [
@@ -22,7 +22,7 @@ RSpec.describe Label, type: :model do
 
     context '引数に渡されたデータの中に「登録済みのラベル 」がある場合' do
       it '該当ラベルの情報を更新すること' do
-        label = FactoryBot.create(:label, id: 100, name: 'label#100')
+        label = FactoryBot.create(:label, :with_repository, repository:, id: 100, name: 'label#100')
 
         expect do
           labels_collected_by_the_github_api = [
