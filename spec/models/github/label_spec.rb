@@ -13,7 +13,7 @@ RSpec.describe Label, type: :model do
   describe '.registered_by' do
     context 'リポジトリに登録されたラベルがある場合' do
       it 'Sawyer::Resourceオブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/label/registred_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
         labels = GitHub::Label.registered_by(repository)
 
         expect(labels).not_to be_empty
@@ -23,7 +23,7 @@ RSpec.describe Label, type: :model do
 
     context 'リポジトリに登録されたラベルがない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/label/registred_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/hello-world')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
         labels = GitHub::Label.registered_by(repository)
 
         expect(labels).to be_empty
