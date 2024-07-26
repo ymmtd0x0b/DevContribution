@@ -15,8 +15,8 @@ RSpec.describe GitHub::PullRequest, type: :model do
   describe '.assigned_by' do
     context '該当する PullRequest がある場合' do
       it 'GitHub::PullRequest オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/pull_request/assigned_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'alice')
 
         pull_requests = GitHub::PullRequest.assigned_by(repository, user)
         expect(pull_requests).not_to be_empty
@@ -26,8 +26,8 @@ RSpec.describe GitHub::PullRequest, type: :model do
 
     context '該当する PullRequest がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/pull_request/assigned_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'not_exist_user')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'non_exist_user')
 
         pull_requests = GitHub::PullRequest.assigned_by(repository, user)
         expect(pull_requests).to be_empty
@@ -38,8 +38,8 @@ RSpec.describe GitHub::PullRequest, type: :model do
   describe '.reviewed_by' do
     context '該当する PullRequest がある場合' do
       it 'GitHub::PullRequest オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/pull_request/reviewed_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'alice')
 
         pull_requests = GitHub::PullRequest.reviewed_by(repository, user)
         expect(pull_requests).not_to be_empty
@@ -49,8 +49,8 @@ RSpec.describe GitHub::PullRequest, type: :model do
 
     context '該当する PullRequest がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/pull_request/reviewed_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'not_exist_user')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'non_exist_user')
 
         pull_requests = GitHub::PullRequest.reviewed_by(repository, user)
         expect(pull_requests).to be_empty
