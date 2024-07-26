@@ -25,8 +25,8 @@ RSpec.describe GitHub::Issue, type: :model do
   describe '.created_by' do
     context '該当する Issue がある場合' do
       it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/created_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'alice')
 
         issues = GitHub::Issue.created_by(repository, user)
         expect(issues).not_to be_empty
@@ -36,8 +36,8 @@ RSpec.describe GitHub::Issue, type: :model do
 
     context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/created_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'not_exist_user')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'non_exist_user')
 
         issues = GitHub::Issue.created_by(repository, user)
         expect(issues).to be_empty
@@ -48,8 +48,8 @@ RSpec.describe GitHub::Issue, type: :model do
   describe '.assigned_by' do
     context '該当する Issue がある場合' do
       it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'alice')
 
         issues = GitHub::Issue.assigned_by(repository, user)
         expect(issues).not_to be_empty
@@ -59,8 +59,8 @@ RSpec.describe GitHub::Issue, type: :model do
 
     context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/assigned_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'not_exist_user')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'non_exist_user')
 
         issues = GitHub::Issue.assigned_by(repository, user)
         expect(issues).to be_empty
@@ -71,8 +71,8 @@ RSpec.describe GitHub::Issue, type: :model do
   describe '.reviewed_by' do
     context '該当する Issue がある場合' do
       it ' GitHub::Issue オブジェクトを要素に持つ Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'ymmtd0x0b')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'alice')
 
         issues = GitHub::Issue.reviewed_by(repository, user)
         expect(issues).not_to be_empty
@@ -82,8 +82,8 @@ RSpec.describe GitHub::Issue, type: :model do
 
     context '該当する Issue がない場合' do
       it '空の Array を返すこと', vcr: { cassette_name: 'github/issue/reviewed_by_not_found' } do
-        repository = FactoryBot.create(:repository, name: 'ymmtd0x0b/for_test2')
-        user = FactoryBot.create(:user, login: 'not_exist_user')
+        repository = FactoryBot.create(:repository, name: 'test/repository')
+        user = FactoryBot.create(:user, login: 'non_exist_user')
 
         issues = GitHub::Issue.reviewed_by(repository, user)
         expect(issues).to be_empty
