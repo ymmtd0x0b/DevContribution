@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/repos/ymmtd0x0b/for_test2/labels?page=1&per_page=100
+    uri: https://api.github.com/repos/test/repository/labels?page=1&per_page=100
     body:
       encoding: US-ASCII
       string: ''

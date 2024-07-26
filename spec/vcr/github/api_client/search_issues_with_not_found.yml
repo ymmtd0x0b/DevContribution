@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/search/issues?page=1&per_page=100&q=repo:ymmtd0x0b/for_test2%20is:issue%20author:ymmtd0x0b%20label:not_exist_tag
+    uri: https://api.github.com/search/issues?page=1&per_page=100&q=repo:test/repository%20is:issue%20author:alice%20label:non_exist_tag
     body:
       encoding: US-ASCII
       string: ''

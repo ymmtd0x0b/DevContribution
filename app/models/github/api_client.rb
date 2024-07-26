@@ -47,8 +47,8 @@ module GitHub
 
     def log_error(exception)
       # NOTE: exception の例
-      #       - GET https://api.github.com/repos/ymmtd0x0b/error: 404 - Not Found // See: https://docs.github.com/rest/repos/repos#get-a-repository
-      Rails.logger.error "[GitHub API] #{exception}"
+      #       - GET https://api.github.com/repos/test/error: 404 - Not Found // See: https://docs.github.com/rest/repos/repos#get-a-repository
+      Rails.logger.error "[GitHub API] #{exception.message}"
     end
   end
 end

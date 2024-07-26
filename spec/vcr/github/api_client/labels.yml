@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/repos/ymmtd0x0b/for_test2/labels?page=1&per_page=100
+    uri: https://api.github.com/repos/test/repository/labels?page=1&per_page=100
     body:
       encoding: US-ASCII
       string: ''
@@ -78,7 +78,6 @@ http_interactions:
       - 8EAC:A3AC0:1693279:170EC85:66540FA0
     body:
       encoding: ASCII-8BIT
-      string: '[{"id":6592369166,"node_id":"LA_kwDOLEUQKs8AAAABiO-SDg","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/1","name":"1","color":"2E29EA","default":false,"description":""},{"id":6592370135,"node_id":"LA_kwDOLEUQKs8AAAABiO-V1w","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/2","name":"2","color":"16704F","default":false,"description":""},{"id":6592370574,"node_id":"LA_kwDOLEUQKs8AAAABiO-Xjg","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/3","name":"3","color":"7D4C0E","default":false,"description":""},{"id":6592371441,"node_id":"LA_kwDOLEUQKs8AAAABiO-a8Q","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/5","name":"5","color":"6B245E","default":false,"description":""},{"id":6425791028,"node_id":"LA_kwDOLEUQKs8AAAABfwHKNA","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/bug","name":"bug","color":"d73a4a","default":true,"description":"Something
-        isn''t working"},{"id":6583252747,"node_id":"LA_kwDOLEUQKs8AAAABiGR3Cw","url":"https://api.github.com/repos/ymmtd0x0b/for_test2/labels/fix","name":"fix","color":"EEAE53","default":false,"description":""}]'
+      string: '[{"id":6592369166,"name":"1","color":"2E29EA"},{"id":6592370135,"name":"2","color":"16704F"},{"id":6592370574,"name":"3","color":"7D4C0E"},{"id":6592371441,"name":"5","color":"6B245E"},{"id":6425791028,"name":"bug","color":"d73a4a"},{"id":6583252747,"name":"fix","color":"EEAE53"}]'
   recorded_at: Mon, 27 May 2024 04:44:16 GMT
 recorded_with: VCR 6.2.0

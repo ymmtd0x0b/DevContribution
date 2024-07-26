@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/repos/ymmtd0x0b/not_found
+    uri: https://api.github.com/repos/test/non_exist_repository
     body:
       encoding: US-ASCII
       string: ''
