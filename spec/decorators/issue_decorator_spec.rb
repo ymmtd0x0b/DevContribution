@@ -8,7 +8,7 @@ RSpec.describe IssueDecorator do
       issue = FactoryBot.create(:issue, number: 123, repository: FactoryBot.create(:repository, name: 'test/repository'))
       decorator_issue = ActiveDecorator::Decorator.instance.decorate(issue)
 
-      expect(decorator_issue.url).to eq 'https://github.com/test/repository/issues/123'
+      expect(decorator_issue.url).to eq 'https://example.com/test/repository/issues/123'
     end
   end
 
