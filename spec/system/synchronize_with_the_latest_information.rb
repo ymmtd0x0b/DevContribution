@@ -4,11 +4,8 @@ require 'rails_helper'
 
 RSpec.describe 'Synchronize with the latest information', type: :system do
   before do
+    FactoryBot.create(:repository, id: 123, name: 'test/before_repository')
     allow(Git::Wiki).to receive(:created_by).and_return([])
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-
-    FactoryBot.create(:repository, id: 101, name: 'test/before_repository')
   end
 
   let(:alice) { FactoryBot.create(:user, id: 501, login: 'alice') }
@@ -27,7 +24,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
 
     scenario 'リポジトリのラベル情報を同期すること' do
       FactoryBot.create(:issue, id: 301, title: 'バグの修正') do |issue|
-        issue.labels << FactoryBot.create(:label, id: 201, name: 'バグ', repository_id: 101)
+        issue.labels << FactoryBot.create(:label, id: 201, name: 'バグ', repository_id: 123)
         issue.assignees << alice
       end
 
@@ -45,7 +42,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが担当した Issue の情報を同期すること' do
-      FactoryBot.create(:issue, id: 301, title: 'bugの修正') { |issue| issue.assignee << alice }
+      FactoryBot.create(:issue, id: 301, title: 'bugの修正') { |issue| issue.assignees << alice }
 
       login_as alice
       visit users_issues_path alice.login, association: 'assigned'
@@ -93,10 +90,10 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが作成した Wiki の情報を同期すること' do
-      FactoryBot.create(:wiki, title: 'Before Wiki', first_commit_hash: 'aaa', repository_id: 101, user: alice)
+      FactoryBot.create(:wiki, title: 'Before Wiki', first_commit_hash: 'aaa', repository_id: 123, user: alice)
 
       new_wiki = { user_id: alice.id, title: 'After Wiki', first_commit_hash: 'aaa', created_at: Time.zone.now, updated_at: Time.zone.now }
-      allow(Git::Wiki).to receive(:created_by).and_return([Git::Wiki.new(repository_id: 101, file_data: new_wiki)])
+      allow(Git::Wiki).to receive(:created_by).and_return([Git::Wiki.new(repository_id: 123, file_data: new_wiki)])
 
       login_as alice
       visit users_wikis_path alice.login

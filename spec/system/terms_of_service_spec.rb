@@ -4,10 +4,8 @@ require 'rails_helper'
 
 RSpec.describe 'TermsOfService', type: :system do
   before do
+    FactoryBot.create(:repository, id: 123)
     allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-
-    FactoryBot.create(:repository, id: 101)
   end
 
   scenario '利用規約を表示する' do

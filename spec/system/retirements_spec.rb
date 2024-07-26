@@ -4,9 +4,6 @@ require 'rails_helper'
 
 RSpec.describe 'Retirements', type: :system do
   before do
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('123')
-
     FactoryBot.create(:repository, id: 123)
   end
 

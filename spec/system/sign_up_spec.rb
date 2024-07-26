@@ -4,15 +4,11 @@ require 'rails_helper'
 
 RSpec.describe 'Sign up', type: :system do
   before do
-    @tmpdir_realpath = setup_dummpy_repository_wiki
-    allow(Git::Wiki).to receive(:github_url).and_return(@tmpdir_realpath)
-
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-
+    FactoryBot.create(:repository, id: 123, name: 'test/repository')
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github', uid: 501, info: { nickname: 'alice', name: '', image: '' } })
 
-    FactoryBot.create(:repository, id: 101, name: 'test/repository')
+    @tmpdir_realpath = setup_dummpy_repository_wiki
+    allow(Git::Wiki).to receive(:github_url).and_return(@tmpdir_realpath)
   end
 
   def setup_dummpy_repository_wiki

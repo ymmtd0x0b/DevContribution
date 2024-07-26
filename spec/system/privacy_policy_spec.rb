@@ -4,10 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'PrivacyPolicy', type: :system do
   before do
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-
-    FactoryBot.create(:repository, id: 101)
+    FactoryBot.create(:repository, id: 123)
   end
 
   scenario 'プライバシーポリシーを表示する' do

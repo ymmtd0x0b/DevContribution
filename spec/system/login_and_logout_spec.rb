@@ -4,13 +4,9 @@ require 'rails_helper'
 
 RSpec.describe 'Login And Logout', type: :system do
   before do
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('123')
-
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github', uid: 456, info: { nickname: 'alice', name: '', image: '' } })
-
     FactoryBot.create(:repository, id: 123)
     FactoryBot.create(:user, id: 456, login: 'alice')
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github', uid: 456, info: { nickname: 'alice', name: '', image: '' } })
   end
 
   scenario 'ログインに成功すること' do
