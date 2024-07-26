@@ -27,7 +27,7 @@ RSpec.describe GitHub::Repository, type: :model do
 
     context 'リポジトリが見つからない場合' do
       it 'nilを返すこと', vcr: { cassette_name: 'github/api_client/repository_with_not_found' } do
-        actual = GitHub::Repository.find_by(name: 'ymmtd0x0b/not_found')
+        actual = GitHub::Repository.find_by(name: 'test/non_exist_repository')
         expect(actual).to eq nil
       end
     end
