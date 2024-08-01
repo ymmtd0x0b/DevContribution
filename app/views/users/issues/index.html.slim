@@ -2,6 +2,9 @@
   = turbo_frame_tag :main, data: { turbo_action: :advance }, src: users_loading_path, loading: :lazy do
     = render 'loading'
 - else
+  - title "#{@user.login}さんの取り組み"
+  - description "#{@user.login}さんの取り組みページを表示するページ"
+
   = turbo_frame_tag :main, data: { turbo_action: :advance } do
     = render 'users/page_header', repository: @repository, user: @user
 
