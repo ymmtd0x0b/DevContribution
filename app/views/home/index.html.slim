@@ -1,30 +1,30 @@
 - description 'フィヨルドブートキャンプのチーム開発プラクティスでのあなたの取り組みを一覧表示できるサービスです'
 
-= turbo_frame_tag 'main', data: { turbo_action: :advance } do
-  = render 'shared/flash'
-  .w-full.mx-auto.max-w-screen-lg
-    h1.text-slate-700.text-center.text-5xl.font-semibold.pt-16
-      | FjordContributions
-    p.text-slate-700.text-center.text-2xl.pt-10
-      | フィヨルドブートキャンプのチーム開発プラクティスで提出に必要な
-      br
-      | あなたが関わったIssueとPRを一覧表示できるサービスです
+= render 'shared/flash'
 
-    .flex.justify-around.py-16
-      = render 'item_card', icon: 'code_merge', item_type: '担当した', item_name:'Issue'
-      = render 'item_card', icon: 'annotation', item_type: 'レビューした', item_name:'Issue'
-      = render 'item_card', icon: 'file_pen', item_type: '作成した', item_name:'Issue'
-      = render 'item_card', icon: 'file_search', item_type: '作成した', item_name:'Wikiページ'
+.w-full.mx-auto.max-w-screen-lg
+  h1.text-slate-700.text-center.text-5xl.font-semibold.pt-16
+    | FjordContributions
+  p.text-slate-700.text-center.text-2xl.pt-10
+    | フィヨルドブートキャンプのチーム開発プラクティスで提出に必要な
+    br
+    | あなたが関わったIssueとPRを一覧表示できるサービスです
 
-    .text-slate-700.text-center.pt-5.text-xl.mb-10
-      | 初めて利用する方はGitHubアカウントを連携してください
+  .flex.justify-around.py-16
+    = render 'item_card', icon: 'code_merge', item_type: '担当した', item_name:'Issue'
+    = render 'item_card', icon: 'annotation', item_type: 'レビューした', item_name:'Issue'
+    = render 'item_card', icon: 'file_pen', item_type: '作成した', item_name:'Issue'
+    = render 'item_card', icon: 'file_search', item_type: '作成した', item_name:'Wikiページ'
 
-    .flex.justify-center.items-stretch.mb-10.h-12
-      = button_to '/auth/github', method: :post,
-                  form: { data: { controller: 'button', 'button-target' => 'form' }, class: 'flex items-stretch' },
-                  data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' },
-                  class: 'text-center py-2 px-5 font-semibold text-gray-200 focus:outline-none bg-slate-600 rounded-lg border border-gray-200 hover:bg-slate-500 hover:text-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100' do
-        .flex.justify-around
-          .w-6.h-6.mr-1
-            = image_tag 'github'
-          | GitHubアカントで登録
+  .text-slate-700.text-center.pt-5.text-xl.mb-10
+    | 初めて利用する方はGitHubアカウントを連携してください
+
+  .flex.justify-center.items-stretch.mb-10.h-12
+    = button_to '/auth/github', method: :post,
+                form: { data: { controller: 'button', 'button-target' => 'form' }, class: 'flex items-stretch' },
+                data: { turbo: false, action: 'click->button#click:prevent', 'button-target' => 'submitButton' },
+                class: 'text-center py-2 px-5 font-semibold text-gray-200 focus:outline-none bg-slate-600 rounded-lg border border-gray-200 hover:bg-slate-500 hover:text-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100' do
+      .flex.justify-around
+        .w-6.h-6.mr-1
+          = image_tag 'github'
+        | GitHubアカントで登録

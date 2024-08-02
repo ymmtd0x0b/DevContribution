@@ -2,14 +2,11 @@
   = turbo_frame_tag :main, data: { turbo_action: :advance }, src: users_loading_path, loading: :lazy do
     = render 'loading'
 - else
-  - title "#{@user.login}さんの取り組み"
-  - description "#{@user.login}さんの取り組みページを表示するページ"
+  = render 'users/meta_tags', user: @user
 
   = turbo_frame_tag :main, data: { turbo_action: :advance } do
     = render 'users/page_header', repository: @repository, user: @user
-
-    = turbo_frame_tag 'issues-list', data: { turbo_action: :advance } do
-      = render 'users/page_tabs'
-      = render 'users/page_body', items: @issues
+    = render 'users/page_tabs'
+    = render 'users/page_body', items: @issues
 
     = render 'shared/flash'
