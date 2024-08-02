@@ -10,5 +10,4 @@ Rails.application.routes.draw do
     resources :contributions, only: %i[index]
     get 'loading', to: 'loading#show'
   end
-  get '/*id', to: 'pages#show', as: :page, format: false
 end
