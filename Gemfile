@@ -44,6 +44,7 @@ group :development do
   gem 'rubocop-capybara', require: false
   gem 'rubocop-fjord', require: false
   gem 'rubocop-rails', require: false
+  gem 'slim_lint'
   gem 'web-console'
 end
 
