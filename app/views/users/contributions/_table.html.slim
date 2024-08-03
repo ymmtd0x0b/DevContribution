@@ -22,7 +22,7 @@
                 = link_to issue.title, issue.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
               td.px-6.py-3
                 - issue.pull_requests.each do |pull_request|
-                  - if (table_header == 'Pull Request' and pull_request.assignee?(user)) or (table_header == 'Review' and pull_request.reviewer?(user))
+                  - if (table_header == 'Pull Request' && pull_request.assignee?(user)) || (table_header == 'Review' && pull_request.reviewer?(user))
                     = link_to "##{pull_request.number}", pull_request.url, { class: 'hover:text-blue-600', target: '_blank', rel: 'noopener noreferrer' }
                     br
         - else

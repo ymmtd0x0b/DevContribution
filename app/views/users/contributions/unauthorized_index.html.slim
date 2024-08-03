@@ -4,13 +4,13 @@
   h1.text-2xl.text-slate-600.font-bold.pb-2.my-10.text-center
     span チーム開発プラクティスでの
     .inline-block.px-3.text-blue-600.border-b-2.border-blue-600
-      = "#{@user.login}"
+      = @user.login.to_s
     span さんの取り組み
 
   = render 'table', table_header: 'Pull Request', issues: @assigned_issues, user: @user
   = render 'table', table_header: 'Review',       issues: @reviewed_issues, user: @user
 
-  - unless @issues.count.zero? and @wikis.count.zero?
+  - unless @issues.count.zero? && @wikis.count.zero?
     h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
       | その他
     = render 'list', list_header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @issues unless @issues.count.zero?
