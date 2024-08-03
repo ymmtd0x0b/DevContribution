@@ -4,10 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'User::Issues', type: :system do
   before do
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('REPOSITORY_ID').and_return('101')
-
-    @repository = FactoryBot.create(:repository, id: 101, name: 'test/repository')
+    @repository = FactoryBot.create(:repository, id: 123, name: 'test/repository')
   end
 
   scenario 'ユーザーが作成した Issue を一覧表示する' do
@@ -72,8 +69,6 @@ RSpec.describe 'User::Issues', type: :system do
 
   context 'ゲストとしてアクセスした場合' do
     scenario 'トップページへリダイレクトされる' do
-      FactoryBot.create(:user, login: 'alice')
-
       visit users_issues_path('alice')
       expect(page).to have_content 'ログインしてください'
       expect(page).to have_current_path '/'
