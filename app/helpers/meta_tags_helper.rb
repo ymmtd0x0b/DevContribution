@@ -6,7 +6,8 @@ module MetaTagsHelper
       site: 'FjordContribution',
       charset: 'utf-8',
       description: 'チーム開発プラクティスでのGitHub上の取り組みを個人に焦点を当てて可視化できるサービスです。',
-      keywords: 'GitHub, Issue, PullRequest, チーム開発, フィヨルドブートキャンプ、FBC'
+      keywords: 'GitHub, Issue, PullRequest, チーム開発, フィヨルドブートキャンプ、FBC',
+      reverse: true
     }
   end
 end
