@@ -15,7 +15,7 @@
             .bg-white.border-b.hover:bg-gray-100.px-6.py-3.font-bold.text-slate-700
               .w-fit.hover:text-blue-600
                 = link_to item.title, item.url, { target: '_blank', rel: 'noopener noreferrer' }
-              - if item.incetance_of?(Issue)
+              - if item.instance_of?(Issue)
                 .flex.pt-2.space-x-2
                   .px-2.text-sm.font-medium.text-slate-500
                     = "##{item.number}"
