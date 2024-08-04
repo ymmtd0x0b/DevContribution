@@ -23,7 +23,7 @@ RSpec.describe 'User::Contributions', type: :system do
     FactoryBot.create(:wiki, title: 'アリスが作成した Wiki', user: alice)
 
     login_as alice
-    visit users_contributions_path alice.login
+    visit users_contributions_path(alice.login)
 
     expect(page).to have_button('Markdownをコピー')
     expect(page).to have_button('URLをコピー')

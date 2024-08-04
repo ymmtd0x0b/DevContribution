@@ -2,11 +2,8 @@
 
 module LoginSupport
   def login_as(user)
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: 'github',
-                                                                  uid: user.id,
-                                                                  info: { nickname: user.login,
-                                                                          name: user.name,
-                                                                          image: user.avatar_url } })
+    OmniAuth.config.mock_auth[:github] =
+      OmniAuth::AuthHash.new({ provider: 'github', uid: user.id, info: { nickname: user.login, name: user.name, image: user.avatar_url } })
     visit root_path
     click_button 'ログイン'
   end

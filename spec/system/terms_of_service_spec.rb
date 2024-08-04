@@ -3,12 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'TermsOfService', type: :system do
-  before do
-    FactoryBot.create(:repository, id: 123)
-  end
-
   context 'ユーザーとしてアクセスした場合' do
     scenario '利用規約を表示する' do
+      FactoryBot.create(:repository, id: 123)
       alice = FactoryBot.create(:user, login: 'alice')
 
       login_as alice

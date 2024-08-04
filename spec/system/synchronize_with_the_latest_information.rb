@@ -29,7 +29,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
       end
 
       login_as alice
-      visit users_issues_path alice.login, association: 'assigned'
+      visit users_issues_path(alice.login, association: 'assigned')
       expect(page).to have_content 'バグの修正'
       expect(page).to have_content 'バグ'
 
@@ -45,7 +45,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
       FactoryBot.create(:issue, id: 301, title: 'bugの修正') { |issue| issue.assignees << alice }
 
       login_as alice
-      visit users_issues_path alice.login, association: 'assigned'
+      visit users_issues_path(alice.login, association: 'assigned')
       expect(page).to have_link 'bugの修正'
 
       click_button '最新情報へ更新'
@@ -57,13 +57,12 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーがレビューした Issue の情報を同期すること' do
-      FactoryBot.create(:pull_request, id: 403) do |pr|
-        pr.issues << FactoryBot.create(:issue, id: 303, title: 'metaデータの変更')
-        pr.reviewers << alice
+      FactoryBot.create(:issue, id: 303, title: 'metaデータの変更') do |issue|
+        issue.pull_requests << FactoryBot.create(:pull_request, id: 403) { |pr| pr.reviewers << alice }
       end
 
       login_as alice
-      visit users_issues_path alice.login, association: 'reviewed'
+      visit users_issues_path(alice.login, association: 'reviewed')
       expect(page).to have_link 'metaデータの変更'
 
       click_button '最新情報へ更新'
@@ -78,7 +77,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
       FactoryBot.create(:issue, id: 305, title: 'bugの報告', user: alice)
 
       login_as alice
-      visit users_issues_path alice.login
+      visit users_issues_path(alice.login)
       expect(page).to have_link 'bugの報告'
 
       click_button '最新情報へ更新'
@@ -90,13 +89,13 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが作成した Wiki の情報を同期すること' do
-      FactoryBot.create(:wiki, title: 'Before Wiki', first_commit_hash: 'aaa', repository_id: 123, user: alice)
+      FactoryBot.create(:wiki, title: 'Before Wiki', first_commit_hash: 'abc', repository_id: 123, user: alice)
 
-      new_wiki = { user_id: alice.id, title: 'After Wiki', first_commit_hash: 'aaa', created_at: Time.zone.now, updated_at: Time.zone.now }
-      allow(Git::Wiki).to receive(:created_by).and_return([Git::Wiki.new(repository_id: 123, file_data: new_wiki)])
+      latest_wiki = { user_id: alice.id, title: 'After Wiki', first_commit_hash: 'abc', created_at: Time.zone.now, updated_at: Time.zone.now }
+      allow(Git::Wiki).to receive(:created_by).and_return([Git::Wiki.new(repository_id: 123, file_data: latest_wiki)])
 
       login_as alice
-      visit users_wikis_path alice.login
+      visit users_wikis_path(alice.login)
       expect(page).to have_link 'Before Wiki'
 
       click_button '最新情報へ更新'

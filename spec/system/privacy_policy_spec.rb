@@ -3,11 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'PrivacyPolicy', type: :system do
-  before do
-    FactoryBot.create(:repository, id: 123)
-  end
-
   scenario 'プライバシーポリシーを表示する' do
+    FactoryBot.create(:repository, id: 123)
     alice = FactoryBot.create(:user, login: 'alice')
 
     login_as alice
