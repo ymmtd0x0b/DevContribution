@@ -23,7 +23,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'リポジトリのラベル情報を同期すること' do
-      FactoryBot.create(:issue, id: 301, title: 'バグの修正') do |issue|
+      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 301, title: 'バグの修正') do |issue|
         issue.labels << FactoryBot.create(:label, id: 201, name: 'バグ', repository_id: 123)
         issue.assignees << alice
       end
@@ -42,7 +42,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが担当した Issue の情報を同期すること' do
-      FactoryBot.create(:issue, id: 301, title: 'bugの修正') { |issue| issue.assignees << alice }
+      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 301, title: 'bugの修正') { |issue| issue.assignees << alice }
 
       login_as alice
       visit users_issues_path(alice.login, association: 'assigned')
@@ -57,7 +57,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーがレビューした Issue の情報を同期すること' do
-      FactoryBot.create(:issue, id: 303, title: 'metaデータの変更') do |issue|
+      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 303, title: 'metaデータの変更') do |issue|
         issue.pull_requests << FactoryBot.create(:pull_request, id: 403) { |pr| pr.reviewers << alice }
       end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが作成した Issue の情報を同期すること' do
-      FactoryBot.create(:issue, id: 305, title: 'bugの報告', user: alice)
+      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 305, title: 'bugの報告', user: alice)
 
       login_as alice
       visit users_issues_path(alice.login)

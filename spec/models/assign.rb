@@ -4,10 +4,14 @@ require 'rails_helper'
 
 RSpec.describe Issue, type: :model do
   describe '.synchronize' do
+    before do
+      FactoryBot.create(:repository, id: 1)
+    end
+
     context '引数に渡されたデータの中に、既存のアソシエーションに該当しない Issue が存在する場合' do
       it '対象の Issue とユーザーのアソシエーションを登録する' do
-        FactoryBot.create(:issue, id: 100)
-        FactoryBot.create(:issue, id: 200)
+        FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 100)
+        FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 200)
 
         user = FactoryBot.create(:user) { |created_user| created_user.assigns.create!(assignable_type: 'Issue', assignable_id: 100) }
 
@@ -23,8 +27,8 @@ RSpec.describe Issue, type: :model do
 
     context '引数に渡されたデータの中に、既存のアソシエーションに該当する Issue が存在しない場合' do
       it '対象の Issue とユーザーのアソシエーションを削除する' do
-        FactoryBot.create(:issue, id: 100)
-        FactoryBot.create(:issue, id: 200)
+        FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 100)
+        FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 200)
 
         user = FactoryBot.create(:user) do |created_user|
           created_user.assigns.create!(assignable_type: 'Issue', assignable_id: 100)

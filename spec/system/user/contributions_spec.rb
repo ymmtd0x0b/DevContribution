@@ -10,16 +10,16 @@ RSpec.describe 'User::Contributions', type: :system do
   scenario 'ユーザーの 作成/担当/レビューした Issue とそれと紐付いた PullRequest 、Wiki を一覧表示する' do
     alice = FactoryBot.create(:user, login: 'alice')
 
-    FactoryBot.create(:issue, title: 'アリスが担当した Issue') do |issue|
+    FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスが担当した Issue') do |issue|
       issue.assignees << alice
       issue.pull_requests << FactoryBot.create(:pull_request, number: 111) { |pr| pr.assignees << alice }
     end
 
-    FactoryBot.create(:issue, title: 'アリスがレビューした Issue') do |issue|
+    FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスがレビューした Issue') do |issue|
       issue.pull_requests << FactoryBot.create(:pull_request, number: 222) { |pr| pr.reviewers << alice }
     end
 
-    FactoryBot.create(:issue, title: 'アリスが作成した Issue', user: alice)
+    FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスが作成した Issue', user: alice)
     FactoryBot.create(:wiki, title: 'アリスが作成した Wiki', user: alice)
 
     login_as alice
