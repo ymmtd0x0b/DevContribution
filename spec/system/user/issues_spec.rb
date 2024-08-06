@@ -35,10 +35,10 @@ RSpec.describe 'User::Issues', type: :system do
   scenario 'ユーザーがレビューした Issue を一覧表示する' do
     alice = FactoryBot.create(:user, login: 'alice')
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'Issue E') do |issue|
-      issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << alice }
+      issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << alice }
     end
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'Issue F') do |issue|
-      issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << alice }
+      issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << alice }
     end
 
     login_as alice

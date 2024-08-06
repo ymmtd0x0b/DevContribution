@@ -13,7 +13,7 @@ RSpec.describe Destroyer::Searchable, type: :model do
   let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
   describe 'filter_issues_assigned_by_other_users_from' do
-    it '引数に渡した Issue ID の内、引数で指定したユーザー以外がアサインしているのもを返すこと' do
+    it '引数に渡した Issue ID の内、引数で指定したユーザー以外がアサインしているものを返すこと' do
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 100) { |issue| issue.assignees << alice }
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 200) { |issue| issue.assignees << [alice, bob] }
 
@@ -23,12 +23,12 @@ RSpec.describe Destroyer::Searchable, type: :model do
   end
 
   describe 'filter_issues_referring_pull_requests_assigned_by_other_users_from' do
-    it '引数に渡した Issue ID の内、関連する PullRequest に引数で指定したユーザー以外がアサインしているのもを返すこと' do
+    it '引数に渡した Issue ID の内、関連する PullRequest に引数で指定したユーザー以外がアサインしているものを返すこと' do
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 100) do |issue|
-        issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.assignees << alice }
+        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 1) { |pr| pr.assignees << alice }
       end
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 200) do |issue|
-        issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.assignees << bob }
+        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 1) { |pr| pr.assignees << [alice, bob] }
       end
 
       actual = filter_issues_referring_pull_requests_assigned_by_other_users_from(Issue.ids, alice.id)
@@ -37,12 +37,12 @@ RSpec.describe Destroyer::Searchable, type: :model do
   end
 
   describe 'filter_issues_referring_pull_requests_reviewed_by_other_users_from' do
-    it '引数に渡した Issue ID の内、関連する PullRequest に引数で指定したユーザー以外がレビューしているのもを返すこと' do
+    it '引数に渡した Issue ID の内、関連する PullRequest に引数で指定したユーザー以外がレビューしているものを返すこと' do
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 100) do |issue|
-        issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << alice }
+        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 1) { |pr| pr.reviewers << alice }
       end
       FactoryBot.create(:issue, :with_repository, repository_id: 1, id: 200) do |issue|
-        issue.pull_requests << FactoryBot.create(:pull_request) { |pr| pr.reviewers << bob }
+        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 1) { |pr| pr.reviewers << [alice, bob] }
       end
 
       actual = filter_issues_referring_pull_requests_reviewed_by_other_users_from(Issue.ids, alice.id)
@@ -63,8 +63,8 @@ RSpec.describe Destroyer::Searchable, type: :model do
 
   describe 'filter_pull_requests_assigned_by_other_users_from' do
     it '引数に渡した PullRequest ID の内、引数で指定されたユーザー以外がアサインしているものを返すこと' do
-      FactoryBot.create(:pull_request, id: 100) { |pr| pr.assignees << alice }
-      FactoryBot.create(:pull_request, id: 200) { |pr| pr.assignees << bob }
+      FactoryBot.create(:pull_request, :with_repository, repository_id: 1, id: 100) { |pr| pr.assignees << alice }
+      FactoryBot.create(:pull_request, :with_repository, repository_id: 1, id: 200) { |pr| pr.assignees << [alice, bob] }
 
       actual = filter_pull_requests_assigned_by_other_users_from(PullRequest.ids, alice.id)
       expect(actual).to eq [200]
@@ -73,8 +73,8 @@ RSpec.describe Destroyer::Searchable, type: :model do
 
   describe 'filter_pull_requests_reviewed_by_other_users_from' do
     it '引数に渡した PullRequest ID の内、引数で指定されたユーザー以外がレビューしているものを返すこと' do
-      FactoryBot.create(:pull_request, id: 100) { |pr| pr.reviewers << alice }
-      FactoryBot.create(:pull_request, id: 200) { |pr| pr.reviewers << bob }
+      FactoryBot.create(:pull_request, :with_repository, repository_id: 1, id: 100) { |pr| pr.reviewers << alice }
+      FactoryBot.create(:pull_request, :with_repository, repository_id: 1, id: 200) { |pr| pr.reviewers << [alice, bob] }
 
       actual = filter_pull_requests_reviewed_by_other_users_from(PullRequest.ids, alice.id)
       expect(actual).to eq [200]

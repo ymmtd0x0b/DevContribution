@@ -12,11 +12,11 @@ RSpec.describe 'User::Contributions', type: :system do
 
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスが担当した Issue') do |issue|
       issue.assignees << alice
-      issue.pull_requests << FactoryBot.create(:pull_request, number: 111) { |pr| pr.assignees << alice }
+      issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123, number: 111) { |pr| pr.assignees << alice }
     end
 
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスがレビューした Issue') do |issue|
-      issue.pull_requests << FactoryBot.create(:pull_request, number: 222) { |pr| pr.reviewers << alice }
+      issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123, number: 222) { |pr| pr.reviewers << alice }
     end
 
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスが作成した Issue', user: alice)

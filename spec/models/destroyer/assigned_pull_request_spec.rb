@@ -13,30 +13,33 @@ RSpec.describe Destroyer::AssignedPullRequest, type: :model do
     let(:bob) { FactoryBot.create(:user, login: 'bob') }
 
     context '対象の PullRequest が「他のユーザーから参照されていない」場合' do
-      it 'ユーザーがアサインしている PullRequest を削除すること (ユーザー本人のみPRにアサインしている)' do
-        FactoryBot.create(:pull_request) { |pr| pr.assigns.create!(user: alice) }
+      it 'ユーザーがアサインしている PullRequest を削除すること (本人のみPRにアサインしている)' do
+        FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << alice }
+
         expect { assigned_pull_request_destroyer.call(alice) }.to change { alice.assigned_pull_requests.count }.from(1).to(0)
                                                               .and change { PullRequest.count }.by(-1)
       end
 
-      it 'ユーザーがアサインしている PullRequest を削除すること (ユーザー本人のみPRをレビューしている)' do
-        FactoryBot.create(:pull_request) do |pr|
+      it 'ユーザーがアサインしている PullRequest を削除すること (本人のみPRをレビューしている)' do
+        FactoryBot.create(:pull_request, :with_repository, repository_id: 123) do |pr|
           pr.assignees << alice
           pr.reviewers << alice
         end
+
         expect { assigned_pull_request_destroyer.call(alice) }.to change { alice.assigned_pull_requests.count }.from(1).to(0)
                                                               .and change { PullRequest.count }.by(-1)
       end
     end
 
     context '対象の PullRequest が「他のユーザーから参照されている」場合' do
-      it 'ユーザーがアサインしている PullRequest は削除しないこと (ユーザー本人以外がアサインしている)' do
-        FactoryBot.create(:pull_request) { |pr| pr.assignees << [alice, bob] }
+      it 'ユーザーがアサインしている PullRequest は削除しないこと (本人以外がアサインしている)' do
+        FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << [alice, bob] }
+
         expect { assigned_pull_request_destroyer.call(alice) }.not_to change { alice.assigned_pull_requests.count }.from(1)
       end
 
-      it 'ユーザーがアサインしている PullRequest は削除しないこと (ユーザー本人以外がレビューをしている)' do
-        FactoryBot.create(:pull_request) do |pr|
+      it 'ユーザーがアサインしている PullRequest は削除しないこと (本人以外がレビューをしている)' do
+        FactoryBot.create(:pull_request, :with_repository, repository_id: 123) do |pr|
           pr.assignees << alice
           pr.reviewers << bob
         end

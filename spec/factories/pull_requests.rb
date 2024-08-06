@@ -3,6 +3,9 @@
 FactoryBot.define do
   factory :pull_request do
     sequence(:number)
-    association :repository
+
+    trait :with_repository do
+      association :repository
+    end
   end
 end

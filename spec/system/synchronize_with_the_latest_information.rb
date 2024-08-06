@@ -58,7 +58,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
 
     scenario 'ログインユーザーがレビューした Issue の情報を同期すること' do
       FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 303, title: 'metaデータの変更') do |issue|
-        issue.pull_requests << FactoryBot.create(:pull_request, id: 403) { |pr| pr.reviewers << alice }
+        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123, id: 403) { |pr| pr.reviewers << alice }
       end
 
       login_as alice
