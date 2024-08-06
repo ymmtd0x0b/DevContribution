@@ -20,7 +20,7 @@ RSpec.describe 'User::Contributions', type: :system do
     end
 
     FactoryBot.create(:issue, :with_repository, repository_id: 123, title: 'アリスが作成した Issue', user: alice)
-    FactoryBot.create(:wiki, title: 'アリスが作成した Wiki', user: alice)
+    FactoryBot.create(:wiki, :with_repository, repository_id: 123, title: 'アリスが作成した Wiki', user: alice)
 
     login_as alice
     visit users_contributions_path(alice.login)

@@ -9,9 +9,9 @@ RSpec.describe 'User::Wikis', type: :system do
 
   scenario 'ユーザーが作成した Wiki を一覧表示する' do
     alice = FactoryBot.create(:user, login: 'alice')
-    FactoryBot.create(:wiki, title: '議事録01', user: alice)
-    FactoryBot.create(:wiki, title: '議事録02', user: alice)
-    FactoryBot.create(:wiki, title: '議事録03', user: alice)
+    FactoryBot.create(:wiki, :with_repository, repository_id: 123, title: '議事録01', user: alice)
+    FactoryBot.create(:wiki, :with_repository, repository_id: 123, title: '議事録02', user: alice)
+    FactoryBot.create(:wiki, :with_repository, repository_id: 123, title: '議事録03', user: alice)
 
     login_as alice
     visit users_wikis_path(alice.login)

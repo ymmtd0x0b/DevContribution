@@ -89,7 +89,7 @@ RSpec.describe 'Synchronize with the latest information', type: :system do
     end
 
     scenario 'ログインユーザーが作成した Wiki の情報を同期すること' do
-      FactoryBot.create(:wiki, title: 'Before Wiki', first_commit_hash: 'abc', repository_id: 123, user: alice)
+      FactoryBot.create(:wiki, :with_repository, repository_id: 123, title: 'Before Wiki', first_commit_hash: 'abc', user: alice)
 
       latest_wiki = { user_id: alice.id, title: 'After Wiki', first_commit_hash: 'abc', created_at: Time.zone.now, updated_at: Time.zone.now }
       allow(Git::Wiki).to receive(:created_by).and_return([Git::Wiki.new(repository_id: 123, file_data: latest_wiki)])
