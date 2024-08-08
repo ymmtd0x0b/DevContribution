@@ -4,7 +4,25 @@ class User < ApplicationRecord
   has_many :issues # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :assigns, dependent: :destroy
-  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue'
+  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue' do
+    def too_other_user
+      Issue.joins(:assigns).where(id: ids).where('assigns.user_id != ?', proxy_association.owner.id)
+    end
+
+    def by_other_author
+      joins(:user).where.not(user_id: proxy_association.owner.id)
+    end
+
+    def resolved_pull_requests_assigned_other_user
+      Issue.joins(resolutions: :pull_request, pull_requests: :assigns)
+           .where('assigns.user_id != ?', proxy_association.owner.id)
+    end
+
+    def resolved_pull_requests_reviewed_other_user
+      Issue.joins(resolutions: :pull_request, pull_requests: :reviews)
+           .where('reviews.user_id != ?', proxy_association.owner.id)
+    end
+  end
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
 
   has_many :reviews, dependent: :destroy
