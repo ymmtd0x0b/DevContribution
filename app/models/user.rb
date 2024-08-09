@@ -23,7 +23,22 @@ class User < ApplicationRecord
            .where('reviews.user_id != ?', proxy_association.owner.id)
     end
   end
-  has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest'
+  has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest' do
+    def not_referenced_by_other_users
+      sql = <<~SQL
+        NOT EXISTS (
+          SELECT *
+          FROM assigns
+          WHERE assigns.assignable_id = pull_requests.id AND assigns.user_id != :owner_id
+        ) AND NOT EXISTS (
+            SELECT *
+            FROM reviews
+            WHERE reviews.pull_request_id = pull_requests.id AND reviews.user_id != :owner_id
+          )
+      SQL
+      where(sql, owner_id: proxy_association.owner.id)
+    end
+  end
 
   has_many :reviews, dependent: :destroy
   has_many :reviewed_pull_requests, through: :reviews, source: :pull_request
