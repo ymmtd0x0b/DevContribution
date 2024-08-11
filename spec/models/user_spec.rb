@@ -98,44 +98,44 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#assigned_pull_requests.not_referenced_by_other_users' do
+  describe '#assigned_pull_requests.too_other_users' do
     before do
       FactoryBot.create(:repository, id: 123)
     end
 
     context '他のユーザーが参照(アサインorレビュー)していない場合' do
-      it 'ユーザーがアサインしている PullRequest を返すこと' do
+      it '空の Array を返すこと' do
         taro = FactoryBot.create(:user, id: 456, login: 'taro')
         FactoryBot.create(:pull_request, :with_repository, repository_id: 123, id: 100) { |pr| pr.assignees << taro }
 
-        actual = taro.assigned_pull_requests.not_referenced_by_other_users.ids
-        expect(actual).to eq [100]
+        actual = taro.assigned_pull_requests.too_other_users.ids
+        expect(actual).to be_empty
       end
 
-      it 'ユーザーがアサインしている PullRequest を返すこと(本人が PullRequest をレビューしている)' do
+      it '空の Array を返すこと(本人が PullRequest をレビューしている)' do
         taro = FactoryBot.create(:user, id: 456, login: 'taro')
         FactoryBot.create(:pull_request, :with_repository, repository_id: 123, id: 100) do |pr|
           pr.assignees << taro
           pr.reviewers << taro
         end
 
-        actual = taro.assigned_pull_requests.not_referenced_by_other_users.ids
-        expect(actual).to eq [100]
+        actual = taro.assigned_pull_requests.too_other_users.ids
+        expect(actual).to be_empty
       end
     end
 
     context '他のユーザーが参照(アサインorレビュー)している場合' do
-      it '空の Array を返すこと(他のユーザーが PullRequest をアサインしている)' do
+      it 'ユーザーがアサインしている PullRequest を返すこと(他のユーザーが PullRequest をアサインしている)' do
         taro = FactoryBot.create(:user, id: 456, login: 'taro')
         jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
 
         FactoryBot.create(:pull_request, :with_repository, repository_id: 123, id: 100) { |pr| pr.assignees << [taro, jiro] }
 
-        actual = taro.assigned_pull_requests.not_referenced_by_other_users.ids
-        expect(actual).to be_empty
+        actual = taro.assigned_pull_requests.too_other_users.ids
+        expect(actual).to eq [100]
       end
 
-      it '空の Array を返すこと(他のユーザーが PullRequest をレビューしている)' do
+      it 'ユーザーがアサインしている PullRequest を返すこと(他のユーザーが PullRequest をレビューしている)' do
         taro = FactoryBot.create(:user, id: 456, login: 'taro')
         jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
 
@@ -144,8 +144,8 @@ RSpec.describe User, type: :model do
           pr.reviewers << jiro
         end
 
-        actual = taro.assigned_pull_requests.not_referenced_by_other_users.ids
-        expect(actual).to be_empty
+        actual = taro.assigned_pull_requests.too_other_users.ids
+        expect(actual).to eq [100]
       end
     end
   end
