@@ -24,9 +24,9 @@ class User < ApplicationRecord
     end
   end
   has_many :assigned_pull_requests, through: :assigns, source: :assignable, source_type: 'PullRequest' do
-    def too_other_users
+    def not_referenced_by_other_users
       sql = <<~SQL
-        EXISTS (
+        NOT EXISTS (
           SELECT 1
           FROM assigns
           WHERE assigns.assignable_id = pull_requests.id AND assigns.user_id != :owner_id
