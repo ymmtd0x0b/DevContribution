@@ -62,16 +62,18 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#assigned_issues.pull_requests.assigned_other_user' do
+  describe '#assigned_issues.resolved_pull_requests_assigned_other_user' do
     it 'ユーザーがアサインしている Issue の内、関連する PullRequest に他のユーザーがアサインしている Issue に絞って返すこと' do
       FactoryBot.create(:repository, id: 123)
       taro = FactoryBot.create(:user, id: 456, login: 'taro')
       jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
 
       FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) do |issue|
+        issue.assignees << taro
         issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << taro }
       end
       FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) do |issue|
+        issue.assignees << taro
         issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << [taro, jiro] }
       end
 
@@ -80,16 +82,18 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#assigned_issues.pull_requests.assigned_other_user' do
+  describe '#assigned_issues.resolved_pull_requests_reviewed_other_user' do
     it 'ユーザーがアサインしている Issue の内、関連する PullRequest に他のユーザーがレビューしている Issue に絞って返すこと' do
       FactoryBot.create(:repository, id: 123)
       taro = FactoryBot.create(:user, id: 456, login: 'taro')
       jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
 
       FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) do |issue|
+        issue.assignees << taro
         issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << taro }
       end
       FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) do |issue|
+        issue.assignees << taro
         issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << [taro, jiro] }
       end
 
