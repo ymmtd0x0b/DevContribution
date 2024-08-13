@@ -32,10 +32,8 @@ class User < ApplicationRecord
         EXISTS (
           SELECT 1
           FROM resolutions
-          INNER JOIN pull_requests
-          ON resolutions.pull_request_id = pull_requests.id
-          INNER JOIN assigns
-          ON assignable_type = 'PullRequest' AND assigns.assignable_id = pull_requests.id
+          INNER JOIN pull_requests ON resolutions.pull_request_id = pull_requests.id
+          INNER JOIN assigns ON assignable_type = 'PullRequest' AND assigns.assignable_id = pull_requests.id
           WHERE resolutions.issue_id = issues.id AND assigns.user_id != :owner_id
         )
       SQL
@@ -47,10 +45,8 @@ class User < ApplicationRecord
         EXISTS (
           SELECT 1
           FROM resolutions
-          INNER JOIN pull_requests
-          ON resolutions.pull_request_id = pull_requests.id
-          INNER JOIN reviews
-          ON reviews.pull_request_id = pull_requests.id
+          INNER JOIN pull_requests ON resolutions.pull_request_id = pull_requests.id
+          INNER JOIN reviews ON reviews.pull_request_id = pull_requests.id
           WHERE resolutions.issue_id = issues.id AND reviews.user_id != :owner_id
         )
       SQL
