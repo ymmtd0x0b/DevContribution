@@ -4,45 +4,24 @@ class User < ApplicationRecord
   has_many :issues # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :assigns, dependent: :destroy
-  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue' do # rubocop:disable Metrics/BlockLength
-    def too_other_user
+  has_many :assigned_issues, through: :assigns, source: :assignable, source_type: 'Issue' do
+    def not_referenced_by_other_users
       sql = <<~SQL
-        EXISTS (
+        NOT EXISTS (
           SELECT 1
           FROM assigns
           WHERE assigns.assignable_id = issues.id AND assigns.user_id != :owner_id
-        )
-      SQL
-      where(sql, owner_id: proxy_association.owner.id)
-    end
-
-    def by_other_author
-      sql = <<~SQL
-        EXISTS (
+        ) AND NOT EXISTS (
           SELECT 1
           FROM users
           WHERE issues.user_id = users.id AND issues.user_id != :owner_id
-        )
-      SQL
-      where(sql, owner_id: proxy_association.owner.id)
-    end
-
-    def resolved_pull_requests_assigned_other_user
-      sql = <<~SQL
-        EXISTS (
+        ) AND NOT EXISTS (
           SELECT 1
           FROM resolutions
           INNER JOIN pull_requests ON resolutions.pull_request_id = pull_requests.id
           INNER JOIN assigns ON assignable_type = 'PullRequest' AND assigns.assignable_id = pull_requests.id
           WHERE resolutions.issue_id = issues.id AND assigns.user_id != :owner_id
-        )
-      SQL
-      where(sql, owner_id: proxy_association.owner.id)
-    end
-
-    def resolved_pull_requests_reviewed_other_user
-      sql = <<~SQL
-        EXISTS (
+        ) AND NOT EXISTS (
           SELECT 1
           FROM resolutions
           INNER JOIN pull_requests ON resolutions.pull_request_id = pull_requests.id

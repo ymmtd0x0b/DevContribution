@@ -33,72 +33,59 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#assigned_issues.too_other_user' do
-    it 'ユーザーがアサインしている Issue の内、他のユーザーも参照している Issue を選別して返すこと' do
-      FactoryBot.create(:repository, id: 123)
-      taro = FactoryBot.create(:user, id: 456, login: 'taro')
-      jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
-
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) { |issue| issue.assignees << taro }
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) { |issue| issue.assignees << [taro, jiro] }
-
-      actual = taro.assigned_issues.too_other_user.ids
-      expect(actual).to eq [200]
-    end
-  end
-
-  describe '#assigned_issues.by_other_author' do
-    it 'ユーザーがアサインしている Issue の内、データベースに存在する他のユーザーが作成者である Issue に絞って返すこと' do
-      FactoryBot.create(:repository, id: 123)
-      taro = FactoryBot.create(:user, id: 456, login: 'taro')
-      jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
-
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100, user: taro) { |issue| issue.assignees << taro }
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200, user: jiro) { |issue| issue.assignees << taro }
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 300, user_id: 0) { |issue| issue.assignees << taro } # 作成者がデータベース上に存在しない
-
-      actual = taro.assigned_issues.by_other_author.ids
-      expect(actual).to eq [200]
-    end
-  end
-
-  describe '#assigned_issues.resolved_pull_requests_assigned_other_user' do
-    it 'ユーザーがアサインしている Issue の内、関連する PullRequest に他のユーザーがアサインしている Issue に絞って返すこと' do
-      FactoryBot.create(:repository, id: 123)
-      taro = FactoryBot.create(:user, id: 456, login: 'taro')
-      jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
-
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) do |issue|
-        issue.assignees << taro
-        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << taro }
-      end
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) do |issue|
-        issue.assignees << taro
-        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << [taro, jiro] }
+  describe '#assigned_issues.not_referenced_by_other_users' do
+    context 'ユーザーがアサインしている Issue の内' do
+      before do
+        FactoryBot.create(:repository, id: 123)
       end
 
-      actual = taro.assigned_issues.resolved_pull_requests_assigned_other_user.ids
-      expect(actual).to eq [200]
-    end
-  end
+      let(:taro) { FactoryBot.create(:user, id: 456, login: 'taro') }
+      let(:jiro) { FactoryBot.create(:user, id: 789, login: 'jiro') }
 
-  describe '#assigned_issues.resolved_pull_requests_reviewed_other_user' do
-    it 'ユーザーがアサインしている Issue の内、関連する PullRequest に他のユーザーがレビューしている Issue に絞って返すこと' do
-      FactoryBot.create(:repository, id: 123)
-      taro = FactoryBot.create(:user, id: 456, login: 'taro')
-      jiro = FactoryBot.create(:user, id: 789, login: 'jiro')
+      it '他のユーザーが参照していない Issue を返すこと (Issue にアサイン)' do
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) { |issue| issue.assignees << taro }
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) { |issue| issue.assignees << [taro, jiro] }
 
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100) do |issue|
-        issue.assignees << taro
-        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << taro }
-      end
-      FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200) do |issue|
-        issue.assignees << taro
-        issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << [taro, jiro] }
+        actual = taro.assigned_issues.not_referenced_by_other_users.ids
+        expect(actual).to eq [100]
       end
 
-      actual = taro.assigned_issues.resolved_pull_requests_reviewed_other_user.ids
-      expect(actual).to eq [200]
+      it '他のユーザーが参照していない Issue を返すこと (Issue の作成者：データベース上に存在しないユーザーの場合は参照していないと見做す)' do
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100, user: taro) { |issue| issue.assignees << taro }
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200, user: jiro) { |issue| issue.assignees << taro }
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 300, user_id: 0) { |issue| issue.assignees << taro } # 作成者がデータベース上に存在しない
+
+        actual = taro.assigned_issues.not_referenced_by_other_users.ids
+        expect(actual).to eq [100, 300]
+      end
+
+      it '他のユーザーが参照していない Issue を返すこと (PullRequest にアサイン)' do
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100, user: taro) do |issue|
+          issue.assignees << taro
+          issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << taro }
+        end
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200, user: jiro) do |issue|
+          issue.assignees << taro
+          issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.assignees << jiro }
+        end
+
+        actual = taro.assigned_issues.not_referenced_by_other_users.ids
+        expect(actual).to eq [100]
+      end
+
+      it '他のユーザーが参照*していない Issue を返すこと (PullRequest をレビュー)' do
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 100, user: taro) do |issue|
+          issue.assignees << taro
+          issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << taro }
+        end
+        FactoryBot.create(:issue, :with_repository, repository_id: 123, id: 200, user: jiro) do |issue|
+          issue.assignees << taro
+          issue.pull_requests << FactoryBot.create(:pull_request, :with_repository, repository_id: 123) { |pr| pr.reviewers << jiro }
+        end
+
+        actual = taro.assigned_issues.not_referenced_by_other_users.ids
+        expect(actual).to eq [100]
+      end
     end
   end
 
