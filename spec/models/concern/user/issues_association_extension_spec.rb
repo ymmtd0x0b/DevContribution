@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe User::IssuesAssociationExtension do
   describe '#not_referenced_by_other_users' do
-    context 'ユーザーがアサインしている Issue の場合' do
+    context 'ユーザーがアサインしている Issue の場合 (has_many :assigned_issues)' do
       before do
         FactoryBot.create(:repository, id: 123)
       end
@@ -58,7 +58,7 @@ RSpec.describe User::IssuesAssociationExtension do
       end
     end
 
-    context 'ユーザーがレビューしている Issue の場合' do
+    context 'ユーザーがレビューしている Issue の場合 (has_many: reviewed_issues)' do
       before do
         FactoryBot.create(:repository, id: 123)
       end
