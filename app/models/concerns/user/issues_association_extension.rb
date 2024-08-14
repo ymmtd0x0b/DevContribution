@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module IssuesAssociationExtension
+module User::IssuesAssociationExtension
   def not_referenced_by_other_users
     sql = <<~"SQL"
       #{not_assigned_by_other_users} AND
