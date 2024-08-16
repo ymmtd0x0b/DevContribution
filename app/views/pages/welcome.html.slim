@@ -3,36 +3,36 @@
 = render 'shared/flash'
 
 .w-full.mx-auto.max-w-screen-lg
-  h1.text-slate-700.text-center.text-5xl.font-semibold.pt-16
-    | FjordContributions
+  h1.text-slate-700.text-center.text-3xl.font-semibold.pt-16
+    | 登録するだけであなたの取り組みを一覧表示
   p.text-slate-700.text-center.text-2xl.pt-10
-    | フィヨルドブートキャンプのチーム開発プラクティスで提出に必要な
+    | フィヨルドブートキャンプのチーム開発プラクティスで
     br
-    | あなたが関わったIssueとPRを一覧表示できるサービスです
+    | あなたが関わった Issue や PullRequest を一覧表示できるサービスです
 
   .flex.justify-around.py-16
     .flex.flex-col.justify-center.w-52.items-center.p-4.bg-gray-50.border.border-gray-300.rounded-lg.shadow
       = image_tag 'code_merge', class: 'w-[120px] h-[120px] mx-auto'
       .text-center.text-slate-700.font-medium
-        = '担当した'
+        = 'あなたが担当した'
         br
-        = 'Issue'
+        = 'Issue & PullRequest'
     .flex.flex-col.justify-center.w-52.items-center.p-4.bg-gray-50.border.border-gray-300.rounded-lg.shadow
       = image_tag 'annotation', class: 'w-[120px] h-[120px] mx-auto'
       .text-center.text-slate-700.font-medium
-        = 'レビューした'
+        = 'あなたがレビューした'
         br
-        = 'Issue'
+        = 'Issue & PullRequest'
     .flex.flex-col.justify-center.w-52.items-center.p-4.bg-gray-50.border.border-gray-300.rounded-lg.shadow
       = image_tag 'file_pen', class: 'w-[120px] h-[120px] mx-auto'
       .text-center.text-slate-700.font-medium
-        = '作成した'
+        = 'あなたが作成した'
         br
         = 'Issue'
     .flex.flex-col.justify-center.w-52.items-center.p-4.bg-gray-50.border.border-gray-300.rounded-lg.shadow
       = image_tag 'file_search', class: 'w-[120px] h-[120px] mx-auto'
       .text-center.text-slate-700.font-medium
-        = '作成した'
+        = 'あなたが作成した'
         br
         = 'Wikiページ'
 
