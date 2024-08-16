@@ -3,21 +3,21 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.0'
+ruby '3.3.0'
 
 gem 'active_decorator'
 gem 'bootsnap', require: false
 gem 'chroma'
 gem 'dotenv-rails'
-gem 'font-awesome-sass', '~> 6.4.2'
-gem 'git', '~> 2.0'
+gem 'font-awesome-sass'
+gem 'git'
 gem 'github_api'
-gem 'high_voltage', '~> 3.1'
+gem 'high_voltage'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'meta-tags'
 gem 'newspaper'
-gem 'octokit', '~> 5.0'
+gem 'octokit'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg', '~> 1.1'
@@ -28,13 +28,12 @@ gem 'slim'
 gem 'slim-rails'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
-gem 'tailwindcss-rails', '~> 2.0'
+gem 'tailwindcss-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
   gem 'byebug'
-  gem 'chromedriver-helper', '~> 1.1.0'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
 end
@@ -52,6 +51,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'vcr'
-  gem 'webdrivers'
+  gem 'webdrivers', '= 5.3.0' # bundle update 時のメッセージ対策ためバージョンを固定
   gem 'webmock'
 end
