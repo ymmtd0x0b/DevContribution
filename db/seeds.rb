@@ -8,10 +8,10 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-repo = GitHub::Repository.find_by(name: 'fjordllc/bootcamp')
+# repo = GitHub::Repository.find_by(name: 'fjordllc/bootcamp')
 # Repository.find_and_create_by_octokit(name: 'ymmtd0x0b/for_test2', with_label: true)
 
-# repository = GitHub::Repository.find_by(name: 'ymmtd0x0b/for_test2')
+repo = GitHub::Repository.find_by(name: 'ymmtd0x0b/for_test')
 repository = Repository.create!(repo.to_h)
 
 labels = GitHub::Label.registered_by(repository)
