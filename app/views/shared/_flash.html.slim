@@ -1,9 +1,9 @@
 / - flash.each do |message_type, message|
 /   div(data-controller='toast' data-toast-message-value="#{message}" data-toast-message-type-value="#{message_type}")
 
-- flash.each do |message_type, message|
+- flash.each do |flash_type, message|
   .fixed.inset-x-0.top-0.flex.items-end.justify-right.px-4.py-6.sm:p-6.justify-end.z-30.pointer-events-none
-    .max-w-sm.w-full.shadow-lg.rounded.px-4.py-3.relative.bg-gray-800.text-white.pointer-events-auto.translate-x-0.opacity-100.hidden(data-controller="alert" data-alert-dismiss-after-value=3000 data-transition-enter="ease-in-out duration-500" data-transition-enter-from="translate-x-full opacity-0" data-transition-enter-to="translate-x-0 opacity-100" data-transition-leave="ease-in-out duration-500" data-transition-leave-from="translate-x-0 opacity-100" data-transition-leave-to="translate-x-full opacity-0")
+    .max-w-sm.w-full.shadow-lg.rounded.px-4.py-3.relative.bg-gray-800.text-white.pointer-events-auto.translate-x-0.opacity-100.hidden(class="#{tailwind_classes_for(flash_type)}"data-controller="alert" data-alert-dismiss-after-value=3000 data-transition-enter="ease-in-out duration-500" data-transition-enter-from="translate-x-full opacity-0" data-transition-enter-to="translate-x-0 opacity-100" data-transition-leave="ease-in-out duration-500" data-transition-leave-from="translate-x-0 opacity-100" data-transition-leave-to="translate-x-full opacity-0")
       .p-2
         .flex.items-start
           .ml-3.w-0.flex-1.pt-0.5
