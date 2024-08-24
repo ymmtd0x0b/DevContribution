@@ -3,39 +3,40 @@
 = turbo_frame_tag 'main', data: { turbo_action: :advance } do
   = render 'users/page_header', repository: @repository, user: @user
   = render 'users/page_tabs'
-  div(data-controller='clipboard')
-    .px-10.pt-5.pb-10.flex-grow.max-w-screen-lg.mx-auto
-      - if @user == current_user
-        .flex.justify-end
-          button.w-52.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.py-2.5(data-action='clipboard#markdownCopy' data-tooltip-target="tooltip-markdown-copy")
-            span.inline-flex.items-center(data-clipboard-target='markdownButtonMessage')
-              i.fa-regular.fa-clipboard.mr-2
-              | Markdownをコピー
-            span.hidden.inline-flex.items-center(data-clipboard-target='markdownButtonSuccessMessage')
-              = image_tag 'checked', { class: 'w-3 h-3 me-1.5' }
-              | Copied!
-          #tooltip-markdown-copy.absolute.z-50.invisible.inline-block.px-3.py-2.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
-            | 一覧をMarkdown記法でクリップボードへコピーします
-            .tooltip-arrow(data-popper-arrow)
-          button.w-40.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.py-2.5(data-action='clipboard#urlCopy' data-tooltip-target="tooltip-url-copy")
-            span.inline-flex.items-center(data-clipboard-target='urlButtonMessage')
-              i.fa-regular.fa-clipboard.mr-2
-              | URLをコピー
-            span.hidden.inline-flex.items-center(data-clipboard-target='urlButtonSuccessMessage')
-              = image_tag 'checked', { class: 'w-3 h-3 me-1.5' }
-              | Copied!
-          #tooltip-url-copy.absolute.z-50.invisible.inline-block.px-3.py-2.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
-            | この画面のURLをクリップボードへコピーします
-            .tooltip-arrow(data-popper-arrow)
+  = turbo_frame_tag 'items_list', data: { turbo_action: :advance } do
+    div(data-controller='clipboard')
+      .px-10.pt-5.pb-10.flex-grow.max-w-screen-lg.mx-auto
+        - if @user == current_user
+          .flex.justify-end
+            button.w-52.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.py-2.5(data-action='clipboard#markdownCopy' data-tooltip-target="tooltip-markdown-copy")
+              span.inline-flex.items-center(data-clipboard-target='markdownButtonMessage')
+                i.fa-regular.fa-clipboard.mr-2
+                | Markdownをコピー
+              span.hidden.inline-flex.items-center(data-clipboard-target='markdownButtonSuccessMessage')
+                = image_tag 'checked', { class: 'w-3 h-3 me-1.5' }
+                | Copied!
+            #tooltip-markdown-copy.absolute.z-50.invisible.inline-block.px-3.py-2.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
+              | 一覧をMarkdown記法でクリップボードへコピーします
+              .tooltip-arrow(data-popper-arrow)
+            button.w-40.mr-2.px-4.text-white.bg-blue-600.hover:bg-blue-700.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.py-2.5(data-action='clipboard#urlCopy' data-tooltip-target="tooltip-url-copy")
+              span.inline-flex.items-center(data-clipboard-target='urlButtonMessage')
+                i.fa-regular.fa-clipboard.mr-2
+                | URLをコピー
+              span.hidden.inline-flex.items-center(data-clipboard-target='urlButtonSuccessMessage')
+                = image_tag 'checked', { class: 'w-3 h-3 me-1.5' }
+                | Copied!
+            #tooltip-url-copy.absolute.z-50.invisible.inline-block.px-3.py-2.font-medium.text-gray-100.bg-slate-700.rounded-lg.shadow-sm.opacity-0.tooltip(role="tooltip")
+              | この画面のURLをクリップボードへコピーします
+              .tooltip-arrow(data-popper-arrow)
 
-      div(data-clipboard-target='allIssuesTable')
-        = render 'table', table_header: 'Pull Request', issues: @assigned_issues, user: @user
-        = render 'table', table_header: 'Review',       issues: @reviewed_issues, user: @user
+        div(data-clipboard-target='allIssuesTable')
+          = render 'table', table_header: 'Pull Request', issues: @assigned_issues, user: @user
+          = render 'table', table_header: 'Review',       issues: @reviewed_issues, user: @user
 
-        - if @issues.any? || @wikis.any?
-          h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
-            | その他
-          = render 'list', list_header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @issues if @issues.any?
-          = render 'list', list_header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis if @wikis.any?
+          - if @issues.any? || @wikis.any?
+            h2.text-2xl.text-slate-600.font-bold.border-b.border-gray-400.pb-2.mb-3
+              | その他
+            = render 'list', list_header: 'Issue', content: 'バグ発見の報告や改善提案を目的として作成したIssueです。', items: @issues if @issues.any?
+            = render 'list', list_header: 'Wiki', content: '議事録や作業効率化を目的として作成したWikiページです。', items: @wikis if @wikis.any?
 
   = render 'shared/flash'

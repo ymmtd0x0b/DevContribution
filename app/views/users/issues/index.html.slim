@@ -7,6 +7,7 @@
   = turbo_frame_tag :main, data: { turbo_action: :advance } do
     = render 'users/page_header', repository: @repository, user: @user
     = render 'users/page_tabs'
-    = render 'users/page_body', items: @issues
+    = turbo_frame_tag :items_list, data: { turbo_action: :advance } do
+      = render 'users/page_body', items: @issues
 
     = render 'shared/flash'
