@@ -1,26 +1,12 @@
-import { Controller } from '@hotwired/stimulus'
-import Swal from 'sweetalert2'
-
-function toast(title, type) {
-  Swal.fire({
-    title,
-    icon: type,
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true
-  })
-}
+import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="toast"
 export default class extends Controller {
-  static values = {
-    message: String,
-    messageType: String
-  }
+  static targets = ['toast']
 
   connect() {
-    toast(this.messageValue, this.messageTypeValue)
+    setTimeout(() => {
+      this.toastTarget.classList.add('animate-fade-out')
+    }, 3000)
   }
 }

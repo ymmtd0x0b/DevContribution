@@ -2,15 +2,47 @@
 /   div(data-controller='toast' data-toast-message-value="#{message}" data-toast-message-type-value="#{message_type}")
 
 - flash.each do |flash_type, message|
-  .fixed.inset-x-0.top-0.flex.items-end.justify-right.px-4.py-6.sm:p-6.justify-end.z-30.pointer-events-none
-    .max-w-sm.w-full.shadow-lg.rounded.px-4.py-3.relative.bg-gray-800.text-white.pointer-events-auto.translate-x-0.opacity-100.hidden(class="#{tailwind_classes_for(flash_type)}"data-controller="alert" data-alert-dismiss-after-value=3000 data-transition-enter="ease-in-out duration-500" data-transition-enter-from="translate-x-full opacity-0" data-transition-enter-to="translate-x-0 opacity-100" data-transition-leave="ease-in-out duration-500" data-transition-leave-from="translate-x-0 opacity-100" data-transition-leave-to="translate-x-full opacity-0")
-      .p-2
-        .flex.items-start
-          .ml-3.w-0.flex-1.pt-0.5
-            p.text-sm.leading-5.font-medium
-              = message
-          .ml-4.flex-shrink-0.flex
-            button.inline-flex.text-white.focus:outline-none.focus:text-gray-300.transition.ease-in-out.duration-150(data-action="alert#close")
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-              </svg>
+  div(data-controller="toast")
+    div(data-toast-target="toast" class="animate-fade-in-top fixed flex items-center w-full max-w-xs p-4 mb-4 top-5 right-5 #{tailwind_classes_for(flash_type)} rounded-lg shadow" role="alert")
+      div(class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 #{flash_icon_classes_for(flash_type)} rounded-lg")
+        - if flash_type == 'success'
+          svg(class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20")
+              path(d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z")
+          span(class="sr-only")
+            | Check icon
+        - elsif flash_type == 'error'
+          svg(class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20")
+            path(d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z")
+          span(class="sr-only")
+            | Error icon
+        - elsif flash_type == 'warning'
+          svg(class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20")
+            path(d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z")
+          span(class="sr-only")
+            | Warning icon
+        - else
+          svg(class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20")
+            path(d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z")
+          span(class="sr-only")
+            | Info icon
+      div(class="ms-3 text-base font-semibold")
+        = message
+      button(type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close")
+        span(class="sr-only")
+          | Close
+        svg(class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14")
+            path(stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6")
+
+
+/ - flash.each do |flash_type, message|
+/   .fixed.inset-x-0.top-0.flex.items-end.justify-right.px-4.py-6.sm:p-6.justify-end.z-30.pointer-events-none
+/     .max-w-sm.w-full.shadow-lg.rounded.px-4.py-3.relative.bg-gray-800.text-white.pointer-events-auto.translate-x-0.opacity-100.hidden(class="#{tailwind_classes_for(flash_type)}"data-controller="alert" data-alert-dismiss-after-value=3000 data-transition-enter="ease-in-out duration-500" data-transition-enter-from="translate-x-full opacity-0" data-transition-enter-to="translate-x-0 opacity-100" data-transition-leave="ease-in-out duration-500" data-transition-leave-from="translate-x-0 opacity-100" data-transition-leave-to="translate-x-full opacity-0")
+/       .p-2
+/         .flex.items-start
+/           .ml-3.w-0.flex-1.pt-0.5
+/             p.text-sm.leading-5.font-medium
+/               = message
+/           .ml-4.flex-shrink-0.flex
+/             button.inline-flex.text-white.focus:outline-none.focus:text-gray-300.transition.ease-in-out.duration-150(data-action="alert#close")
+/               svg(class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor")
+/                 path(fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/)
